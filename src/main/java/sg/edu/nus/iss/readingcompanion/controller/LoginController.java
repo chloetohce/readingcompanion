@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.nus.iss.readingcompanion.model.User;
 import sg.edu.nus.iss.readingcompanion.service.UserService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -29,14 +31,15 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(Model model) {
+        model.addAttribute("user", new User());
         return "login";
     }
     
     @PostMapping("/login")
-    public String login(@RequestBody MultiValueMap<String, String> map) {
-        System.out.println(map.getFirst("username"));
-        System.out.println(map.getFirst("password"));
+    public String login(@ModelAttribute User user) {
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
         return "landing";
     }
 
