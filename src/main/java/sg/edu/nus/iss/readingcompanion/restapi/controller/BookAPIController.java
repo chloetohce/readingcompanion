@@ -1,8 +1,5 @@
 package sg.edu.nus.iss.readingcompanion.restapi.controller;
 
-import java.io.StringReader;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.json.Json;
-import jakarta.json.JsonArrayBuilder;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
+import jakarta.json.JsonArray;
 import sg.edu.nus.iss.readingcompanion.model.Book;
 import sg.edu.nus.iss.readingcompanion.restapi.service.BookAPIService;
 
@@ -29,16 +23,9 @@ public class BookAPIController {
     
     @GetMapping("/all")
     public ResponseEntity<String> getUserBookshelf(@RequestParam("user") String username) {
-        List<String> rawData = bookAPIService.getAllBooksByUser(username);
-        JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+        JsonArray bookshelf = bookAPIService.getAllBooksByUser(username);
 
-        for (String book : rawData) {
-            JsonReader reader = Json.createReader(new StringReader(book));
-            JsonObject bookJson = reader.readObject();
-            arrBuilder.add(bookJson);
-        }
-
-        return ResponseEntity.ok(arrBuilder.build().toString());
+        return ResponseEntity.ok(bookshelf.toString());
     }
 
     @PostMapping("/add")

@@ -1,12 +1,12 @@
 package sg.edu.nus.iss.readingcompanion.restapi.service;
 
 import java.io.StringReader;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import sg.edu.nus.iss.readingcompanion.constant.RedisUtil;
@@ -17,7 +17,7 @@ public class BookAPIService {
     @Autowired
     private BookAPIRepository bookAPIRepository;
 
-    public List<String> getAllBooksByUser(String username) {
+    public JsonArray getAllBooksByUser(String username) {
         return bookAPIRepository.getByUser(RedisUtil.KEY_BOOKS, username);
     }
 

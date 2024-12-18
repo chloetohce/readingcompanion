@@ -1,7 +1,13 @@
 package sg.edu.nus.iss.readingcompanion.model;
 
+import java.io.StringReader;
 import java.util.Date;
 import java.util.List;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 
 public class Book {
     private String title;
@@ -17,6 +23,50 @@ public class Book {
     private String status;
     
     public Book() {
+    }
+
+    public Book(String title, String id, List<String> authors, String publisher, String isbn, List<String> genres,
+            String imageLink, Date start, Date end, String status) {
+        this.title = title;
+        this.id = id;
+        this.authors = authors;
+        this.publisher = publisher;
+        this.isbn = isbn;
+        this.genres = genres;
+        this.imageLink = imageLink;
+        this.start = start;
+        this.end = end;
+        this.status = status;
+    }
+
+    /**
+     * Takes in a JSON-formatted string that consists of one JSONObject, and
+     * maps it to return a Book Java object.
+     * @param jsonString
+     * @return Book
+     */
+    public static Book deserialize(String jsonString) {
+        JsonReader reader = Json.createReader(new StringReader(jsonString));
+        JsonObject jsonBook = reader.readObject();
+        
+        JsonArray jsonAuthors = jsonBook.getJsonArray("authors");
+        List<String> authors = jsonAuthors.stream().map(v -> v.toString()).toList();
+
+        JsonArray jsonGenres = jsonBook.getJsonArray("genres");
+        List<String> genres = jsonGenres.stream().map(v -> v.toString()).toList();
+
+        return new Book(
+            jsonBook.getString("title"),
+            jsonBook.getString("id"),
+            authors,
+            jsonBook.getString("publisher"),
+            jsonBook.getString("isbn"),
+            genres,
+            jsonBook.getString("imageLink"),
+            new Date(jsonBook.getJsonNumber("start").longValueExact()),
+            new Date(jsonBook.getJsonNumber("end").longValueExact()),
+            jsonBook.getString("status")
+        );
     }
 
     public String getTitle() {return title;}
