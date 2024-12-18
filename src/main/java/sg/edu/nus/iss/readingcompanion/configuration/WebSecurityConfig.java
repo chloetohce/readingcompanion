@@ -27,7 +27,7 @@ public class WebSecurityConfig {
             .formLogin(login -> login.loginPage("/login")
                 .permitAll())
             .logout(logout -> logout.logoutUrl("/logout")  // Specify the logout URL
-                .logoutSuccessUrl("/login") // Redirect after successful logout
+                .logoutSuccessUrl("/login?logout") // Redirect after successful logout
                 .invalidateHttpSession(true) // Invalidate session
                 .deleteCookies("JSESSIONID") // Delete cookies
                 .clearAuthentication(true)
