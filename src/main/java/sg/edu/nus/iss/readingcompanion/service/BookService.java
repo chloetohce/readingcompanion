@@ -4,10 +4,13 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.catalina.connector.Request;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.json.Json;
@@ -19,6 +22,9 @@ import sg.edu.nus.iss.readingcompanion.model.Book;
 
 @Service
 public class BookService {
+    @Value("${apikey.googlebooks}")
+    private String API_GOOGLEBOOKS;
+
     private final RestTemplate restTemplate = new RestTemplate();
 
     public List<Book> getBooksByUser(String username) {
@@ -40,5 +46,24 @@ public class BookService {
             bookshelf.add(Book.deserialize(jsonBook.toString()));
         }
         return bookshelf;
+    }
+
+    public List<Book> searchQuery(String query) {
+        String url = UriComponentsBuilder.fromUriString(URL.GOOGLEBOOKS)
+            .queryParam("q", query)
+            .queryParam("key", API_GOOGLEBOOKS)
+            .toUriString();
+        RequestEntity<Void> request = RequestEntity.get(url).build();
+
+        ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+        JsonReader reader = Json.createReader(new StringReader(response.getBody()));
+        JsonArray items = reader.readObject().getJsonArray("items");
+
+        for (int i = 0; i < items.size(); i++) {
+            JsonObject jsonBook = items.getJsonObject(i);
+            Book book = new Book();
+            
+            // TODO: Map JSON data to a Book
+        }
     }
 }
