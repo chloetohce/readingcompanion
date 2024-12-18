@@ -12,11 +12,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import jakarta.annotation.PostConstruct;
+import sg.edu.nus.iss.readingcompanion.constant.RedisUtil;
 
 @Repository
 public class UserRepository {
     @Autowired
-    @Qualifier("redisTemplate")
+    @Qualifier(RedisUtil.TEMPLATE)
     private RedisTemplate<String, String> template;
 
     private HashOperations<String, String, String> ops;
