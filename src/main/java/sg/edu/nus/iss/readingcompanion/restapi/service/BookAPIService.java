@@ -9,8 +9,8 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
-import sg.edu.nus.iss.readingcompanion.constant.RedisUtil;
 import sg.edu.nus.iss.readingcompanion.restapi.repository.BookAPIRepository;
+import sg.edu.nus.iss.readingcompanion.utilities.RedisUtil;
 
 @Service
 public class BookAPIService {

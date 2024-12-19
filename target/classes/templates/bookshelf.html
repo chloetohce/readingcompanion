@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>My bookshelf</h1>
+    <a href="/add">Add new book</a>
+    <table>
+        <thead>
+            <th>Book</th>
+            <th>Title</th>
+        </thead>
+        <tbody>
+            <tr th:each="book : ${books}">
+                <td>
+                    <img th:src="@{${book.imageLink}}" width="200">
+                </td>
+                <td th:text="${book.title}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

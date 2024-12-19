@@ -14,7 +14,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
-import sg.edu.nus.iss.readingcompanion.constant.RedisUtil;
+import sg.edu.nus.iss.readingcompanion.utilities.RedisUtil;
 
 @Repository
 public class BookAPIRepository {

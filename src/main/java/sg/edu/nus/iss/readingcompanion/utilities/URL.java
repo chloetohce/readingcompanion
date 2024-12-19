@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.readingcompanion.constant;
+package sg.edu.nus.iss.readingcompanion.utilities;
 
 public class URL {
     public static final String API = "http://localhost:8080/api/books";

@@ -3,6 +3,7 @@ package sg.edu.nus.iss.readingcompanion.model;
 import java.io.StringReader;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -18,8 +19,8 @@ public class Book {
     private List<String> genres;
     private String imageLink;
 
-    private Date start;
-    private Date end;
+    private Optional<Date> start;
+    private Optional<Date> end;
     private String status;
     
     public Book() {
@@ -34,8 +35,8 @@ public class Book {
         this.isbn = isbn;
         this.genres = genres;
         this.imageLink = imageLink;
-        this.start = start;
-        this.end = end;
+        this.start = Optional.ofNullable(start);
+        this.end = Optional.ofNullable(end);
         this.status = status;
     }
 
@@ -51,7 +52,7 @@ public class Book {
         
         JsonArray jsonAuthors = jsonBook.getJsonArray("authors");
         List<String> authors = jsonAuthors.stream().map(v -> v.toString()).toList();
-
+        
         JsonArray jsonGenres = jsonBook.getJsonArray("genres");
         List<String> genres = jsonGenres.stream().map(v -> v.toString()).toList();
 
@@ -90,14 +91,13 @@ public class Book {
     public String getImageLink() {return imageLink;}
     public void setImageLink(String imageLink) {this.imageLink = imageLink;}
 
-    public Date getStart() {return start;}
-    public void setStart(Date start) {this.start = start;}
+    public Optional<Date> getStart() {return start;}
+    public void setStart(Date start) {this.start = Optional.ofNullable(start);}
 
-    public Date getEnd() {return end;}
-    public void setEnd(Date end) {this.end = end;}
+    public Optional<Date> getEnd() {return end;}
+    public void setEnd(Date end) {this.end = Optional.ofNullable(end);}
 
     public String getStatus() {return status;}
     public void setStatus(String status) {this.status = status;}
 
-    
 }

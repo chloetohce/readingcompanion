@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.readingcompanion.constant;
+package sg.edu.nus.iss.readingcompanion.utilities;
 
 public class RedisUtil {
     public static final String TEMPLATE = "template";

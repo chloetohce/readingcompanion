@@ -4,21 +4,19 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
-import sg.edu.nus.iss.readingcompanion.constant.URL;
 import sg.edu.nus.iss.readingcompanion.model.Book;
+import sg.edu.nus.iss.readingcompanion.utilities.URL;
 
 @Service
 public class BookService {
@@ -63,7 +61,14 @@ public class BookService {
             JsonObject jsonBook = items.getJsonObject(i);
             Book book = new Book();
             
-            // TODO: Map JSON data to a Book
+            // Intermediate variables
+            JsonObject volumeInfo = jsonBook.getJsonObject("volumeInfo");
+            JsonArray authors = volumeInfo.getJsonArray("authors");
+            JsonArray identifiers = volumeInfo.getJsonArray("industryIdentifiers");
+            JsonObject imageLinks = volumeInfo.getJsonObject("imageLinks");
+            JsonArray categories = volumeInfo.getJsonArray("categories");
+
+            
         }
     }
 }
