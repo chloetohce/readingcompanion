@@ -82,10 +82,12 @@ public class Book {
     public String getImageLink() {return imageLink;}
     public void setImageLink(String imageLink) {this.imageLink = imageLink;}
 
-    public Optional<Date> getStart() {return start;}
+    public Date getStart() {return start.orElse(null);} // TODO: Fix null here and provide a different value
+    public Optional<Date> getStartOpt() {return start;}
     public void setStart(Date start) {this.start = Optional.ofNullable(start);}
 
-    public Optional<Date> getEnd() {return end;}
+    public Date getEnd() {return end.get();} // TODO: Fix null here and provide a different value
+    public Optional<Date> getEndOpt() {return end;}
     public void setEnd(Date end) {this.end = Optional.ofNullable(end);}
 
     public String getStatus() {return status;}

@@ -82,6 +82,10 @@ public class BookService {
             book.setGenres(BookJsonParser.jsonArrToList(categories));
             book.setImageLink(BookJsonParser.getImageLink(imageLinks, volumeInfo.getString("title")));
 
+            book.setStart(null); // TODO: Find a cleaner way to set these variables.
+            book.setEnd(null);
+            book.setStatus(null);
+
             searchedBooks.add(book);
         }
 
