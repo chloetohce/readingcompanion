@@ -16,6 +16,7 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import sg.edu.nus.iss.readingcompanion.model.Book;
+import sg.edu.nus.iss.readingcompanion.utilities.BookJsonParser;
 import sg.edu.nus.iss.readingcompanion.utilities.URL;
 
 @Service
@@ -56,6 +57,7 @@ public class BookService {
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
         JsonReader reader = Json.createReader(new StringReader(response.getBody()));
         JsonArray items = reader.readObject().getJsonArray("items");
+        List<Book> searchedBooks = new ArrayList<>();
 
         for (int i = 0; i < items.size(); i++) {
             JsonObject jsonBook = items.getJsonObject(i);
@@ -64,11 +66,20 @@ public class BookService {
             // Intermediate variables
             JsonObject volumeInfo = jsonBook.getJsonObject("volumeInfo");
             JsonArray authors = volumeInfo.getJsonArray("authors");
-            JsonArray identifiers = volumeInfo.getJsonArray("industryIdentifiers");
             JsonObject imageLinks = volumeInfo.getJsonObject("imageLinks");
             JsonArray categories = volumeInfo.getJsonArray("categories");
+            JsonArray identifiers = volumeInfo.getJsonArray("industryIdentifiers");
 
-            
+            // Map variables
+            book.setTitle(volumeInfo.getString("title"));
+            book.setIsbn(BookJsonParser.getIsbn(identifiers));
+            book.setAuthors(BookJsonParser.jsonArrToList(authors));
+            book.setGenres(BookJsonParser.jsonArrToList(categories));
+            book.setImageLink(BookJsonParser.getImageLink(imageLinks, volumeInfo.getString("title")));
+
+            searchedBooks.add(book);
         }
+
+        return searchedBooks;
     }
 }

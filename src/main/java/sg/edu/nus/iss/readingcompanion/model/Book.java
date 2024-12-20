@@ -9,13 +9,12 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import sg.edu.nus.iss.readingcompanion.utilities.Helper;
 
 public class Book {
     private String title;
-    private String id;
-    private List<String> authors;
-    private String publisher;
     private String isbn;
+    private List<String> authors;
     private List<String> genres;
     private String imageLink;
 
@@ -26,13 +25,11 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, String id, List<String> authors, String publisher, String isbn, List<String> genres,
+    public Book(String title, String isbn, List<String> authors, List<String> genres,
             String imageLink, Date start, Date end, String status) {
         this.title = title;
-        this.id = id;
-        this.authors = authors;
-        this.publisher = publisher;
         this.isbn = isbn;
+        this.authors = authors;
         this.genres = genres;
         this.imageLink = imageLink;
         this.start = Optional.ofNullable(start);
@@ -60,8 +57,6 @@ public class Book {
             jsonBook.getString("title"),
             jsonBook.getString("id"),
             authors,
-            jsonBook.getString("publisher"),
-            jsonBook.getString("isbn"),
             genres,
             jsonBook.getString("imageLink"),
             new Date(jsonBook.getJsonNumber("start").longValueExact()),
@@ -73,19 +68,15 @@ public class Book {
     public String getTitle() {return title;}
     public void setTitle(String title) {this.title = title;}
 
-    public String getId() {return id;}
-    public void setId(String id) {this.id = id;}
+    public String getIsbn() {return isbn;}
+    public void setIsbn(String id) {this.isbn = id;}
 
-    public List<String> getAuthors() {return authors;}
+    public List<String> getAuthorsList() {return authors;}
+    public String getAuthors() {return Helper.listToString(authors);}
     public void setAuthors(List<String> authors) {this.authors = authors;}
 
-    public String getPublisher() {return publisher;}
-    public void setPublisher(String publisher) {this.publisher = publisher;}
-
-    public String getIsbn() {return isbn;}
-    public void setIsbn(String isbn) {this.isbn = isbn;}
-
-    public List<String> getGenres() {return genres;}
+    public List<String> getGenresList() {return genres;}
+    public String getGenres() {return Helper.listToString(genres);}
     public void setGenres(List<String> genres) {this.genres = genres;}
 
     public String getImageLink() {return imageLink;}
@@ -99,5 +90,12 @@ public class Book {
 
     public String getStatus() {return status;}
     public void setStatus(String status) {this.status = status;}
+
+    @Override
+    public String toString() {
+        return "Book [title=" + title + ", isbn=" + isbn + ", authors=" + authors + ", genres=" + genres + ", imageLink="
+                + imageLink + ", start=" + start + ", end=" + end + ", status=" + status + "]";
+    }
+    
 
 }

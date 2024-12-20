@@ -5,13 +5,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import sg.edu.nus.iss.readingcompanion.model.User;
 import sg.edu.nus.iss.readingcompanion.service.BookService;
-
-
 
 @Controller
 @RequestMapping("/books")
@@ -26,8 +25,21 @@ public class BookController {
     }
     
     @GetMapping("/add")
-    public String addBook(@RequestParam String param) {
+    public String addBook() {
         return new String();
     }
+
+    @GetMapping("/search")
+    public String search() {
+        return "search";
+    }
+
+    @PostMapping("/search")
+    public String searchResult(@RequestParam String q, Model model) {
+        model.addAttribute("searchResult", bookService.searchQuery(q));
+        return "search-result";
+    }
+    
+    
     
 }

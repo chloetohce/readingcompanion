@@ -12,6 +12,8 @@
         <thead>
             <th>Book</th>
             <th>Title</th>
+            <th>Authors</th>
+            <th>Genres</th>
         </thead>
         <tbody>
             <tr th:each="book : ${books}">
@@ -19,6 +21,8 @@
                     <img th:src="@{${book.imageLink}}" width="200">
                 </td>
                 <td th:text="${book.title}"></td>
+                <td th:text="${book.authors}"></td>
+                <td th:text="${book.genres}"></td>
             </tr>
         </tbody>
     </table>

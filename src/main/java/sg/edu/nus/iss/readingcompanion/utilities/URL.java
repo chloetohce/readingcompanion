@@ -5,4 +5,5 @@ public class URL {
 
     public static final String GOOGLEBOOKS = "https://www.googleapis.com/books/v1/volumes";
     
+    public static final String PLACEHOLDER_COVER = "https://images.placeholders.dev/?width=200&height=320";
 }
