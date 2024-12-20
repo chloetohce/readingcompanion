@@ -6,11 +6,31 @@
     <title>Document</title>
 </head>
 <body>
-    <ol>
-        <li th:each="q : ${searchResult}">
-            <img th:src="@{${q.imageLink}}">
-            <span th:text="${q.title}"></span> by <span th:text="${q.authors}"></span>
-        </li>
-    </ol>
+
+    <table>
+        <tbody>
+            <tr th:each="q : ${searchResult}">
+                <td><img th:src="@{${q.imageLink}}"></td>
+                <td>
+                    <p th:text="${q.title}"></p>
+                    <p th:text="|by ${q.authors}|"></p>
+                </td>
+                <td>
+                    <form method="post" action="/add">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <input type="hidden" name="title" th:value="${q.title}">
+                        <input type="hidden" name="isbn" th:value="${q.isbn}">
+                        <input type="hidden" name="authors" th:value="${q.authors}">
+                        <input type="hidden" name="genres" th:value="${q.genres}">
+                        <input type="hidden" name="imageLink" th:value="${q.imageLink}">
+                        <input type="hidden" name="start" th:value="${q.start}">
+                        <input type="hidden" name="end" th:value="${q.end}">
+                        <input type="hidden" name="status" th:value="${q.status}">
+                        <button type="submit">Add</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

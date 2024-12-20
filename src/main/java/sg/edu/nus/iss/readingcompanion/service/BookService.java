@@ -3,6 +3,7 @@ package sg.edu.nus.iss.readingcompanion.service;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.RequestEntity;
@@ -21,6 +22,8 @@ import sg.edu.nus.iss.readingcompanion.utilities.URL;
 
 @Service
 public class BookService {
+    private static final Logger logger = Logger.getLogger(BookService.class.getName());
+
     @Value("${apikey.googlebooks}")
     private String API_GOOGLEBOOKS;
 
@@ -48,10 +51,12 @@ public class BookService {
     }
 
     public List<Book> searchQuery(String query) {
+        query = query.replace(" ", "+");
         String url = UriComponentsBuilder.fromUriString(URL.GOOGLEBOOKS)
             .queryParam("q", query)
             .queryParam("key", API_GOOGLEBOOKS)
             .toUriString();
+        logger.info("Querying %s at %s".formatted(query, url));
         RequestEntity<Void> request = RequestEntity.get(url).build();
 
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
