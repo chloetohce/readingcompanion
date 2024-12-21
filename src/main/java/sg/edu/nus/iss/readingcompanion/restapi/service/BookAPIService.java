@@ -29,4 +29,9 @@ public class BookAPIService {
 
         bookAPIRepository.put(RedisUtil.KEY_BOOKS, hashKey, book);
     }
+
+    public String getBookDetails(String username, String id) {
+        String hashkey = username + ":" + id;
+        return bookAPIRepository.get(RedisUtil.KEY_BOOKS, hashkey); // TODO: Add error handling for if book does not exist.
+    }
 }

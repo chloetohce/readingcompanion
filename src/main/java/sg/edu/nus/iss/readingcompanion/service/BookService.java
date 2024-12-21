@@ -29,27 +29,6 @@ public class BookService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public List<Book> getBooksByUser(String username) {
-        String url = UriComponentsBuilder.fromUriString(URL.API)
-            .queryParam("user", username)
-            .toUriString();
-        RequestEntity<Void> request = RequestEntity.get(url)
-            .build();
-
-        ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-
-        JsonReader reader = Json.createReader(new StringReader(response.getBody()));
-        JsonArray bookshelfArr = reader.readArray();
-
-        List<Book> bookshelf = new ArrayList<>();
-        
-        for (int i = 0; i < bookshelfArr.size(); i++) {
-            JsonObject jsonBook = bookshelfArr.getJsonObject(i);
-            bookshelf.add(Book.deserialize(jsonBook.toString()));
-        }
-        return bookshelf;
-    }
-
     public List<Book> searchQuery(String query) {
         query = query.replace(" ", "+");
         String url = UriComponentsBuilder.fromUriString(URL.GOOGLEBOOKS)
@@ -91,8 +70,44 @@ public class BookService {
 
         return searchedBooks;
     }
+    
+    public List<Book> getBooksByUser(String username) {
+        String url = UriComponentsBuilder.fromUriString(URL.API)
+            .queryParam("user", username)
+            .toUriString();
+        RequestEntity<Void> request = RequestEntity.get(url)
+            .build();
 
-    public boolean addBookToUserShelf(Book book) {
+        ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+
+        JsonReader reader = Json.createReader(new StringReader(response.getBody()));
+        JsonArray bookshelfArr = reader.readArray();
+
+        List<Book> bookshelf = new ArrayList<>();
         
+        for (int i = 0; i < bookshelfArr.size(); i++) {
+            JsonObject jsonBook = bookshelfArr.getJsonObject(i);
+            bookshelf.add(Book.deserialize(jsonBook.toString()));
+        }
+        return bookshelf;
+    }
+
+    public boolean addBookToUserShelf(String username, Book book) {
+        JsonObject data = Json.createObjectBuilder()
+            .add("username", username)
+            .add("book", book.serialize())
+            .build();
+
+        String url = UriComponentsBuilder.fromUriString(URL.API)
+            .pathSegment("add")
+            .toUriString();
+        RequestEntity<String> request = RequestEntity.post(url)
+            .body(data.toString());
+
+        ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+
+        logger.info("Book saved to bookshelf. Response: " + response.getBody());
+        // TODO: Handle response if there is an error thrown
+        return true;
     }
 }

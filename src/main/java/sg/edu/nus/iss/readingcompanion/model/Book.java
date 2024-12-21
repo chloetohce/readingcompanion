@@ -101,7 +101,7 @@ public class Book {
     public Optional<Date> getStartOpt() {return start;}
     public void setStart(Date start) {this.start = Optional.ofNullable(start);}
 
-    public Date getEnd() {return end.get();} // TODO: Fix null here and provide a different value
+    public Date getEnd() {return end.orElse(null);} // TODO: Fix null here and provide a different value
     public Optional<Date> getEndOpt() {return end;}
     public void setEnd(Date end) {this.end = Optional.ofNullable(end);}
 

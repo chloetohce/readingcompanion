@@ -29,7 +29,7 @@ public class LoginController {
         return "login";
     }
     
-    @PostMapping("/login")
+    @PostMapping("/login") // TODO: Is this method needed?
     public String login(@ModelAttribute User user) {
         System.out.println(user.getUsername());
         System.out.println(user.getPassword());

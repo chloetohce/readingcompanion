@@ -47,4 +47,8 @@ public class BookAPIRepository {
         return true;
     }
 
+    public String get(String redisKey, String hashKey) {
+        return ops.get(redisKey, hashKey);
+    }
+
 }
