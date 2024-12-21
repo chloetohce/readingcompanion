@@ -9,6 +9,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import sg.edu.nus.iss.readingcompanion.utilities.BookJsonParser;
 import sg.edu.nus.iss.readingcompanion.utilities.Helper;
 
 public class Book {
@@ -26,14 +27,14 @@ public class Book {
     }
 
     public Book(String title, String isbn, List<String> authors, List<String> genres,
-            String imageLink, Date start, Date end, String status) {
+            String imageLink, Optional<Date> start, Optional<Date> end, String status) {
         this.title = title;
         this.isbn = isbn;
         this.authors = authors;
         this.genres = genres;
         this.imageLink = imageLink;
-        this.start = Optional.ofNullable(start);
-        this.end = Optional.ofNullable(end);
+        this.start = start;
+        this.end = end;
         this.status = status;
     }
 
@@ -59,10 +60,24 @@ public class Book {
             authors,
             genres,
             jsonBook.getString("imageLink"),
-            new Date(jsonBook.getJsonNumber("start").longValueExact()),
-            new Date(jsonBook.getJsonNumber("end").longValueExact()),
+            BookJsonParser.getOptDateFromString(jsonBook.getString("start")),
+            BookJsonParser.getOptDateFromString(jsonBook.getString("end")),
             jsonBook.getString("status")
         );
+    }
+
+    public String serialize() {
+        JsonObject jsonBook = Json.createObjectBuilder()
+            .add("title", title)
+            .add("isbn", isbn)
+            .add("authors", BookJsonParser.listToJsonArr(authors))
+            .add("genres", BookJsonParser.listToJsonArr(genres))
+            .add("imageLink", imageLink)
+            .add("start", BookJsonParser.optDateToString(start))
+            .add("end", BookJsonParser.optDateToString(end))
+            .add("status", status)
+            .build();
+        return jsonBook.toString();
     }
 
     public String getTitle() {return title;}

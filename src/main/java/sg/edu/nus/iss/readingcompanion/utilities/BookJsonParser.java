@@ -1,14 +1,18 @@
 package sg.edu.nus.iss.readingcompanion.utilities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
+import jakarta.json.Json;
 import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 
 public class BookJsonParser {
@@ -23,6 +27,14 @@ public class BookJsonParser {
         }
 
         return arr.stream().map(v -> v.toString()).toList();
+    }
+
+    public static JsonArray listToJsonArr(List<String> list) {
+        JsonArrayBuilder arr = Json.createArrayBuilder();
+        for (String s : list) {
+            arr.add(s);
+        }
+        return arr.build();
     }
 
     public static String getIsbn(JsonArray arr) {
@@ -60,6 +72,20 @@ public class BookJsonParser {
         }
 
         return imageJson.getString("thumbnail").replace("&edge=curl", "");
+    }
+
+    public static String optDateToString(Optional<Date> opt) {
+        return opt.map(d -> Long.toString(d.getTime()))
+            .orElse("-");
+    }
+
+    public static Optional<Date> getOptDateFromString(String date) {
+        try {
+            long time = Long.valueOf(date);
+            return Optional.ofNullable(new Date(time));
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
     }
 
 }

@@ -91,4 +91,8 @@ public class BookService {
 
         return searchedBooks;
     }
+
+    public boolean addBookToUserShelf(Book book) {
+        
+    }
 }
