@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
 
     <table>
         <tbody>
-            <tr th:each="q : ${searchResult}">
+            <tr th:each="q, stat : ${searchResult}">
                 <td><img th:src="@{${q.imageLink}}"></td>
                 <td>
                     <p th:text="${q.title}"></p>
                     <p th:text="|by ${q.authors}|"></p>
                 </td>
                 <td>
-                    <form method="post" action="/books/add">
+                    <form th:id="|form-${stat.count}|" action="/books/add" method="post" >
                         <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
                         <input type="hidden" name="title" th:value="${q.title}">
                         <input type="hidden" name="id" th:value="${q.id}">
@@ -25,12 +27,25 @@
                         <input type="hidden" name="imageLink" th:value="${q.imageLink}">
                         <input type="date" name="start" th:value="${q.start}" hidden>
                         <input type="date" name="end" th:value="${q.end}" hidden>
-                        <input type="hidden" name="status" th:value="${q.status}">
-                        <button type="submit">Add</button>
+                        <input type="hidden" class="status" name="status" th:value="to-read">
+                        <button type="submit" value="to-read">To Read</button>
                     </form>
+                    <button class="dp-btn" th:attr="onclick=|submitFormWithStatus('to-read','form-${stat.count}')|">To Read</button>
+                    <button class="dp-btn" th:attr="onclick=|submitFormWithStatus('reading','form-${stat.count}')|">Reading</button>
+                    <button class="dp-btn" th:attr="onclick=|submitFormWithStatus('read','form-${stat.count}')|">Read</button>
                 </td>
             </tr>
         </tbody>
     </table>
+
+    <script>
+        function submitFormWithStatus(status, formId) {
+            const form = document.getElementById(formId);
+            const statusElement = form.querySelector(".status");
+            statusElement.value = status;
+            form.submit();
+        }
+    </script>
 </body>
+
 </html>
