@@ -21,7 +21,7 @@ public class BookAPIService {
         return bookAPIRepository.getByUser(RedisUtil.KEY_BOOKS, username);
     }
 
-    public void addBookToUser(String data) {
+    public String addBookToUser(String data) {
         System.out.println(data);
         JsonReader reader = Json.createReader(new StringReader(data));
         JsonObject dataJson = reader.readObject();
@@ -31,6 +31,7 @@ public class BookAPIService {
         // TODO: Error handling for if the book ID already exists in the bookshelf. Only important if the book is manually add. Idea is to have a custom prefix for manual books
 
         bookAPIRepository.put(RedisUtil.KEY_BOOKS, hashKey, book.toString());
+        return hashKey;
     }
 
     public String getBookDetails(String username, String id) {

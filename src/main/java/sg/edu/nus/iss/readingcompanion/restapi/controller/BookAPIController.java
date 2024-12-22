@@ -1,6 +1,5 @@
 package sg.edu.nus.iss.readingcompanion.restapi.controller;
 
-import java.io.StringReader;
 import java.net.URI;
 import java.util.logging.Logger;
 
@@ -14,13 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import jakarta.json.Json;
 import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
 import sg.edu.nus.iss.readingcompanion.restapi.service.BookAPIService;
-
-
 
 @RestController
 @RequestMapping("/api/books")
@@ -33,20 +27,20 @@ public class BookAPIController {
     @GetMapping("/all")
     public ResponseEntity<String> getUserBookshelf(@RequestParam("user") String username) {
         JsonArray bookshelf = bookAPIService.getAllBooksByUser(username);
-        System.out.println(bookshelf.toString());
-
         return ResponseEntity.ok(bookshelf.toString());
     }
 
     @PostMapping("/add") // TODO: Change book here
     public ResponseEntity<String> saveBook(@RequestBody String data) {
-        bookAPIService.addBookToUser(data);
+        String hashKey = bookAPIService.addBookToUser(data);
+        String[] arr = hashKey.split(":");
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-            .path("/api/books")
+            .path("/api/books/details")
+            .queryParam("user", arr[0])
+            .queryParam("id", arr[1])
             .build(true)
             .toUri();
-        return ResponseEntity.created(uri)
-            .build();
+        return ResponseEntity.created(uri).build();
     }
 
     @GetMapping("/details")

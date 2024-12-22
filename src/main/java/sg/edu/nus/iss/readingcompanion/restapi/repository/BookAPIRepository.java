@@ -1,6 +1,8 @@
 package sg.edu.nus.iss.readingcompanion.restapi.repository;
 
+import java.io.StringReader;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,6 +16,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
 import sg.edu.nus.iss.readingcompanion.utilities.RedisUtil;
 
 @Repository
@@ -23,6 +26,7 @@ public class BookAPIRepository {
     private RedisTemplate<String, String> template;
 
     private HashOperations<String, String, String> ops;
+    private static final Logger logger = Logger.getLogger(BookAPIRepository.class.getName());
 
     @PostConstruct
     @SuppressWarnings("unused")
@@ -32,13 +36,13 @@ public class BookAPIRepository {
 
     public JsonArray getByUser(String redisKey, String username) {
         ScanOptions options = ScanOptions.scanOptions()
-            .match(username + "_*")
+            .match(username + ":*")
             .build();
         JsonArrayBuilder books = Json.createArrayBuilder();
         Cursor<Entry<String, String>> cur = ops.scan(redisKey, options);
         while (cur.hasNext()) {
-            System.out.println(cur.next());
-           books.add(cur.next().getValue());
+            JsonObject book = Json.createReader(new StringReader(cur.next().getValue())).readObject();
+            books.add(book);
         }
         return books.build();
     }

@@ -79,6 +79,8 @@ public class BookService {
         RequestEntity<Void> request = RequestEntity.get(url)
             .build();
 
+        logger.info("URL: " + url);
+
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
         JsonReader reader = Json.createReader(new StringReader(response.getBody()));
         JsonArray bookshelfArr = reader.readArray();
@@ -106,7 +108,7 @@ public class BookService {
 
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
 
-        logger.info("Book saved to bookshelf. Response: " + response.getBody());
+        logger.info("Book saved to bookshelf. Location: " + response.getHeaders().get("Location").getFirst());
         // TODO: Handle response if there is an error thrown
         return true;
     }
