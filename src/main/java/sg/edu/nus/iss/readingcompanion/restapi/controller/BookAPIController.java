@@ -43,7 +43,7 @@ public class BookAPIController {
         return ResponseEntity.created(uri).build();
     }
 
-    @GetMapping("/details")
+    @GetMapping("/details") //TODO: Error handling if book does not exist
     public ResponseEntity<String> getBookDetails(@RequestParam String user, @RequestParam String id) {
         ResponseEntity<String> response = ResponseEntity.ok()
             .body(bookAPIService.getBookDetails(user, id));

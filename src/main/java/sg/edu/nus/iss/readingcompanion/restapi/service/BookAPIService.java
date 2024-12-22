@@ -18,11 +18,10 @@ public class BookAPIService {
     private BookAPIRepository bookAPIRepository;
 
     public JsonArray getAllBooksByUser(String username) {
-        return bookAPIRepository.getByUser(RedisUtil.KEY_BOOKS, username);
+        return bookAPIRepository.getAllOfUser(RedisUtil.KEY_BOOKS, username);
     }
 
     public String addBookToUser(String data) {
-        System.out.println(data);
         JsonReader reader = Json.createReader(new StringReader(data));
         JsonObject dataJson = reader.readObject();
         JsonObject book = dataJson.getJsonObject("book");

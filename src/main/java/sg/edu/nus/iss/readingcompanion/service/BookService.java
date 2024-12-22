@@ -112,4 +112,17 @@ public class BookService {
         // TODO: Handle response if there is an error thrown
         return true;
     }
+
+    public Book getBookDetails(String username, String bookId) {
+        String uri = UriComponentsBuilder.fromUriString(URL.API)
+            .pathSegment("details")
+            .queryParam("user", username)
+            .queryParam("id", bookId)
+            .toUriString();
+        RequestEntity<Void> request = RequestEntity.get(uri).build();
+
+        ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+        
+        return Book.deserialize(response.getBody());
+    }
 }

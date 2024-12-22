@@ -34,7 +34,7 @@ public class BookAPIRepository {
         this.ops = template.opsForHash();
     }
 
-    public JsonArray getByUser(String redisKey, String username) {
+    public JsonArray getAllOfUser(String redisKey, String username) {
         ScanOptions options = ScanOptions.scanOptions()
             .match(username + ":*")
             .build();

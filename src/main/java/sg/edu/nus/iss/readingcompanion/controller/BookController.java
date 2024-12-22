@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +30,6 @@ public class BookController {
     
     @PostMapping("/add")
     public String addToBookshelf(@ModelAttribute Book book, @AuthenticationPrincipal User user) {
-        System.out.println(book.toString());
         bookService.addBookToUserShelf(user.getUsername(), book);
         return "redirect:/books/all";
     }
@@ -46,6 +46,12 @@ public class BookController {
         return "search-result";
     }
     
-    
+    @GetMapping("details/{id}")
+    public String getBookDetails(@PathVariable String id, @AuthenticationPrincipal User user, Model model) {
+        Book book = bookService.getBookDetails(user.getUsername(), id);
+        model.addAttribute("book", book); // TODO: Default value for start and end dates
+        return "book-details";
+
+    }
     
 }

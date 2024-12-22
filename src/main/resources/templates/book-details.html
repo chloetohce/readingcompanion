@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>
+                <img th:src="${book.imageLink}" width="200">
+            </td>
+            <td>
+                <p th:text="${book.title}"></p>
+                <p th:text="${book.authors}"></p>
+                <p th:text="${book.genres}"></p>
+                <p th:text="${book.status}"></p>
+                <p th:text="${book.start}"></p> 
+                <p th:text="${book.end}"></p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

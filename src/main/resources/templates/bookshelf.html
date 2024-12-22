@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>My bookshelf</h1>
-    <a href="/add">Add new book</a>
+    <a href="/books/add">Add new book</a>
     <table>
         <thead>
             <th>Book</th>
@@ -18,7 +18,9 @@
         <tbody>
             <tr th:each="book : ${books}">
                 <td>
-                    <img th:src="@{${book.imageLink}}" width="200">
+                    <a th:href="@{/books/details/{id}(id=${book.id})}">
+                        <img th:src="@{${book.imageLink}}" width="100">
+                    </a>
                 </td>
                 <td th:text="${book.title}"></td>
                 <td th:text="${book.authors}"></td>
