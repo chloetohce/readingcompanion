@@ -14,7 +14,7 @@ import sg.edu.nus.iss.readingcompanion.utilities.Helper;
 
 public class Book {
     private String title;
-    private String isbn;
+    private String id;
     private List<String> authors;
     private List<String> genres;
     private String imageLink;
@@ -26,10 +26,10 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, String isbn, List<String> authors, List<String> genres,
+    public Book(String title, String id, List<String> authors, List<String> genres,
             String imageLink, Optional<Date> start, Optional<Date> end, String status) {
         this.title = title;
-        this.isbn = isbn;
+        this.id = id;
         this.authors = authors;
         this.genres = genres;
         this.imageLink = imageLink;
@@ -69,7 +69,7 @@ public class Book {
     public String serialize() {
         JsonObject jsonBook = Json.createObjectBuilder()
             .add("title", title)
-            .add("isbn", isbn)
+            .add("id", id)
             .add("authors", BookJsonParser.listToJsonArr(authors))
             .add("genres", BookJsonParser.listToJsonArr(genres))
             .add("imageLink", imageLink)
@@ -83,8 +83,8 @@ public class Book {
     public String getTitle() {return title;}
     public void setTitle(String title) {this.title = title;}
 
-    public String getIsbn() {return isbn;}
-    public void setIsbn(String id) {this.isbn = id;}
+    public String getId() {return id;}
+    public void setId(String id) {this.id = id;}
 
     public List<String> getAuthorsList() {return authors;}
     public String getAuthors() {return Helper.listToString(authors);}
@@ -110,7 +110,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book [title=" + title + ", isbn=" + isbn + ", authors=" + authors + ", genres=" + genres + ", imageLink="
+        return "Book [title=" + title + ", id=" + id + ", authors=" + authors + ", genres=" + genres + ", imageLink="
                 + imageLink + ", start=" + start + ", end=" + end + ", status=" + status + "]";
     }
     

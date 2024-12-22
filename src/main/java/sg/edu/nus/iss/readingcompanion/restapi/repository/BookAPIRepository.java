@@ -37,6 +37,7 @@ public class BookAPIRepository {
         JsonArrayBuilder books = Json.createArrayBuilder();
         Cursor<Entry<String, String>> cur = ops.scan(redisKey, options);
         while (cur.hasNext()) {
+            System.out.println(cur.next());
            books.add(cur.next().getValue());
         }
         return books.build();

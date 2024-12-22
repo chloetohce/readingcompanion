@@ -28,9 +28,9 @@ public class BookController {
     }
     
     @PostMapping("/add")
-    public String addToBookshelf(@ModelAttribute Book book) {
+    public String addToBookshelf(@ModelAttribute Book book, @AuthenticationPrincipal User user) {
         System.out.println(book.toString());
-        
+        bookService.addBookToUserShelf(user.getUsername(), book);
         return "redirect:/books/all";
     }
     

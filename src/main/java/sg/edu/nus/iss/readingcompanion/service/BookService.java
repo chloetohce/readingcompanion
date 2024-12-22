@@ -56,7 +56,7 @@ public class BookService {
 
             // Map variables
             book.setTitle(volumeInfo.getString("title"));
-            book.setIsbn(BookJsonParser.getIsbn(identifiers));
+            book.setId(BookJsonParser.getIsbn(identifiers));
             book.setAuthors(BookJsonParser.jsonArrToList(authors));
             book.setGenres(BookJsonParser.jsonArrToList(categories));
             book.setImageLink(BookJsonParser.getImageLink(imageLinks, volumeInfo.getString("title")));
@@ -73,13 +73,13 @@ public class BookService {
     
     public List<Book> getBooksByUser(String username) {
         String url = UriComponentsBuilder.fromUriString(URL.API)
+            .pathSegment("all")
             .queryParam("user", username)
             .toUriString();
         RequestEntity<Void> request = RequestEntity.get(url)
             .build();
 
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-
         JsonReader reader = Json.createReader(new StringReader(response.getBody()));
         JsonArray bookshelfArr = reader.readArray();
 
@@ -95,7 +95,7 @@ public class BookService {
     public boolean addBookToUserShelf(String username, Book book) {
         JsonObject data = Json.createObjectBuilder()
             .add("username", username)
-            .add("book", book.serialize())
+            .add("book", Json.createReader(new StringReader(book.serialize())).readObject())
             .build();
 
         String url = UriComponentsBuilder.fromUriString(URL.API)

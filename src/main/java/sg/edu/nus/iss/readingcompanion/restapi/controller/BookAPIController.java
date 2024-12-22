@@ -2,6 +2,7 @@ package sg.edu.nus.iss.readingcompanion.restapi.controller;
 
 import java.io.StringReader;
 import java.net.URI;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,22 +25,22 @@ import sg.edu.nus.iss.readingcompanion.restapi.service.BookAPIService;
 @RestController
 @RequestMapping("/api/books")
 public class BookAPIController {
+    private static final Logger logger = Logger.getLogger(BookAPIController.class.getName());
+
     @Autowired
     private BookAPIService bookAPIService;
     
     @GetMapping("/all")
     public ResponseEntity<String> getUserBookshelf(@RequestParam("user") String username) {
         JsonArray bookshelf = bookAPIService.getAllBooksByUser(username);
+        System.out.println(bookshelf.toString());
 
         return ResponseEntity.ok(bookshelf.toString());
     }
 
     @PostMapping("/add") // TODO: Change book here
     public ResponseEntity<String> saveBook(@RequestBody String data) {
-        JsonReader reader = Json.createReader(new StringReader(data));
-        JsonObject jObject = reader.readObject();
-        bookAPIService.addBookToUser(jObject.getString("username"), jObject.getString("book"));
-
+        bookAPIService.addBookToUser(data);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
             .path("/api/books")
             .build(true)
