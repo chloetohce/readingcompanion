@@ -1,6 +1,8 @@
 package sg.edu.nus.iss.readingcompanion.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,22 +21,22 @@ public class LoginController {
     UserService userService;
     
     @GetMapping("")
-    public String landingPage() {
+    public String landingPage(@AuthenticationPrincipal User user) {
+        System.out.println(user.getUsername());
         return "landing";
     }
 
     @GetMapping("/login")
-    public String loginPage(Model model) {
-        model.addAttribute("user", new User());
+    public String loginPage() {
         return "login";
     }
     
-    @PostMapping("/login") // TODO: Is this method needed?
-    public String login(@ModelAttribute User user) {
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
-        return "landing";
-    }
+    // @PostMapping("/login") // TODO: This method is not needed
+    // public String login(@ModelAttribute User user) {
+    //     System.out.println(user.getUsername());
+    //     System.out.println(user.getPassword());
+    //     return "landing";
+    // }
 
     @GetMapping("/register")
     public String registrationPage(Model model) {
@@ -44,8 +46,12 @@ public class LoginController {
     
     @PostMapping("/register")
     public String registerUser(@ModelAttribute User user) {
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
+        /*
+         * TODO: Add validation.
+         * Can do manual searching here where userService.findUser() and if there is an account 
+         * with the same username, can binding.rejectValue("username", ...)
+         */
+
         userService.registerUser(user);
         return "redirect:/";
 

@@ -31,7 +31,7 @@ public class BookController {
     public String addToBookshelf(@ModelAttribute Book book) {
         System.out.println(book.toString());
         
-        return "redirect:/all";
+        return "redirect:/books/all";
     }
     
 

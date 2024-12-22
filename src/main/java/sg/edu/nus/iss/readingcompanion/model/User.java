@@ -1,6 +1,19 @@
 package sg.edu.nus.iss.readingcompanion.model;
 
-public class User {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+// Made User class implement UserDetails to get Spring Security to map @AuthenticationPrincipal
+// to  thsi class. I've also made the CustomUserDetailsService class return model.User instead of 
+// Spring Security's own User class. 
+public class User implements UserDetails{
+    // TODO: Validation
     private String username;
     private String password;
 
@@ -33,7 +46,15 @@ public class User {
 
     @Override
     public String toString() {
+        System.out.println("User toString() used.");
         return "%s,%s".formatted(username, password);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("USER"));
+        return authorities;
     }
     
 }

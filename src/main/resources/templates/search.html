@@ -7,7 +7,7 @@
 </head>
 <body>
     <form method="post" action="/books/search">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
         <input type="text" name="q" id="q">
         <button type="submit">Search</button>
     </form>

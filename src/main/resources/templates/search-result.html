@@ -17,7 +17,7 @@
                 </td>
                 <td>
                     <form method="post" action="/books/add">
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
                         <input type="hidden" name="title" th:value="${q.title}">
                         <input type="hidden" name="isbn" th:value="${q.isbn}">
                         <input type="hidden" name="authors" th:value="${q.authors}">
@@ -26,6 +26,7 @@
                         <input type="date" name="start" th:value="${q.start}" hidden>
                         <input type="date" name="end" th:value="${q.end}" hidden>
                         <input type="hidden" name="status" th:value="${q.status}">
+                        <input type="text" name="start" th:value="${q.start}" readonly>
                         <button type="submit">Add</button>
                     </form>
                 </td>

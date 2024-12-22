@@ -99,11 +99,11 @@ public class Book {
 
     public Date getStart() {return start.orElse(null);} // TODO: Fix null here and provide a different value
     public Optional<Date> getStartOpt() {return start;}
-    public void setStart(Date start) {this.start = Optional.ofNullable(start);}
+    public void setStart(String start) {this.start = BookJsonParser.getOptDateFromString(start);}
 
     public Date getEnd() {return end.orElse(null);} // TODO: Fix null here and provide a different value
     public Optional<Date> getEndOpt() {return end;}
-    public void setEnd(Date end) {this.end = Optional.ofNullable(end);}
+    public void setEnd(String end) {this.end = BookJsonParser.getOptDateFromString(end);}
 
     public String getStatus() {return status;}
     public void setStatus(String status) {this.status = status;}
