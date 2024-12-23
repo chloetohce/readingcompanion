@@ -9,17 +9,38 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import sg.edu.nus.iss.readingcompanion.utilities.BookValParser;
+import sg.edu.nus.iss.readingcompanion.validation.ValidDate;
 
 public class Book {
+    @NotBlank(message = "Book title is required.")
     private String title;
+
+    @NotBlank
     private String id;
+
+    @NotEmpty(message = "Please provide authors of book. Leave NA if there are no authors.")
+    private String authorsStr; // Temp store of values to enable validation
     private List<String> authors;
+
+    @NotEmpty(message = "Genres cannot be left empty. Leave NA if there are no genres.")
+    private String genresStr;
     private List<String> genres;
+
+    @NotBlank
     private String imageLink;
 
+    @ValidDate(message = "Start date cannot be in the future. ")
+    private String startStr;
     private Optional<Date> start;
+
+    @ValidDate(message = "End date cannot be in the future. ")
+    private String endStr;
     private Optional<Date> end;
+
+    @NotBlank(message = "What's your current status on the book?")
     private String status;
     
     public Book() {
@@ -30,7 +51,9 @@ public class Book {
         this.title = title;
         this.id = id;
         this.authors = authors;
+        this.authorsStr = BookValParser.listToString(authors);
         this.genres = genres;
+        this.genresStr = BookValParser.listToString(genres);
         this.imageLink = imageLink;
         this.start = start;
         this.end = end;
@@ -89,9 +112,25 @@ public class Book {
     public String getAuthors() {return BookValParser.listToString(authors);}
     public void setAuthors(String authors) {this.authors = BookValParser.stringToList(authors);}
 
+    public String getAuthorsStr() {
+        return BookValParser.listToString(authors);
+    }
+    public void setAuthorsStr(String authorsStr) {
+        this.authorsStr = authorsStr;
+        this.authors = BookValParser.stringToList(authorsStr);
+    }
+
     public List<String> getGenresList() {return genres;}
     public String getGenres() {return BookValParser.listToString(genres);}
     public void setGenres(String genres) {this.genres = BookValParser.stringToList(genres);}
+
+    public String getGenresStr() {
+        return BookValParser.listToString(genres);
+    }
+    public void setGenresStr(String genresStr) {
+        this.genresStr = genresStr;
+        this.genres = BookValParser.stringToList(genresStr);
+    }
 
     public String getImageLink() {return imageLink;}
     public void setImageLink(String imageLink) {this.imageLink = imageLink;}
@@ -100,9 +139,25 @@ public class Book {
     public Optional<Date> getStartOpt() {return start;}
     public void setStart(String start) {this.start = BookValParser.getOptDateFromString(start);}
 
+    public String getStartStr() {
+        return BookValParser.optDateToString(start);
+    }
+    public void setStartStr(String startStr) {
+        this.startStr = startStr;
+        this.start = BookValParser.getOptDateFromString(startStr);
+    }
+
     public String getEnd() {return BookValParser.optDateToString(end);}
     public Optional<Date> getEndOpt() {return end;}
     public void setEnd(String end) {this.end = BookValParser.getOptDateFromString(end);}
+
+    public String getEndStr() {
+        return BookValParser.optDateToString(end);
+    }
+    public void setEndStr(String endStr) {
+        this.endStr = endStr;
+        this.end = BookValParser.getOptDateFromString(endStr);
+    }
 
     public String getStatus() {return status;}
     public void setStatus(String status) {this.status = status;}

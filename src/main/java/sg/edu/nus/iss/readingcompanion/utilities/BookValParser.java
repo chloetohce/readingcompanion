@@ -107,6 +107,9 @@ public class BookValParser {
 
     public static String listToString(List<String> list) {
         String result = "";
+        if (list.isEmpty()) {
+            return result;
+        }
         for (String e : list) {
             result += e.trim();
             result += ", ";

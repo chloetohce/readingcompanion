@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +11,12 @@
         }
     </style>
 </head>
+
 <body>
     <form action="/books/edit" method="post" th:object="${book}">
         <label for="id">ID: </label>
         <input type="text" name="id" id="id" th:field="*{id}" readonly>
+        <p th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></p>
 
         <br>
 
@@ -21,16 +24,19 @@
 
         <label for="title">Title: </label>
         <input type="text" name="title" id="title" th:field="*{title}">
+        <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
 
         <br>
 
-        <label for="authors">Authors: </label>
-        <input type="text" name="authors" id="authors" th:field="*{authors}">
-        
+        <label for="authorsStr">Authors: </label>
+        <input type="text" name="authorsStr" id="authorsStr" th:field="*{authorsStr}">
+        <p th:if="${#fields.hasErrors('authorsStr')}" th:errors="*{authorsStr}"></p>
+
         <br>
 
-        <label for="genres">Genres: </label>
-        <input type="text" name="genres" id="genres" th:field="*{genres}">
+        <label for="genresStr">Genres: </label>
+        <input type="text" name="genresStr" id="genresStr" th:field="*{genresStr}">
+        <p th:if="${#fields.hasErrors('genresStr')}" th:errors="*{genresStr}"></p>
 
         <br>
 
@@ -40,18 +46,21 @@
             <option value="reading">Reading</option>
             <option value="read">Read</option>
         </select>
+        <p th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></p>
 
         <br>
 
         <!-- Does this editing work if the book that is pumped in has values, but does not have a start or end date? -->
         <div class="datesDiv">
-            <label for="start">Start: </label>
-            <input type="date" name="start" id="start" th:field="*{start}">
+            <label for="startStr">Start: </label>
+            <input type="date" name="startStr" id="startStr" th:field="*{startStr}">
+            <p th:if="${#fields.hasErrors('startStr')}" th:errors="*{startStr}"></p>
 
-        <br>
+            <br>
 
-            <label for="end">End: </label>
-            <input type="date" name="end" id="end" th:field="*{end}">
+            <label for="endStr">End: </label>
+            <input type="date" name="endStr" id="endStr" th:field="*{endStr}">
+            <p th:if="${#fields.hasErrors('endStr')}" th:errors="*{endStr}"></p>
         </div>
 
         <br>
@@ -60,10 +69,10 @@
     </form>
 
     <script>
-        window.onload = function() {
+        window.onload = function () {
             const statusEle = document.getElementById("status");
             const datesDiv = document.querySelector(".datesDiv");
-            
+
             function toggleVisibility() {
                 if (statusEle.value !== "to-read") {
                     datesDiv.classList.remove("hidden");
@@ -78,4 +87,5 @@
         }
     </script>
 </body>
+
 </html>
