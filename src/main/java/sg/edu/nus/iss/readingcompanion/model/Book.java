@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -29,7 +30,6 @@ public class Book {
     private String genresStr;
     private List<String> genres;
 
-    @NotBlank
     private String imageLink;
 
     @ValidDate(message = "Start date cannot be in the future. ")
@@ -44,6 +44,14 @@ public class Book {
     private String status;
     
     public Book() {
+        this.start = Optional.empty();
+        this.end = Optional.empty();
+    }
+
+    private Book(String id) {
+        this.id = id;
+        this.start = Optional.empty();
+        this.end = Optional.empty();
     }
 
     public Book(String title, String id, List<String> authors, List<String> genres,
@@ -58,6 +66,11 @@ public class Book {
         this.start = start;
         this.end = end;
         this.status = status;
+    }
+
+    public static Book manualInput() {
+        String id = "BOOK-" + UUID.randomUUID().toString();
+        return new Book(id);
     }
 
     /**
@@ -164,8 +177,9 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book [title=" + title + ", id=" + id + ", authors=" + authors + ", genres=" + genres + ", imageLink="
-                + imageLink + ", start=" + start + ", end=" + end + ", status=" + status + "]";
+        return "Book [title=" + title + ", id=" + id + ", authorsStr=" + authorsStr + ", authors=" + authors
+                + ", genresStr=" + genresStr + ", genres=" + genres + ", imageLink=" + imageLink + ", startStr="
+                + startStr + ", start=" + start + ", endStr=" + endStr + ", end=" + end + ", status=" + status + "]";
     }
     
 

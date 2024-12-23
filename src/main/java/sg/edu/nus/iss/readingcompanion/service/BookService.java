@@ -93,6 +93,18 @@ public class BookService {
     }
 
     public boolean addBookToUserShelf(String username, Book book) {
+        // Manipulate book details before adding
+        if (book.getStatus().equals("to-read")) {
+            book.setStartStr("-");
+            book.setEndStr("-");
+        }
+        if (book.getImageLink() == null || book.getImageLink().isEmpty()) {
+            String url = UriComponentsBuilder.fromUriString(URL.PLACEHOLDER_COVER)
+                .queryParam("text", book.getTitle())
+                .toUriString();
+            book.setImageLink(url);
+        }
+
         JsonObject data = Json.createObjectBuilder()
             .add("username", username)
             .add("book", Json.createReader(new StringReader(book.serialize())).readObject())
@@ -120,7 +132,6 @@ public class BookService {
         RequestEntity<Void> request = RequestEntity.get(uri).build();
 
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-        
         return Book.deserialize(response.getBody());
     }
 

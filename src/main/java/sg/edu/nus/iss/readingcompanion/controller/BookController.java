@@ -64,18 +64,21 @@ public class BookController {
         return "book-form";
     }
     
-    @PostMapping("/edit")
+    @PostMapping("/edit") // TODO: Change URL here to something more generic, e.g. /put
     public String editBookDetails(@Valid @ModelAttribute Book book, BindingResult binding, @AuthenticationPrincipal User user) {
         if (binding.hasErrors()) {
             return "book-form";
-        }
-        if (book.getStatus().equals("to-read")) {
-            book.setStartStr("-");
-            book.setEndStr("-");
         }
 
         bookService.addBookToUserShelf(user.getUsername(), book);
         return "redirect:/books/details/" + book.getId();
     }
+
+    @GetMapping("/add")
+    public String bookForm(Model model) {
+        model.addAttribute("book", Book.manualInput());
+        return "book-form";
+    }
+    
     
 }
