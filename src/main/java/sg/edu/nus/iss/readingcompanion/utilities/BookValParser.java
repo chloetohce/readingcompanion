@@ -1,5 +1,7 @@
 package sg.edu.nus.iss.readingcompanion.utilities;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,8 +17,8 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 
-public class BookJsonParser {
-    private static final Logger logger = Logger.getLogger(BookJsonParser.class.getName());
+public class BookValParser {
+    private static final Logger logger = Logger.getLogger(BookValParser.class.getName());
 
     public static List<String> jsonArrToList(JsonArray arr) {
         if (arr == null) {
@@ -25,8 +27,11 @@ public class BookJsonParser {
             result.add("NA");
             return result;
         }
-
-        return arr.stream().map(v -> v.toString()).toList();
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < arr.size(); i++) {
+            list.add(arr.getJsonString(i).getString());
+        }
+        return list;
     }
 
     public static JsonArray listToJsonArr(List<String> list) {
@@ -75,17 +80,36 @@ public class BookJsonParser {
     }
 
     public static String optDateToString(Optional<Date> opt) {
-        return opt.map(d -> Long.toString(d.getTime()))
-            .orElse("-");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return opt.map(d -> sdf.format(d)).orElse("-");
     }
 
     public static Optional<Date> getOptDateFromString(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            long time = Long.valueOf(date);
-            return Optional.ofNullable(new Date(time));
-        } catch (NumberFormatException e) {
+            return Optional.ofNullable(sdf.parse(date));
+        } catch (ParseException | NullPointerException e) {
             return Optional.empty();
         }
+    }
+
+    public static List<String> stringToList(String s) {
+        String[] arr = s.split(",");
+        List<String> list = new ArrayList<>();
+
+        for (String str : arr) {
+            list.add(str);
+        }
+        return list;
+    }
+
+    public static final String listToString(List<String> list) {
+        String result = "";
+        for (String e : list) {
+            result += e.trim();
+            result += ", ";
+        }
+        return result.substring(0, result.length() - 2);
     }
 
 }

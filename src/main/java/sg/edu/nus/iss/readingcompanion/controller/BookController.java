@@ -53,5 +53,13 @@ public class BookController {
         return "book-details";
 
     }
+
+    @GetMapping("/edit/{id}")
+    public String editBookDetails(@PathVariable String id, @AuthenticationPrincipal User user, Model model) {
+        Book book = bookService.getBookDetails(user.getUsername(), id);
+        model.addAttribute("book", book);
+        return "book-form";
+    }
+    
     
 }

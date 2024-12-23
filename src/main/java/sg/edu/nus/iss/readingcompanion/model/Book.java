@@ -9,8 +9,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
-import sg.edu.nus.iss.readingcompanion.utilities.BookJsonParser;
-import sg.edu.nus.iss.readingcompanion.utilities.Helper;
+import sg.edu.nus.iss.readingcompanion.utilities.BookValParser;
 
 public class Book {
     private String title;
@@ -60,8 +59,8 @@ public class Book {
             authors,
             genres,
             jsonBook.getString("imageLink"),
-            BookJsonParser.getOptDateFromString(jsonBook.getString("start")),
-            BookJsonParser.getOptDateFromString(jsonBook.getString("end")),
+            BookValParser.getOptDateFromString(jsonBook.getString("start")),
+            BookValParser.getOptDateFromString(jsonBook.getString("end")),
             jsonBook.getString("status")
         );
     }
@@ -70,11 +69,11 @@ public class Book {
         JsonObject jsonBook = Json.createObjectBuilder()
             .add("title", title)
             .add("id", id)
-            .add("authors", BookJsonParser.listToJsonArr(authors))
-            .add("genres", BookJsonParser.listToJsonArr(genres))
+            .add("authors", BookValParser.listToJsonArr(authors))
+            .add("genres", BookValParser.listToJsonArr(genres))
             .add("imageLink", imageLink)
-            .add("start", BookJsonParser.optDateToString(start))
-            .add("end", BookJsonParser.optDateToString(end))
+            .add("start", BookValParser.optDateToString(start))
+            .add("end", BookValParser.optDateToString(end))
             .add("status", status)
             .build();
         return jsonBook.toString();
@@ -87,23 +86,23 @@ public class Book {
     public void setId(String id) {this.id = id;}
 
     public List<String> getAuthorsList() {return authors;}
-    public String getAuthors() {return Helper.listToString(authors);}
-    public void setAuthors(List<String> authors) {this.authors = authors;}
+    public String getAuthors() {return BookValParser.listToString(authors);}
+    public void setAuthors(String authors) {this.authors = BookValParser.stringToList(authors);}
 
     public List<String> getGenresList() {return genres;}
-    public String getGenres() {return Helper.listToString(genres);}
-    public void setGenres(List<String> genres) {this.genres = genres;}
+    public String getGenres() {return BookValParser.listToString(genres);}
+    public void setGenres(String genres) {this.genres = BookValParser.stringToList(genres);}
 
     public String getImageLink() {return imageLink;}
     public void setImageLink(String imageLink) {this.imageLink = imageLink;}
 
-    public Date getStart() {return start.orElse(null);} // TODO: Fix null here and provide a different value
+    public String getStart() {return BookValParser.optDateToString(start);}
     public Optional<Date> getStartOpt() {return start;}
-    public void setStart(String start) {this.start = BookJsonParser.getOptDateFromString(start);}
+    public void setStart(String start) {this.start = BookValParser.getOptDateFromString(start);}
 
-    public Date getEnd() {return end.orElse(null);} // TODO: Fix null here and provide a different value
+    public String getEnd() {return BookValParser.optDateToString(end);}
     public Optional<Date> getEndOpt() {return end;}
-    public void setEnd(String end) {this.end = BookJsonParser.getOptDateFromString(end);}
+    public void setEnd(String end) {this.end = BookValParser.getOptDateFromString(end);}
 
     public String getStatus() {return status;}
     public void setStatus(String status) {this.status = status;}

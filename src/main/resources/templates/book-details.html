@@ -19,6 +19,9 @@
                 <p th:text="${book.start}"></p> 
                 <p th:text="${book.end}"></p>
             </td>
+            <td>
+                <a th:href="@{/books/edit/{id}(id=${book.id})}">Edit</a>
+            </td>
         </tr>
     </table>
 </body>

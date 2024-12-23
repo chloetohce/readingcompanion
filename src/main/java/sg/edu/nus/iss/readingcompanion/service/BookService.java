@@ -17,7 +17,7 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import sg.edu.nus.iss.readingcompanion.model.Book;
-import sg.edu.nus.iss.readingcompanion.utilities.BookJsonParser;
+import sg.edu.nus.iss.readingcompanion.utilities.BookValParser;
 import sg.edu.nus.iss.readingcompanion.utilities.URL;
 
 @Service
@@ -56,10 +56,10 @@ public class BookService {
 
             // Map variables
             book.setTitle(volumeInfo.getString("title"));
-            book.setId(BookJsonParser.getIsbn(identifiers));
-            book.setAuthors(BookJsonParser.jsonArrToList(authors));
-            book.setGenres(BookJsonParser.jsonArrToList(categories));
-            book.setImageLink(BookJsonParser.getImageLink(imageLinks, volumeInfo.getString("title")));
+            book.setId(BookValParser.getIsbn(identifiers));
+            book.setAuthors(BookValParser.listToString(BookValParser.jsonArrToList(authors)));
+            book.setGenres(BookValParser.listToString(BookValParser.jsonArrToList(categories)));
+            book.setImageLink(BookValParser.getImageLink(imageLinks, volumeInfo.getString("title")));
 
             book.setStart(null); // TODO: Find a cleaner way to set these variables.
             book.setEnd(null);
@@ -78,8 +78,6 @@ public class BookService {
             .toUriString();
         RequestEntity<Void> request = RequestEntity.get(url)
             .build();
-
-        logger.info("URL: " + url);
 
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
         JsonReader reader = Json.createReader(new StringReader(response.getBody()));
