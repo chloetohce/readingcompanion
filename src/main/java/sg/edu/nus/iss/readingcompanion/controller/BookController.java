@@ -1,9 +1,12 @@
 package sg.edu.nus.iss.readingcompanion.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,11 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.validation.Valid;
 import sg.edu.nus.iss.readingcompanion.model.Book;
 import sg.edu.nus.iss.readingcompanion.model.User;
 import sg.edu.nus.iss.readingcompanion.service.BookService;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 @RequestMapping("/books")
@@ -34,13 +40,12 @@ public class BookController {
         bookService.addBookToUserShelf(user.getUsername(), book);
         return "redirect:/books/all";
     }
-    
 
     @GetMapping("/search")
     public String search() {
         return "search";
     }
-
+    
     @PostMapping("/search")
     public String searchResult(@RequestParam String q, Model model) {
         model.addAttribute("q", q);
@@ -48,6 +53,34 @@ public class BookController {
         return "search-result";
     }
     
+    @GetMapping("/advanced-search")
+    public String advancedSearchPage() {
+        return "advanced-search";
+    }
+
+    @PostMapping("/advanced-search")
+    public String advancedSearch(@RequestBody MultiValueMap<String, String> map, Model model) {
+        // TODO: move this code elsewhere. Should not be doing logic in controller.
+        String query = map.getOrDefault("any", List.of("")).getFirst();
+        
+        if (!map.getFirst("title").isEmpty())
+            query += "+intitle:" + map.getFirst("title");
+        if (!map.getFirst("author").isEmpty())
+            query += "+inauthor:" + map.getFirst("author");
+        if (!map.getFirst("publisher").isEmpty())
+            query += "+inpublisher" + map.getFirst("publisher");
+        if (!map.getFirst("isbn").isEmpty())
+            query += "+isbn:" + map.getFirst("isbn");
+
+        if (query.startsWith("+"))
+            query = query.substring(1);
+        
+        model.addAttribute("q", query);
+        model.addAttribute("searchResult", bookService.searchQuery(query));
+        return "search-result";
+    }
+    
+
     @GetMapping("details/{id}")
     public String getBookDetails(@PathVariable String id, @AuthenticationPrincipal User user, Model model) {
         Book book = bookService.getBookDetails(user.getUsername(), id);
