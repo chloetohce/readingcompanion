@@ -48,10 +48,10 @@ public class Book {
         JsonObject jsonBook = reader.readObject();
         
         JsonArray jsonAuthors = jsonBook.getJsonArray("authors");
-        List<String> authors = jsonAuthors.stream().map(v -> v.toString()).toList();
+        List<String> authors = BookValParser.jsonArrToList(jsonAuthors);
         
         JsonArray jsonGenres = jsonBook.getJsonArray("genres");
-        List<String> genres = jsonGenres.stream().map(v -> v.toString()).toList();
+        List<String> genres = BookValParser.jsonArrToList(jsonGenres);
 
         return new Book(
             jsonBook.getString("title"),

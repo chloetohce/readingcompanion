@@ -16,6 +16,7 @@ import sg.edu.nus.iss.readingcompanion.model.User;
 import sg.edu.nus.iss.readingcompanion.service.BookService;
 
 
+
 @Controller
 @RequestMapping("/books")
 public class BookController {
@@ -55,11 +56,16 @@ public class BookController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editBookDetails(@PathVariable String id, @AuthenticationPrincipal User user, Model model) {
+    public String bookDetailsForm(@PathVariable String id, @AuthenticationPrincipal User user, Model model) {
         Book book = bookService.getBookDetails(user.getUsername(), id);
         model.addAttribute("book", book);
         return "book-form";
     }
     
+    @PostMapping("/edit")
+    public String editBookDetails(@ModelAttribute Book book, @AuthenticationPrincipal User user) {
+        bookService.addBookToUserShelf(user.getUsername(), book);
+        return "redirect:/books/details/" + book.getId();
+    }
     
 }

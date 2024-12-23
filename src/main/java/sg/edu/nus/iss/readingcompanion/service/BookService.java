@@ -73,7 +73,7 @@ public class BookService {
     
     public List<Book> getBooksByUser(String username) {
         String url = UriComponentsBuilder.fromUriString(URL.API)
-            .pathSegment("all")
+            .pathSegment("all")       
             .queryParam("user", username)
             .toUriString();
         RequestEntity<Void> request = RequestEntity.get(url)
@@ -123,4 +123,6 @@ public class BookService {
         
         return Book.deserialize(response.getBody());
     }
+
+
 }

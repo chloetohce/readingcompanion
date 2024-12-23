@@ -21,7 +21,7 @@ public class BookValParser {
     private static final Logger logger = Logger.getLogger(BookValParser.class.getName());
 
     public static List<String> jsonArrToList(JsonArray arr) {
-        if (arr == null) {
+        if (arr == null) { 
             logger.log(Level.WARNING, "Array is null.");
             List<String> result = new ArrayList<>();
             result.add("NA");
@@ -98,12 +98,14 @@ public class BookValParser {
         List<String> list = new ArrayList<>();
 
         for (String str : arr) {
-            list.add(str);
+            str = str.trim();
+            if (!str.equals(""))
+                list.add(str.trim());
         }
         return list;
     }
 
-    public static final String listToString(List<String> list) {
+    public static String listToString(List<String> list) {
         String result = "";
         for (String e : list) {
             result += e.trim();
