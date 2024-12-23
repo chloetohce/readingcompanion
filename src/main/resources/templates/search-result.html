@@ -8,7 +8,11 @@
 </head>
 
 <body>
-
+    <form action="/books/search" method="post">
+        <input type="text" th:value="${q}" name="q">
+        <button type="submit">Search</button>
+    </form>
+    <p>Not finding your book? <a href="/books/advanced-search">Advanced search</a></p>
     <table>
         <tbody>
             <tr th:each="q, stat : ${searchResult}">

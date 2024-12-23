@@ -17,8 +17,6 @@ import sg.edu.nus.iss.readingcompanion.model.Book;
 import sg.edu.nus.iss.readingcompanion.model.User;
 import sg.edu.nus.iss.readingcompanion.service.BookService;
 
-
-
 @Controller
 @RequestMapping("/books")
 public class BookController {
@@ -45,6 +43,7 @@ public class BookController {
 
     @PostMapping("/search")
     public String searchResult(@RequestParam String q, Model model) {
+        model.addAttribute("q", q);
         model.addAttribute("searchResult", bookService.searchQuery(q));
         return "search-result";
     }
