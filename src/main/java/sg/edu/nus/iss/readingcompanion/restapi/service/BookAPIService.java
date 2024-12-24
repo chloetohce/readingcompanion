@@ -47,4 +47,13 @@ public class BookAPIService {
         String hashkey = username + ":" + id;
         return repo.get(RedisUtil.KEY_BOOKS, hashkey); // TODO: Add error handling for if book does not exist.
     }
+
+    public String getSizeOfBookshelf(String username) {
+        long size = repo.size(RedisUtil.KEY_BOOKS, username);
+        JsonObject obj = Json.createObjectBuilder()
+            .add("username", username)
+            .add("size", size)
+            .build();
+        return obj.toString();
+    }
 }

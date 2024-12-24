@@ -2,7 +2,9 @@ package sg.edu.nus.iss.readingcompanion.service;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -136,5 +138,41 @@ public class BookService {
         return Book.deserialize(response.getBody());
     }
 
+    public long getBookshelfSize(String username) {
+        String uri = UriComponentsBuilder.fromUriString(URL.API_BOOKS)
+            .pathSegment("size")
+            .queryParam("username", username)
+            .toUriString();
+        RequestEntity<Void> request = RequestEntity.get(uri).build();
+        ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+        JsonReader reader = Json.createReader(new StringReader(response.getBody()));
+        JsonObject jobj = reader.readObject();
+        return jobj.getJsonNumber("size").longValueExact();
+    }
 
+    public Map<String, Long> getCounts(String username) {
+        List<Book> allBooks = getBooksByUser(username);
+        Map<String, Long> result = new HashMap<>();
+        result.put("allSize", Long.valueOf(allBooks.size()));
+        result.put("readSize", allBooks.stream().filter(b -> b.getStatus().equals("read")).count());
+        result.put("readingSize", allBooks.stream().filter(b -> b.getStatus().equals("reading")).count());
+        result.put("toReadSize", allBooks.stream().filter(b -> b.getStatus().equals("to-read")).count());
+
+        List<Book> yearBooks = allBooks.stream().filter(book -> book.isThisYear()).toList();
+        result.put("yearReadSize", yearBooks.stream().filter(b -> b.getStatus().equals("read")).count());
+
+        return result;
+    }
+
+    public Map<String, Integer> getGenreCounts(String username) {
+        List<Book> allBooks = getBooksByUser(username);
+        Map<String, Integer> genres = new HashMap<>();
+        for (Book b : allBooks) {
+            List<String> bookGenres = b.getGenresList();
+            for (String g : bookGenres) {
+                genres.put(g, genres.getOrDefault(g, 0) + 1);
+            }
+        }
+        return genres;
+    }
 }

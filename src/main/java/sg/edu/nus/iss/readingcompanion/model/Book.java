@@ -1,6 +1,8 @@
 package sg.edu.nus.iss.readingcompanion.model;
 
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -113,6 +115,17 @@ public class Book {
             .add("status", status)
             .build();
         return jsonBook.toString();
+    }
+
+    public boolean isThisYear() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Optional<Boolean> startBool = start.map(d -> LocalDate.parse(sdf.format(d)))
+            .filter(d -> d.getYear() <= LocalDate.now().getYear())
+            .map(d -> true);
+        Optional<Boolean> endBool = end.map(d -> LocalDate.parse(sdf.format(d)))
+            .filter(d -> d.getYear() <= LocalDate.now().getYear())
+            .map(d -> true);
+        return startBool.orElse(false) || endBool.orElse(false);
     }
 
     public String getTitle() {return title;}

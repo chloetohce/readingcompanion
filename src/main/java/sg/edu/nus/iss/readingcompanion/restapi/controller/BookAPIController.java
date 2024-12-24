@@ -42,6 +42,13 @@ public class BookAPIController {
             .body(bookAPIService.getBookDetails(username, id));
         return response;
     }
+
+    @GetMapping("/size")
+    public ResponseEntity<String> getUserBookshelfSize(@RequestParam String username) {
+        String msg = bookAPIService.getSizeOfBookshelf(username);
+        ResponseEntity<String> response = ResponseEntity.ok(msg);
+        return response;
+    }
     
     
     

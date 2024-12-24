@@ -2,7 +2,9 @@
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/configuration/RedisConfig.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/configuration/WebSecurityConfig.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/controller/BookController.java
+/Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/controller/ChartsController.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/controller/LoginController.java
+/Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/controller/NotesController.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/model/Book.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/model/Notes.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/model/User.java

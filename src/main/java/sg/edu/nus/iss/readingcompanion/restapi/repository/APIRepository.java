@@ -56,4 +56,17 @@ public class APIRepository {
         return ops.get(redisKey, hashKey);
     }
 
+    public long size(String redisKey, String username) {
+        ScanOptions options = ScanOptions.scanOptions()
+            .match(username + ":*")
+            .build();
+        long count = 0;
+        Cursor<Entry<String, String>> cur = ops.scan(redisKey, options);
+        while (cur.hasNext()) {
+            count += 1;
+            cur.next();
+        }
+        return count;
+    }
+
 }
