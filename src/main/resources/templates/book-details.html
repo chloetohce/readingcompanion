@@ -24,5 +24,32 @@
             </td>
         </tr>
     </table>
+    
+    <div id="form-popup" style="display: none; position: fixed; width: 75%;">
+        <form th:action="@{/notes/edit}" method="post" th:object="${notes}">
+            <input type="hidden" th:field="*{bookId}">
+            <textarea name="noteText" spellcheck="true" wrap="soft" th:field="*{text}"></textarea>
+            <br>
+            <button type="button" onclick="closeEditForm()">Cancel</button>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Notes</h2>
+        <button onclick="openEditForm()">Edit</button>
+        <p style="white-space: pre;" th:text="${notes.text}"></p>
+    </div>
+
+
+    <script>
+        function openEditForm() {
+            document.getElementById("form-popup").style.display = "block";
+        }
+
+        function closeEditForm() {
+            document.getElementById("form-popup").style.display = "none";
+        }
+    </script>
 </body>
 </html>

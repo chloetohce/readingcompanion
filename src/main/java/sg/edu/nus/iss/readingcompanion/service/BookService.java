@@ -3,6 +3,7 @@ package sg.edu.nus.iss.readingcompanion.service;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -72,7 +73,7 @@ public class BookService {
     }
     
     public List<Book> getBooksByUser(String username) {
-        String url = UriComponentsBuilder.fromUriString(URL.API)
+        String url = UriComponentsBuilder.fromUriString(URL.API_BOOKS)
             .pathSegment("all")       
             .queryParam("username", username)
             .toUriString();
@@ -110,7 +111,7 @@ public class BookService {
             .add("book", Json.createReader(new StringReader(book.serialize())).readObject())
             .build();
 
-        String url = UriComponentsBuilder.fromUriString(URL.API)
+        String url = UriComponentsBuilder.fromUriString(URL.API_BOOKS)
             .pathSegment("add")
             .toUriString();
         RequestEntity<String> request = RequestEntity.post(url)
@@ -118,13 +119,13 @@ public class BookService {
 
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
 
-        logger.info("Book saved to bookshelf. Location: " + response.getHeaders().get("Location").getFirst());
+        logger.log(Level.INFO, "Book saved to bookshelf. Location: {0}", response.getHeaders().get("Location").getFirst());
         // TODO: Handle response if there is an error thrown
         return true;
     }
 
     public Book getBookDetails(String username, String bookId) {
-        String uri = UriComponentsBuilder.fromUriString(URL.API)
+        String uri = UriComponentsBuilder.fromUriString(URL.API_BOOKS)
             .pathSegment("details")
             .queryParam("username", username)
             .queryParam("id", bookId)

@@ -1,7 +1,6 @@
 package sg.edu.nus.iss.readingcompanion.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +19,7 @@ public class LoginController {
     UserService userService;
     
     @GetMapping("")
-    public String landingPage(@AuthenticationPrincipal User user) {
-        System.out.println(user.getUsername());
+    public String landingPage() {
         return "landing";
     }
 

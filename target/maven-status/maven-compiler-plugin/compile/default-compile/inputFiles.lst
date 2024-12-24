@@ -8,10 +8,13 @@
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/model/User.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/repository/UserRepository.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/restapi/controller/BookAPIController.java
-/Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/restapi/repository/BookAPIRepository.java
+/Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/restapi/controller/NotesAPIController.java
+/Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/restapi/repository/APIRepository.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/restapi/service/BookAPIService.java
+/Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/restapi/service/NotesAPIService.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/service/BookService.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/service/CustomUserDetailsService.java
+/Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/service/NotesService.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/service/UserService.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/utilities/BookValParser.java
 /Users/chloe/VTTP/project/readingcompanion/src/main/java/sg/edu/nus/iss/readingcompanion/utilities/Helper.java

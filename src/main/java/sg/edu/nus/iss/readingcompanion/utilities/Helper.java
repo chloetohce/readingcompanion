@@ -6,16 +6,21 @@ import org.springframework.util.MultiValueMap;
 
 public class Helper {
     public static String generateQuery(MultiValueMap<String, String> map) {
-        String query = map.getOrDefault("any", List.of("")).getFirst();
+        String query = map.getOrDefault("q", List.of("")).getFirst();
 
-        if (!map.getFirst("title").isEmpty())
-            query += " intitle:" + map.getFirst("title");
-        if (!map.getFirst("author").isEmpty())
-            query += " inauthor:" + map.getFirst("author");
-        if (!map.getFirst("publisher").isEmpty())
-            query += " inpublisher" + map.getFirst("publisher");
-        if (!map.getFirst("isbn").isEmpty())
-            query += " isbn:" + map.getFirst("isbn");
+        String title = map.getFirst("title");
+        String author = map.getFirst("author");
+        String publisher = map.getFirst("publisher");
+        String isbn = map.getFirst("isbn");
+
+        if (title != null && !title.isEmpty())
+            query += " intitle:" + title;
+        if (author != null && !author.isEmpty())
+            query += " inauthor:" + author;
+        if (publisher != null && !publisher.isEmpty())
+            query += " inpublisher" + publisher;
+        if (isbn != null && !isbn.isEmpty())
+            query += " isbn:" + isbn;
 
         if (query.startsWith("+"))
             query = query.substring(1);

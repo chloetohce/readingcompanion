@@ -25,6 +25,14 @@ public class Notes {
         return new Notes(noteJson.getString("bookId"), noteJson.getString("text"));
     }
 
+    public String serialize() {
+        JsonObject noteJson = Json.createObjectBuilder()
+            .add("bookId", bookId)
+            .add("text", text)
+            .build();
+        return noteJson.toString();
+    }
+
     public String getBookId() {
         return bookId;
     }

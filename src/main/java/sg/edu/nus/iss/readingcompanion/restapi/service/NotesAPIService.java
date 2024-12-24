@@ -18,15 +18,14 @@ public class NotesAPIService {
     @Autowired
     private APIRepository repo;
 
-    public JsonObject getNotesByBook(String username, String bookId) {
+    public String getNotesByBook(String username, String bookId) {
         String hashkey = username + ":" + bookId;
         String notesData = repo.get(RedisUtil.KEY_NOTES, hashkey);
-        JsonReader reader = Json.createReader(new StringReader(notesData));
-        JsonObject jObj = reader.readObject();
-        return jObj;
+        return notesData;
     }
 
     public URI addNotesToBook(String data) {
+        System.out.println(data);
         JsonReader reader = Json.createReader(new StringReader(data));
         JsonObject dataJson = reader.readObject();
         String hashKey = dataJson.getString("username") + ":" + dataJson.getString("bookId");
@@ -43,4 +42,5 @@ public class NotesAPIService {
         
         return uri;
     }
+
 }

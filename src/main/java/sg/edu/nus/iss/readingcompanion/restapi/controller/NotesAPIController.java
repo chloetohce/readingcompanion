@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import sg.edu.nus.iss.readingcompanion.restapi.service.NotesAPIService;
 
 
@@ -23,8 +25,17 @@ public class NotesAPIController {
 
     @GetMapping("")
     public ResponseEntity<String> getNotesByBook(@RequestParam String username, @RequestParam String bookId) {
+        String notes = notesAPIService.getNotesByBook(username, bookId);
+        if (notes == null) {
+            JsonObject jobj = Json.createObjectBuilder()
+                .add("message", "No notes found for book.")
+                .build();
+            ResponseEntity<String> response = ResponseEntity.unprocessableEntity()
+                .body(jobj.toString());
+            return response;
+        }
         ResponseEntity<String> response = ResponseEntity.ok()
-            .body(notesAPIService.getNotesByBook(username, bookId).toString());
+            .body(notesAPIService.getNotesByBook(username, bookId));
         return response;
     }
     
