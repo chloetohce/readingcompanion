@@ -30,7 +30,7 @@ public class BookAPIController {
         return ResponseEntity.ok(bookshelf.toString());
     }
 
-    @PostMapping("/add") // TODO: Change book here
+    @PostMapping("/add") // TODO: Move URI building to Service class
     public ResponseEntity<String> saveBook(@RequestBody String data) {
         String hashKey = bookAPIService.addBookToUser(data);
         String[] arr = hashKey.split(":");

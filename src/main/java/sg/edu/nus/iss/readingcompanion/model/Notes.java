@@ -1,11 +1,28 @@
 package sg.edu.nus.iss.readingcompanion.model;
 
+import java.io.StringReader;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+
 public class Notes {
     private String bookId;
 
     private String text;
     
     public Notes() {
+    }
+
+    public Notes(String bookId, String text) {
+        this.bookId = bookId;
+        this.text = text;
+    }
+
+    public static Notes deserialize(String data) {
+        JsonReader reader = Json.createReader(new StringReader(data));
+        JsonObject noteJson = reader.readObject();
+        return new Notes(noteJson.getString("bookId"), noteJson.getString("text"));
     }
 
     public String getBookId() {

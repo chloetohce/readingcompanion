@@ -9,16 +9,16 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
-import sg.edu.nus.iss.readingcompanion.restapi.repository.BookAPIRepository;
+import sg.edu.nus.iss.readingcompanion.restapi.repository.APIRepository;
 import sg.edu.nus.iss.readingcompanion.utilities.RedisUtil;
 
 @Service
 public class BookAPIService {
     @Autowired
-    private BookAPIRepository bookAPIRepository;
+    private APIRepository repo;
 
     public JsonArray getAllBooksByUser(String username) {
-        return bookAPIRepository.getAllOfUser(RedisUtil.KEY_BOOKS, username);
+        return repo.getAllOfUser(RedisUtil.KEY_BOOKS, username);
     }
 
     public String addBookToUser(String data) {
@@ -29,12 +29,12 @@ public class BookAPIService {
         String hashKey = dataJson.getString("username") + ":" + book.getString("id");
         // TODO: Error handling for if the book ID already exists in the bookshelf. Only important if the book is manually add. Idea is to have a custom prefix for manual books
 
-        bookAPIRepository.put(RedisUtil.KEY_BOOKS, hashKey, book.toString());
+        repo.put(RedisUtil.KEY_BOOKS, hashKey, book.toString());
         return hashKey;
     }
 
     public String getBookDetails(String username, String id) {
         String hashkey = username + ":" + id;
-        return bookAPIRepository.get(RedisUtil.KEY_BOOKS, hashkey); // TODO: Add error handling for if book does not exist.
+        return repo.get(RedisUtil.KEY_BOOKS, hashkey); // TODO: Add error handling for if book does not exist.
     }
 }

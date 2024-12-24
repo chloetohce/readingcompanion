@@ -20,13 +20,13 @@ import jakarta.json.JsonObject;
 import sg.edu.nus.iss.readingcompanion.utilities.RedisUtil;
 
 @Repository
-public class BookAPIRepository {
+public class APIRepository {
     @Autowired
     @Qualifier(RedisUtil.TEMPLATE)
     private RedisTemplate<String, String> template;
 
     private HashOperations<String, String, String> ops;
-    private static final Logger logger = Logger.getLogger(BookAPIRepository.class.getName());
+    private static final Logger logger = Logger.getLogger(APIRepository.class.getName());
 
     @PostConstruct
     @SuppressWarnings("unused")
