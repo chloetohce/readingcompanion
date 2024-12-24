@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.json.JsonArray;
 import sg.edu.nus.iss.readingcompanion.restapi.service.BookAPIService;
@@ -25,28 +24,22 @@ public class BookAPIController {
     private BookAPIService bookAPIService;
     
     @GetMapping("/all")
-    public ResponseEntity<String> getUserBookshelf(@RequestParam("user") String username) {
+    public ResponseEntity<String> getUserBookshelf(@RequestParam String username) {
         JsonArray bookshelf = bookAPIService.getAllBooksByUser(username);
         return ResponseEntity.ok(bookshelf.toString());
     }
 
-    @PostMapping("/add") // TODO: Move URI building to Service class
+    @PostMapping("/add")
     public ResponseEntity<String> saveBook(@RequestBody String data) {
-        String hashKey = bookAPIService.addBookToUser(data);
-        String[] arr = hashKey.split(":");
-        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-            .path("/api/books/details")
-            .queryParam("user", arr[0])
-            .queryParam("id", arr[1])
-            .build(true)
-            .toUri();
+        URI uri = bookAPIService.addBookToUser(data);
+        
         return ResponseEntity.created(uri).build();
     }
 
     @GetMapping("/details") //TODO: Error handling if book does not exist
-    public ResponseEntity<String> getBookDetails(@RequestParam String user, @RequestParam String id) {
+    public ResponseEntity<String> getBookDetails(@RequestParam String username, @RequestParam String id) {
         ResponseEntity<String> response = ResponseEntity.ok()
-            .body(bookAPIService.getBookDetails(user, id));
+            .body(bookAPIService.getBookDetails(username, id));
         return response;
     }
     

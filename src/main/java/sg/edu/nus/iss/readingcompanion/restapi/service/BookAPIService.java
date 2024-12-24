@@ -1,9 +1,11 @@
 package sg.edu.nus.iss.readingcompanion.restapi.service;
 
 import java.io.StringReader;
+import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -21,7 +23,7 @@ public class BookAPIService {
         return repo.getAllOfUser(RedisUtil.KEY_BOOKS, username);
     }
 
-    public String addBookToUser(String data) {
+    public URI addBookToUser(String data) {
         JsonReader reader = Json.createReader(new StringReader(data));
         JsonObject dataJson = reader.readObject();
         JsonObject book = dataJson.getJsonObject("book");
@@ -30,7 +32,15 @@ public class BookAPIService {
         // TODO: Error handling for if the book ID already exists in the bookshelf. Only important if the book is manually add. Idea is to have a custom prefix for manual books
 
         repo.put(RedisUtil.KEY_BOOKS, hashKey, book.toString());
-        return hashKey;
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
+            .path("/api/books/details")
+            .queryParam("username", dataJson.getString("username"))
+            .queryParam("id", dataJson.getString("id"))
+            .build(true)
+            .toUri();
+        
+        return uri;
     }
 
     public String getBookDetails(String username, String id) {

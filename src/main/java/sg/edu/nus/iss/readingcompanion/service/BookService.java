@@ -74,7 +74,7 @@ public class BookService {
     public List<Book> getBooksByUser(String username) {
         String url = UriComponentsBuilder.fromUriString(URL.API)
             .pathSegment("all")       
-            .queryParam("user", username)
+            .queryParam("username", username)
             .toUriString();
         RequestEntity<Void> request = RequestEntity.get(url)
             .build();
@@ -126,7 +126,7 @@ public class BookService {
     public Book getBookDetails(String username, String bookId) {
         String uri = UriComponentsBuilder.fromUriString(URL.API)
             .pathSegment("details")
-            .queryParam("user", username)
+            .queryParam("username", username)
             .queryParam("id", bookId)
             .toUriString();
         RequestEntity<Void> request = RequestEntity.get(uri).build();

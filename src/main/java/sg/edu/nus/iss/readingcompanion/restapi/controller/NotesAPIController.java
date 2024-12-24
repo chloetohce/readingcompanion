@@ -22,9 +22,9 @@ public class NotesAPIController {
     private NotesAPIService notesAPIService;
 
     @GetMapping("")
-    public ResponseEntity<String> getNotesByBook(@RequestParam String user, @RequestParam String bookId) {
+    public ResponseEntity<String> getNotesByBook(@RequestParam String username, @RequestParam String bookId) {
         ResponseEntity<String> response = ResponseEntity.ok()
-            .body(notesAPIService.getNotesByBook(user, bookId).toString());
+            .body(notesAPIService.getNotesByBook(username, bookId).toString());
         return response;
     }
     

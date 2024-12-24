@@ -29,14 +29,14 @@ public class NotesAPIService {
     public URI addNotesToBook(String data) {
         JsonReader reader = Json.createReader(new StringReader(data));
         JsonObject dataJson = reader.readObject();
-        String hashKey = dataJson.getString("user") + ":" + dataJson.getString("bookId");
+        String hashKey = dataJson.getString("username") + ":" + dataJson.getString("bookId");
         JsonObject note = dataJson.getJsonObject("notes");
 
         repo.put(RedisUtil.KEY_NOTES, hashKey, note.toString());
 
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
             .path("/api/notes")
-            .queryParam("user", dataJson.getString("user"))
+            .queryParam("username", dataJson.getString("username"))
             .queryParam("bookId", dataJson.getString("bookId"))
             .build(true)
             .toUri();
