@@ -18,33 +18,25 @@ import sg.edu.nus.iss.readingcompanion.utilities.BookValParser;
 public class Word {
     private String word;
     
-    private List<Map<String, List<String>>> defintionGroups;
+    private Map<String, List<String>> definitions;
 
-    public Word(String word, List<Map<String, List<String>>> defintionGroups) {
+    public Word(String word, Map<String, List<String>> definitions) {
         this.word = word;
-        this.defintionGroups = defintionGroups;
+        this.definitions = definitions;
     }
 
     public String serialize() {
         JsonObjectBuilder wordJson = Json.createObjectBuilder();
-        JsonArrayBuilder grpsJson = Json.createArrayBuilder();
-        for (Map<String, List<String>> grp : defintionGroups) {
-            // Map = definition group for word
-            JsonArrayBuilder defGroup = Json.createArrayBuilder();
-
-            for (Entry<String, List<String>> entry : grp.entrySet()) {
-                // String = partOfSpeech and List<String> = list of defintions
-                JsonObject part = Json.createObjectBuilder()
+        JsonArrayBuilder definitionsJson = Json.createArrayBuilder();
+        for (Entry<String, List<String>> entry : definitions.entrySet()) {
+            JsonObject part = Json.createObjectBuilder()
                     .add("partOfSpeech", entry.getKey())
-                    .add("defintiions", BookValParser.listToJsonArr(entry.getValue()))
+                    .add("definitions", BookValParser.listToJsonArr(entry.getValue()))
                     .build();
-                defGroup.add(part);
-            }
-            grpsJson.add(defGroup.build());
+            definitionsJson.add(part);
         }
-
         JsonObject jObj = wordJson.add("word", word)
-            .add("groups", grpsJson.build())
+            .add("meanings", definitionsJson.build())
             .build();
         return jObj.toString();
     }
@@ -53,23 +45,18 @@ public class Word {
         JsonReader reader = Json.createReader(new StringReader(jsonString));
         JsonObject jObj = reader.readObject();
         String word = jObj.getString("word");
-        JsonArray groups = jObj.getJsonArray("groups");
-        List<Map<String, List<String>>> groupsList = new ArrayList<>();
+        JsonArray allMeanings = jObj.getJsonArray("meanings");
 
-        for (int i = 0; i < groups.size(); i++) {
-            JsonArray group = groups.getJsonArray(i);
-            Map<String, List<String>> groupMap = new HashMap<>();
-            
-            for (int j = 0; j < group.size(); j++) {
-                JsonObject part = group.getJsonObject(j);
-                String partOfSpeech = part.getString("partOfSpeech");
-                JsonArray definitions = part.getJsonArray("definitions");
-                List<String> definitionsList = BookValParser.jsonArrToList(definitions);
-                groupMap.put(partOfSpeech, definitionsList);
-            }
-            groupsList.add(groupMap);
+        Map<String, List<String>> meanings = new HashMap<>();
+
+        for (int i = 0; i < allMeanings.size(); i++) {
+            JsonObject part = allMeanings.getJsonObject(i);
+            String partOfSpeech = part.getString("partOfSpeech");
+            List<String> definitionsList = BookValParser.jsonArrToList(part.getJsonArray("definitions"));
+            meanings.put(partOfSpeech, definitionsList);
         }
-        return new Word(word, groupsList);
+
+        return new Word(word, meanings);
     }
 
     public String getWord() {
@@ -80,18 +67,19 @@ public class Word {
         this.word = word;
     }
 
-    public List<Map<String, List<String>>> getDefintionGroups() {
-        return defintionGroups;
+    public Map<String, List<String>> getDefinitions() {
+        return definitions;
     }
 
-    public void setDefintionGroups(List<Map<String, List<String>>> defintionGroups) {
-        this.defintionGroups = defintionGroups;
+    public void setDefinitions(Map<String, List<String>> definitions) {
+        this.definitions = definitions;
     }
 
     @Override
     public String toString() {
-        return "Word [word=" + word + ", defintionGroups=" + defintionGroups + "]";
+        return "Word [word=" + word + ", definitions=" + definitions + "]";
     }
 
+    
     
 }

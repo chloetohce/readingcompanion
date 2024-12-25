@@ -49,11 +49,19 @@
             <input type="hidden" name="bookId" th:value="${book.id}">
             <button type="submit">Add</button>
         </form>
-        <table>
+        <table style="border: 1px solid black;">
             <tbody>
-                <tr th:each="word : ${words}">
-                    <td th:text="${word.word}"></td>>
-                </tr>
+                <th:block th:each="word : ${words}" style="border: 1px solid black;">
+                    <tr th:each="meaning, stat : ${word.definitions.entrySet()}" style="border: 1px solid black;">
+                        <td th:text="${word.word}" th:if="${stat.index == 0}" th:rowspan="${word.definitions.size()}" style="border: 1px solid black;"></td>
+                        <td th:text="${meaning.key}" style="border: 1px solid black;"></td>
+                        <td style="border: 1px solid black;">
+                            <ol>
+                                <li th:each="def : ${meaning.value}" th:text="${def}"></li>
+                            </ol>
+                        </td>
+                    </tr>
+                </th:block>
             </tbody>
         </table>
     </div>

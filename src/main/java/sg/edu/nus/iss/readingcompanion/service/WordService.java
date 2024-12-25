@@ -26,7 +26,7 @@ public class WordService {
     private static final Logger logger = Logger.getLogger(WordService.class.getName());
     private RestTemplate restTemplate = new RestTemplate();
 
-    public Word queryWord(String word) throws Exception {
+    public List<Word> queryWord(String word) throws Exception {
         String uri = UriComponentsBuilder.fromUriString(URL.WORDSAPI)
             .pathSegment(word)
             .toUriString();
@@ -37,7 +37,8 @@ public class WordService {
             
             JsonReader reader = Json.createReader(new StringReader(response.getBody()));
             JsonArray groups = reader.readArray();
-            List<Map<String, List<String>>> groupsList = new ArrayList<>();
+            
+            List<Word> words = new ArrayList<>();
 
             for (int i = 0; i < groups.size(); i++) {
                 JsonObject group = groups.getJsonObject(i);
@@ -56,10 +57,10 @@ public class WordService {
                     }
                     partMap.put(partOfSpeech, definitionsList);
                 }
-                groupsList.add(partMap);
+                words.add(new Word(word, partMap));
             }
 
-            return new Word(word, groupsList);
+            return words;
             
         } catch (HttpClientErrorException e) {
             throw new Exception("Word not found.");
@@ -68,17 +69,21 @@ public class WordService {
 
     public boolean saveWord(String username, String bookId, String word) {
         try {
-            Word toSave = queryWord(word);
+            List<Word> words = queryWord(word);
             String uri = UriComponentsBuilder.fromUriString(URL.API_WORD)
                 .pathSegment("add")
                 .toUriString();
-            JsonObject requestBody = Json.createObjectBuilder()
-                .add("username", username)
-                .add("bookId", bookId)
-                .add("word", Json.createReader(new StringReader(toSave.serialize())).readObject())
-                .build();
-            RequestEntity<String> request = RequestEntity.post(uri).body(requestBody.toString());
-            restTemplate.exchange(request, String.class);
+
+            for (Word w : words) {
+                JsonObject requestBody = Json.createObjectBuilder()
+                    .add("username", username)
+                    .add("bookId", bookId)
+                    .add("word", Json.createReader(new StringReader(w.serialize())).readObject())
+                    .build();
+                RequestEntity<String> request = RequestEntity.post(uri).body(requestBody.toString());
+                restTemplate.exchange(request, String.class);
+
+            }
             return true;
         } catch (Exception e) {
             logger.info(e.getMessage());
@@ -100,6 +105,7 @@ public class WordService {
             List<Word> words = new ArrayList<>();
             for (int i = 0; i < wordsArr.size(); i++) {
                 JsonObject wordJson = wordsArr.getJsonObject(i);
+                System.out.println(wordJson);
                 Word w = Word.deserialize(wordJson.toString());
                 words.add(w);
             }
