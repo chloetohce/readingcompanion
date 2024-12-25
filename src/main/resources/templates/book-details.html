@@ -41,6 +41,23 @@
         <p style="white-space: pre;" th:text="${notes.text}"></p>
     </div>
 
+    <div>
+        <h2>Words</h2>
+        <form action="/word/add" method="post">
+            <label for="newWord">Add word:</label>
+            <input type="text" name="newWord" id="newWord">
+            <input type="hidden" name="bookId" th:value="${book.id}">
+            <button type="submit">Add</button>
+        </form>
+        <table>
+            <tbody>
+                <tr th:each="word : ${words}">
+                    <td th:text="${word.word}"></td>>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 
     <script>
         function openEditForm() {

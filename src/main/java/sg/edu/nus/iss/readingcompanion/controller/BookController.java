@@ -18,6 +18,7 @@ import sg.edu.nus.iss.readingcompanion.model.Book;
 import sg.edu.nus.iss.readingcompanion.model.User;
 import sg.edu.nus.iss.readingcompanion.service.BookService;
 import sg.edu.nus.iss.readingcompanion.service.NotesService;
+import sg.edu.nus.iss.readingcompanion.service.WordService;
 import sg.edu.nus.iss.readingcompanion.utilities.Helper;
 
 
@@ -29,6 +30,9 @@ public class BookController {
 
     @Autowired
     private NotesService notesService;
+
+    @Autowired
+    private WordService wordService;
     
     @GetMapping("/all")
     public String bookshelf(@AuthenticationPrincipal User user, Model model) {
@@ -74,6 +78,7 @@ public class BookController {
         Book book = bookService.getBookDetails(user.getUsername(), id);
         model.addAttribute("book", book); // TODO: Default value for start and end dates
         model.addAttribute("notes", notesService.getNotes(user.getUsername(), book.getId()));
+        model.addAttribute("words", wordService.getWordsForBook(user.getUsername(), id));
         return "book-details";
 
     }

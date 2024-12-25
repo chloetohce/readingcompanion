@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="style" href="/styles.css">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+</head>
+
+<body>
+    <div class="sizes">
+        <h2>You've read in total... <span th:text="${allSize}"></span> books</h2>
+        <p th:text="|Read: ${readSize}|"></p>
+        <p th:text="|Reading: ${readingSize}|"></p>
+        <p th:text="|To Read: ${toReadSize}|"></p>
+    </div>
+    <div id="container" style="width:100%; height:400px;"></div>
+    <div id="genres" style="width:100%; height:400px;"></div>
+
+    <script th:inline="javascript">
+        const total = /*[[${allSize}]]*/ 0;
+        Highcharts.chart('container', {
+            chart: {
+                type: 'pie',
+                custom: {},
+                events: {
+                    render() {
+                        const chart = this,
+                            series = chart.series[0];
+                        let customLabel = chart.options.chart.custom.label;
+
+                        if (!customLabel) {
+                            customLabel = chart.options.chart.custom.label =
+                                chart.renderer.label(
+                                    'Total<br/>' +
+                                    total
+                                )
+                                    .css({
+                                        color: '#000',
+                                        textAnchor: 'middle'
+                                    })
+                                    .add();
+                        }
+
+                        const x = series.center[0] + chart.plotLeft,
+                            y = series.center[1] + chart.plotTop -
+                                (customLabel.attr('height') / 2);
+
+                        customLabel.attr({
+                            x,
+                            y
+                        });
+                        // Set font size based on chart diameter
+                        customLabel.css({
+                            fontSize: `${series.center[2] / 12}px`
+                        });
+                    }
+                }
+            },
+            title: {
+                text: 'Book distributions'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.y}</b>'
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    borderRadius: 8,
+                    dataLabels: [{
+                        enabled: true,
+                        distance: 20,
+                        format: '{point.name}'
+                    }, {
+                        enabled: true,
+                        distance: -15,
+                        format: '{point.percentage:.0f}%',
+                        style: {
+                            fontSize: '0.9em'
+                        }
+                    }],
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'Count',
+                colorByPoint: true,
+                innerSize: '75%',
+                data: [{
+                    name: 'Read',
+                    y: /*[[${readSize}]]*/0
+                }, {
+                    name: 'Reading',
+                    y: /*[[${readingSize}]]*/0
+                }, {
+                    name: 'To Read',
+                    y: /*[[${toReadSize}]]*/0
+                }]
+            }]
+        });
+    </script>
+    <script th:inline="javascript">
+        var genresData = /*[[${genresCount}]]*/{};
+        console.log(genresData)
+        var data = [];
+        for (var g in genresData) {
+            if (genresData.hasOwnProperty(g)) {
+                data.push({ name: g, y: genresData[g] });
+            }
+        }
+            Highcharts.chart('genres', {
+                chart: {
+                    type: 'pie',
+                    custom: {},
+                    events: {
+                        render() {
+                            const chart = this,
+                                series = chart.series[0];
+                            let customLabel = chart.options.chart.custom.label;
+
+                            if (!customLabel) {
+                                customLabel = chart.options.chart.custom.label =
+                                    chart.renderer.label(
+                                        'Total<br/>' +
+                                        total
+                                    )
+                                        .css({
+                                            color: '#000',
+                                            textAnchor: 'middle'
+                                        })
+                                        .add();
+                            }
+
+                            const x = series.center[0] + chart.plotLeft,
+                                y = series.center[1] + chart.plotTop -
+                                    (customLabel.attr('height') / 2);
+
+                            customLabel.attr({
+                                x,
+                                y
+                            });
+                            // Set font size based on chart diameter
+                            customLabel.css({
+                                fontSize: `${series.center[2] / 12}px`
+                            });
+                        }
+                    }
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                title: {
+                    text: 'Genre distributions'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.y}</b>'
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        borderRadius: 8,
+                        dataLabels: [{
+                            enabled: true,
+                            distance: 20,
+                            format: '{point.name}'
+                        }, {
+                            enabled: true,
+                            distance: -15,
+                            format: '{point.percentage:.0f}%',
+                            style: {
+                                fontSize: '0.9em'
+                            }
+                        }],
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: 'Count',
+                    colorByPoint: true,
+                    innerSize: '75%',
+                    data: data
+                }]
+            });
+    </script>
+</body>
+
+</html>

@@ -8,4 +8,6 @@ public class RedisUtil {
     public static final String KEY_BOOKS = "books";
 
     public static final String KEY_NOTES = "notes";
+
+    public static final String KEY_WORDS = "words";
 }
