@@ -105,7 +105,6 @@ public class WordService {
             List<Word> words = new ArrayList<>();
             for (int i = 0; i < wordsArr.size(); i++) {
                 JsonObject wordJson = wordsArr.getJsonObject(i);
-                System.out.println(wordJson);
                 Word w = Word.deserialize(wordJson.toString());
                 words.add(w);
             }

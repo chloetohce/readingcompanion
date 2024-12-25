@@ -66,6 +66,23 @@
         </table>
     </div>
 
+    <div>
+        <h2>Quotes</h2>
+        <form action="/quotes/add" method="post">
+            <label for="newQuote">Add word:</label>
+            <input type="text" name="newQuote" id="newQuote">
+            <input type="hidden" name="bookId" th:value="${book.id}">
+            <button type="submit">Add</button>
+        </form>
+        <table>
+            <tbody>
+                <tr th:each="quote : ${quotes}">
+                    <td th:text="${quote.quote}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 
     <script>
         function openEditForm() {

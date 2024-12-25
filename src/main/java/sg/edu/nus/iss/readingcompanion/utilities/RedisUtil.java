@@ -10,4 +10,6 @@ public class RedisUtil {
     public static final String KEY_NOTES = "notes";
 
     public static final String KEY_WORDS = "words";
+
+    public static final String KEY_QUOTES = "quotes";
 }
