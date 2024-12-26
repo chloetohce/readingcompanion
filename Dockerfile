@@ -24,7 +24,8 @@ COPY .mvn .mvn
 COPY src src
 
 # Install dos2unix, ensure `mvnw` has executable permissions and build the project
-RUN apt-get update && apt-get install -y dos2unix && dos2unix mvnw && chmod +x mvnw && ./mvnw package -Dmaven.test.skip=true
+RUN chmod +x ./mvnw
+RUN ./mvnw package -Dmaven.test.skip=true
 
 
 
