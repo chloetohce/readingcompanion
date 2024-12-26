@@ -3,11 +3,13 @@ package sg.edu.nus.iss.readingcompanion.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.validation.Valid;
 import sg.edu.nus.iss.readingcompanion.model.User;
 import sg.edu.nus.iss.readingcompanion.service.UserService;
 
@@ -24,16 +26,10 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(Model model) {
+        model.addAttribute("user", new User());
         return "login";
     }
-    
-    // @PostMapping("/login") // TODO: This method is not needed
-    // public String login(@ModelAttribute User user) {
-    //     System.out.println(user.getUsername());
-    //     System.out.println(user.getPassword());
-    //     return "landing";
-    // }
 
     @GetMapping("/register")
     public String registrationPage(Model model) {
@@ -42,12 +38,10 @@ public class LoginController {
     }
     
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute User user) {
-        /*
-         * TODO: Add validation.
-         * Can do manual searching here where userService.findUser() and if there is an account 
-         * with the same username, can binding.rejectValue("username", ...)
-         */
+    public String registerUser(@Valid @ModelAttribute User user, BindingResult binding) {
+        if (binding.hasErrors()) {
+            return "register";
+        }
 
         userService.registerUser(user);
         return "redirect:/";

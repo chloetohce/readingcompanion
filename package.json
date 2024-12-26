@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build:css": "tailwindcss build src/main/resources/static/css/input.css -o src/main/resources/static/css/styles.css"
+    "build:css": "tailwindcss build src/main/resources/static/css/input.css -o src/main/resources/static/css/styles.css --watch"
   },
   "keywords": [],
   "author": "",

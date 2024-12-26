@@ -23,7 +23,8 @@ COPY pom.xml .
 COPY .mvn .mvn
 COPY src src
 
-RUN chmod +x ./mvnw
+RUN apt-get update && apt-get install -y dos2unix && dos2unix mvnw
+RUN chmod a+x ./mvnw
 RUN ./mvnw package -Dmaven.test.skip=true
 
 

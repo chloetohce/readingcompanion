@@ -4,17 +4,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-// Made User class implement UserDetails to get Spring Security to map @AuthenticationPrincipal
-// to  thsi class. I've also made the CustomUserDetailsService class return model.User instead of 
-// Spring Security's own User class. 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 public class User implements UserDetails{
-    // TODO: Validation
+    @NotEmpty(message = "Please provide a username.")
+    @Size(min = 3, max = 48, message = "Username must be within 3 - 48 characters.")
     private String username;
+
+    @NotEmpty(message = "Please provide a password.")
+    @Size(min = 8, message = "Password must be at least 8 characters long.")
     private String password;
 
     public User() {
