@@ -23,7 +23,6 @@ COPY pom.xml .
 COPY .mvn .mvn
 COPY src src
 
-# Install dos2unix, ensure `mvnw` has executable permissions and build the project
 RUN chmod +x ./mvnw
 RUN ./mvnw package -Dmaven.test.skip=true
 
