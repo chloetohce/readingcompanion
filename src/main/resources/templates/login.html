@@ -2,9 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 	<head>
 		<title>Please Log In</title>
+		<link rel="stylesheet" href="/css/styles.css">
 	</head>
-	<body>
-		<h1>Please Log In</h1>
+	<body class="bg-yellow-200">
+		<h1 class="text-red-500 font-bold">Log In!</h1>
 		<div th:if="${param.error}">
 			Invalid username and password.</div>
 		<div th:if="${param.logout}">
