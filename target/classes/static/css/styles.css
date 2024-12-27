@@ -1008,6 +1008,10 @@ video {
   width: 80%;
 }
 
+.w-24 {
+  width: 6rem;
+}
+
 .max-w-lg {
   max-width: 32rem;
 }
@@ -1081,6 +1085,12 @@ video {
 
 .snap-center {
   scroll-snap-align: center;
+}
+
+.appearance-none {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 
 .grid-flow-row {
@@ -1349,6 +1359,11 @@ video {
   border-color: rgb(203 213 225 / var(--tw-border-opacity, 1));
 }
 
+.border-red-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(239 68 68 / var(--tw-border-opacity, 1));
+}
+
 .bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
@@ -1408,6 +1423,21 @@ video {
   background-color: rgb(226 232 240 / var(--tw-bg-opacity, 1));
 }
 
+.bg-red-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 226 226 / var(--tw-bg-opacity, 1));
+}
+
+.bg-red-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 202 202 / var(--tw-bg-opacity, 1));
+}
+
+.bg-red-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 242 242 / var(--tw-bg-opacity, 1));
+}
+
 .object-contain {
   -o-object-fit: contain;
      object-fit: contain;
@@ -1454,6 +1484,10 @@ video {
 
 .p-5 {
   padding: 1.25rem;
+}
+
+.p-10 {
+  padding: 2.5rem;
 }
 
 .px-3 {
@@ -1543,12 +1577,32 @@ video {
   padding-bottom: 1rem;
 }
 
+.pl-1 {
+  padding-left: 0.25rem;
+}
+
+.pl-3 {
+  padding-left: 0.75rem;
+}
+
+.pr-8 {
+  padding-right: 2rem;
+}
+
+.pr-10 {
+  padding-right: 2.5rem;
+}
+
 .text-left {
   text-align: left;
 }
 
 .text-center {
   text-align: center;
+}
+
+.align-middle {
+  vertical-align: middle;
 }
 
 .text-2xl {
@@ -1706,6 +1760,11 @@ video {
   color: rgb(30 41 59 / var(--tw-text-opacity, 1));
 }
 
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity, 1));
+}
+
 .shadow-md {
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
@@ -1744,6 +1803,10 @@ video {
 
 .outline-gray-300 {
   outline-color: #d1d5db;
+}
+
+.outline-red-500 {
+  outline-color: #ef4444;
 }
 
 .transition {
@@ -1804,6 +1867,11 @@ video {
   color: rgb(203 213 225 / var(--tw-text-opacity, 1));
 }
 
+.focus\:border-red-500:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(239 68 68 / var(--tw-border-opacity, 1));
+}
+
 .focus\:outline:focus {
   outline-style: solid;
 }
@@ -1818,6 +1886,14 @@ video {
 
 .focus\:outline-indigo-700:focus {
   outline-color: #4338ca;
+}
+
+.focus\:outline-red-500:focus {
+  outline-color: #ef4444;
+}
+
+.focus\:outline-red-600:focus {
+  outline-color: #dc2626;
 }
 
 .group:hover .group-hover\:text-slate-900 {

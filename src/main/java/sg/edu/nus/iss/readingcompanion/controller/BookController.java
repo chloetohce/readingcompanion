@@ -100,6 +100,7 @@ public class BookController {
     public String bookDetailsForm(@PathVariable String id, @AuthenticationPrincipal User user, Model model) {
         Book book = bookService.getBookDetails(user.getUsername(), id);
         model.addAttribute("book", book);
+        model.addAttribute("pageAdd", false);
         return "book-form";
     }
     
@@ -116,6 +117,8 @@ public class BookController {
     @GetMapping("/add")
     public String bookForm(Model model) {
         model.addAttribute("book", Book.manualInput());
+        model.addAttribute("pageAdd", true);
+
         return "book-form";
     }
     
