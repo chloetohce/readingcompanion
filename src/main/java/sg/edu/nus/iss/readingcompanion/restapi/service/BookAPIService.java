@@ -36,7 +36,7 @@ public class BookAPIService {
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
             .path("/api/books/details")
             .queryParam("username", dataJson.getString("username"))
-            .queryParam("id", dataJson.getString("id"))
+            .queryParam("id", book.getString("id"))
             .build(true)
             .toUri();
         
