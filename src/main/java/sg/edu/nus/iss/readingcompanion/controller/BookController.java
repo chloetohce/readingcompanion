@@ -25,6 +25,8 @@ import sg.edu.nus.iss.readingcompanion.service.NotesService;
 import sg.edu.nus.iss.readingcompanion.service.QuotesService;
 import sg.edu.nus.iss.readingcompanion.service.WordService;
 import sg.edu.nus.iss.readingcompanion.utilities.Helper;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @Controller
@@ -42,10 +44,10 @@ public class BookController {
     @Autowired
     private QuotesService quotesService;
     
-    @GetMapping("/all")
+    @GetMapping(path = {"", "/all"})
     public String bookshelf(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("books", bookService.getBooksByUser(user.getUsername()));
-        return "bookshelf";
+        return "landing";
     }
     
     @PostMapping("/add")

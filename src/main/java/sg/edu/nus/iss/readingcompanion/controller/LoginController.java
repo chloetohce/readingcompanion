@@ -22,7 +22,7 @@ public class LoginController {
     
     @GetMapping("")
     public String landingPage() {
-        return "landing";
+        return "redirect:/books";
     }
 
     @GetMapping("/login")
