@@ -56,9 +56,11 @@ public class BookController {
         return "redirect:/books/all";
     }
 
-    @GetMapping("/search")
-    public String search() {
-        return "search";
+    @GetMapping("/search") // TODO: REMOVE
+    public String search(Model model) {
+        model.addAttribute("q", "q");
+        model.addAttribute("searchResult", bookService.getBooksByUser("test"));
+        return "search-result";
     }
     
     @PostMapping("/search")

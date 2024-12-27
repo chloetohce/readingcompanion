@@ -97,7 +97,7 @@ public class BookService {
 
     public boolean addBookToUserShelf(String username, Book book) {
         // Manipulate book details before adding
-        if (book.getStatus().equals("to-read")) {
+        if (book.getStatus().equals("To Read")) {
             book.setStartStr("-");
             book.setEndStr("-");
         }
@@ -154,12 +154,12 @@ public class BookService {
         List<Book> allBooks = getBooksByUser(username);
         Map<String, Long> result = new HashMap<>();
         result.put("allSize", Long.valueOf(allBooks.size()));
-        result.put("readSize", allBooks.stream().filter(b -> b.getStatus().equals("read")).count());
-        result.put("readingSize", allBooks.stream().filter(b -> b.getStatus().equals("reading")).count());
-        result.put("toReadSize", allBooks.stream().filter(b -> b.getStatus().equals("to-read")).count());
+        result.put("readSize", allBooks.stream().filter(b -> b.getStatus().equals("Read")).count());
+        result.put("readingSize", allBooks.stream().filter(b -> b.getStatus().equals("Reading")).count());
+        result.put("toReadSize", allBooks.stream().filter(b -> b.getStatus().equals("To Read")).count());
 
         List<Book> yearBooks = allBooks.stream().filter(book -> book.isThisYear()).toList();
-        result.put("yearReadSize", yearBooks.stream().filter(b -> b.getStatus().equals("read")).count());
+        result.put("yearReadSize", yearBooks.stream().filter(b -> b.getStatus().equals("Read")).count());
 
         return result;
     }
