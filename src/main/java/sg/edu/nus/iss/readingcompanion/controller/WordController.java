@@ -7,6 +7,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import sg.edu.nus.iss.readingcompanion.model.Quote;
 import sg.edu.nus.iss.readingcompanion.model.User;
 import sg.edu.nus.iss.readingcompanion.service.WordService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,5 +26,14 @@ public class WordController {
 
         return "redirect:/books/details/" + bookId;
     }
+
+    @PostMapping("/delete")
+    public String deleteQuote(@AuthenticationPrincipal User user, @RequestBody MultiValueMap<String, String> form) {
+        String bookId = form.getFirst("bookId");
+        String wordText = form.getFirst("wordText");
+        wordService.deleteWord(user.getUsername(), bookId, wordText);
+        return "redirect:/books/details/" + bookId + "?view=words";
+    }
+    
 
 }

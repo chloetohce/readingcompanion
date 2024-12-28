@@ -249,8 +249,8 @@
                     <div th:if="${#strings.toString(param.view)} == 'words'"
                         class="flex flex-row items-start justify-end w-full gap-2">
                         <div class="flex flex-col">
-                            <div class="word-box mt-2 flex flex-col w-full hover:bg-slate-100 rounded-lg"
-                                th:each="word : ${words}">
+                            <div class="flex flex-col w-full" th:each="word : ${words}">
+                            <div class="word-box mt-2 flex flex-row w-full hover:bg-slate-100 rounded-lg">
                                 <div class="allMeanings-box flex flex-row">
                                     <p th:text="${word.word}" class="p-1"></p>
                                     <div class="flex flex-col w-full">
@@ -262,6 +262,18 @@
                                         </div>
                                     </div>
                                 </div>
+                                <form method="post" action="/word/delete" class="bg-transparent h-5 p-0.5">
+                                    <input type="hidden" name="bookId" th:value="${book.id}">
+                                    <input type="hidden" name="wordText" th:value="${word.word}">
+                                    <button type="submit" class="text-slate-400 hover:text-red-600">
+                                        <svg class="w-5 h-5" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path clip-rule="evenodd" fill-rule="evenodd"
+                                                d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16" fill="currentColor"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
                             </div>
                         </div>
                         <button onclick="openModel('wordsModal')" class="text-wrap text-indigo-700">

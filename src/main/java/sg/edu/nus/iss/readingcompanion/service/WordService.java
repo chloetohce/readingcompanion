@@ -116,4 +116,18 @@ public class WordService {
         }
     }
 
+    public void deleteWord(String username, String bookId, String word) {
+        JsonObject requestJson = Json.createObjectBuilder()
+            .add("username", username)
+            .add("bookId", bookId)
+            .add("word", word)
+            .build();
+        String uri = UriComponentsBuilder.fromUriString(URL.API_WORD)
+                .pathSegment("delete")
+                .toUriString();
+        RequestEntity<String> request = RequestEntity.post(uri)
+            .body(requestJson.toString());
+        restTemplate.exchange(request, String.class);
+    }
+
 }

@@ -43,5 +43,10 @@ public class WordsAPIController {
         }
     }
     
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteWord(@RequestBody String data) {
+        wordsAPIService.deleteWord(data);
+        return ResponseEntity.ok().build();
+    }
     
 }
