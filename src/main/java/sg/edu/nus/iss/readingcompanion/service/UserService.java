@@ -7,7 +7,7 @@ import sg.edu.nus.iss.readingcompanion.model.User;
 import sg.edu.nus.iss.readingcompanion.repository.UserRepository;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsS {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 

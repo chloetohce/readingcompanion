@@ -3,10 +3,12 @@ package sg.edu.nus.iss.readingcompanion.service;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.RequestEntity;
@@ -186,6 +188,11 @@ public class BookService {
                 genres.put(g, genres.getOrDefault(g, 0) + 1);
             }
         }
-        return genres;
+        Map<String, Integer> sorted = genres.entrySet()
+            .stream()
+            .sorted((e1, e2) -> e1.getValue() - e2.getValue())
+            .limit(8)
+            .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
+        return sorted;
     }
 }

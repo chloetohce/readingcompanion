@@ -5,70 +5,174 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="style" href="/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/no-data-to-display.js"></script>
 </head>
 
 <body>
-    <div class="sizes">
-        <h2>You've read in total... <span th:text="${allSize}"></span> books</h2>
-        <p th:text="|Read: ${readSize}|"></p>
-        <p th:text="|Reading: ${readingSize}|"></p>
-        <p th:text="|To Read: ${toReadSize}|"></p>
+
+    <button type="button" onclick="toggleSidebar()"
+        class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-slate-50 rounded-lg bg-indigo-700 sm:hidden hover:bg-indigo-600">
+        <svg class="w-6 h-6" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M4 6H20M4 12H20M4 18H20" fill="currentColor"></path>
+        </svg>
+    </button>
+
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0">
+        <!-- close button -->
+        <button type="button" onclick="toggleSidebar()"
+            class="inline-flex items-center text-sm text-slate-400 bg-transparent sm:hidden hover:text-slate-300 absolute top-4 right-4">
+            <svg class="w-8 h-8" stroke="currentColor" viewBox="0 0 24 24">
+                <path clip-rule="evenodd" fill-rule="evenodd" d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16"
+                    fill="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+        </button>
+
+        <div class="h-full px-3 py-12 overflow-y-auto bg-slate-50 shadow-md flex flex-col">
+            <ul class="space-y-2 font-medium">
+                <li>
+                    <a href="/books/all" class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
+                        <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
+                            viewBox="0 0 20 21" fill="currentColor">
+                            <path stroke-width="1.5" stroke-linecap="round"
+                                d="M0 2H3.58579C4.49129 2 5.35971 2.35971 6 3C6.64029 3.64029 7 4.50871 7 5.41421V11H9V5.41421C9 4.50871 9.35971 3.64029 10 3C10.6403 2.35971 11.5087 2 12.4142 2H16V13H11L9 15H7L5 13H0V2Z">
+                            </path>
+                        </svg>
+                        <span class="ms-1">My Bookshelf</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/books/add" class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
+                        <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
+                            viewBox="4 2 20 20">
+                            <path d="M6 12H12M12 12H18M12 12V18M12 12V6" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round"></path>
+                        </svg>
+                        <span class="ms-1">Create Book</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/books/advanced-search"
+                        class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
+                        <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
+                            viewBox="3 1 20 24" fill="transparent">
+                            <path
+                                d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                        </svg>
+                        <span class="flex-1 ms-1 whitespace-nowrap">Advanced Search</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/charts" class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
+                        <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
+                            viewBox="0 0 20 20" fill="transparent">
+                            <path
+                                d="M7 0.0618896V9H15.9381C15.446 12.9463 12.0796 16 8 16C3.58172 16 0 12.4183 0 8C0 3.92038 3.05369 0.553988 7 0.0618896Z"
+                                fill="currentColor" />
+                            <path d="M9 0.0618897V7H15.9381C15.4869 3.38128 12.6187 0.513137 9 0.0618897Z"
+                                fill="currentColor" />
+                        </svg>
+                        <span class="ms-1">Charts</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="flex-grow"></div>
+
+            <ul class="pt-4 mt-4 font-medium border-t border-slate-200">
+                <li>
+                    <a href="/logout" class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
+                        <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
+                            viewBox="0 0 24 24" fill="transparent" stroke="currentColor">
+                            <path d="M21 12L13 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9"
+                                stroke-width="2" stroke-linecap="round" />
+                            <path
+                                d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19"
+                                stroke-width="2" stroke-linecap="round" />
+
+                        </svg>
+                        <span class="ms-1">Logout</span>
+                    </a>
+                </li>
+                <!-- TODO: Add REST API -->
+                <li>
+                    <a href="/" class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
+                        <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
+                            viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20,6H4A2,2,0,0,0,2,8v8a2,2,0,0,0,2,2H20a2,2,0,0,0,2-2V8A2,2,0,0,0,20,6ZM9.29,14.8,9,13.73H7.16L6.87,14.8H5.17L7,9.07H9.09L11,14.8Zm6.34-3.14a1.7,1.7,0,0,1-.36.64,1.82,1.82,0,0,1-.67.44,2.75,2.75,0,0,1-1,.17h-.44V14.8H11.6V9.09h2a2.43,2.43,0,0,1,1.62.47,1.67,1.67,0,0,1,.55,1.35A2.36,2.36,0,0,1,15.63,11.66Zm2.58,3.14H16.66V9.09h1.55ZM8.45,11.53l.24.93H7.48l.24-.93c0-.13.08-.28.12-.47s.09-.38.13-.57a4.63,4.63,0,0,0,.1-.48c0,.13.07.29.11.5l.15.58Zm5.59-1a.57.57,0,0,1,.16.43.75.75,0,0,1-.11.42.59.59,0,0,1-.27.22.9.9,0,0,1-.37.07h-.31V10.34h.4A.63.63,0,0,1,14,10.51Z"
+                                fill-rule="evenodd" />
+
+                        </svg>
+                        <span class="ms-1">API Documentation</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div class="p-4 sm:ml-64 m-2">
+        <!-- Books read and reading-->
+        <div class="flex flex-col p-2">
+            <h2 class="text-2xl font-bold italic mb-3 mt-5">Books read</h2>
+            <div class="flex flex-row shadow border max-w-2xl border-slate-100 rounded-lg p-2 w-full mx-auto">
+                <div class="px-4 flex flex-col flex-1 border-r border-slate-200">
+                    <h4 class="font-medium text-slate-500">This year</h4>
+                    <p class="text-5xl font-extrabold text-indigo-700" th:text="${yearReadSize}"></p>
+                </div>
+                <div class="px-4 flex flex-col flex-1 border-r border-slate-200">
+                    <h4 class="font-medium text-slate-500">Reading</h4>
+                    <p class="text-5xl font-extrabold text-slate-900" th:text="${readingSize}"></p>
+                </div>
+                <div class="px-4 flex flex-col flex-1 border-slate-200">
+                    <h4 class="font-medium text-slate-500">Total</h4>
+                    <p class="text-5xl font-extrabold text-indigo-700" th:text="${readSize}"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bookshelf stats -->
+        <div class="flex flex-col p-2">
+            <h2 class="text-2xl font-bold italic mb-3 mt-5">Your bookshelf</h2>
+            <div id="chart-bookshelf" class="border border-slate-100 shadow rounded-lg w-full max-w-4xl mx-auto"></div>
+        </div>
+
+        <!-- Genres stats -->
+        <div class="flex flex-col p-2">
+            <h2 class="text-2xl font-bold italic mb-3 mt-5">Your favourite genres</h2>
+            <div id="chart-genres" class="border border-slate-100 shadow rounded-lg w-full max-w-4xl mx-auto"></div>
+        </div>
     </div>
-    <div id="container" style="width:100%; height:400px;"></div>
-    <div id="genres" style="width:100%; height:400px;"></div>
 
     <script th:inline="javascript">
+        Highcharts.setOptions({
+            colors: [
+                '#4338CA', '#0EB1D2', '#FF9B42', '#B24C63', '#2975CE', '#BFD7B5',
+                '#56E39F', '#BF0603', '#EFE9F4', '#FFC6D9'
+            ],
+            lang: {
+                noData: ''
+            }
+        });
         const total = /*[[${allSize}]]*/ 0;
-        Highcharts.chart('container', {
-            chart: {
-                type: 'pie',
-                custom: {},
-                events: {
-                    render() {
-                        const chart = this,
-                            series = chart.series[0];
-                        let customLabel = chart.options.chart.custom.label;
-
-                        if (!customLabel) {
-                            customLabel = chart.options.chart.custom.label =
-                                chart.renderer.label(
-                                    'Total<br/>' +
-                                    total
-                                )
-                                    .css({
-                                        color: '#000',
-                                        textAnchor: 'middle'
-                                    })
-                                    .add();
-                        }
-
-                        const x = series.center[0] + chart.plotLeft,
-                            y = series.center[1] + chart.plotTop -
-                                (customLabel.attr('height') / 2);
-
-                        customLabel.attr({
-                            x,
-                            y
-                        });
-                        // Set font size based on chart diameter
-                        customLabel.css({
-                            fontSize: `${series.center[2] / 12}px`
-                        });
-                    }
-                }
-            },
+        var genresData = /*[[${genresCount}]]*/{};
+        var data = [];
+        for (var g in genresData) {
+            if (genresData.hasOwnProperty(g)) {
+                data.push({ name: g, y: genresData[g] });
+            }
+        }
+        Highcharts.chart('chart-bookshelf', {
             title: {
-                text: 'Book distributions'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.y}</b>'
-            },
-            legend: {
-                enabled: false
+                text: '',
+                floating: true
             },
             plotOptions: {
                 series: {
@@ -77,20 +181,19 @@
                     borderRadius: 8,
                     dataLabels: [{
                         enabled: true,
-                        distance: 20,
-                        format: '{point.name}'
+                        distance: 20
                     }, {
                         enabled: true,
                         distance: -15,
                         format: '{point.percentage:.0f}%',
                         style: {
-                            fontSize: '0.9em'
+                            fontSize: '0.8em'
                         }
                     }],
-                    showInLegend: true
                 }
             },
             series: [{
+                type: 'pie',
                 name: 'Count',
                 colorByPoint: true,
                 innerSize: '75%',
@@ -104,97 +207,47 @@
                     name: 'To Read',
                     y: /*[[${toReadSize}]]*/0
                 }]
-            }]
-        });
-    </script>
-    <script th:inline="javascript">
-        var genresData = /*[[${genresCount}]]*/{};
-        console.log(genresData)
-        var data = [];
-        for (var g in genresData) {
-            if (genresData.hasOwnProperty(g)) {
-                data.push({ name: g, y: genresData[g] });
+            }],
+            exporting: {
+                enabled: false
             }
-        }
-            Highcharts.chart('genres', {
-                chart: {
-                    type: 'pie',
-                    custom: {},
-                    events: {
-                        render() {
-                            const chart = this,
-                                series = chart.series[0];
-                            let customLabel = chart.options.chart.custom.label;
 
-                            if (!customLabel) {
-                                customLabel = chart.options.chart.custom.label =
-                                    chart.renderer.label(
-                                        'Total<br/>' +
-                                        total
-                                    )
-                                        .css({
-                                            color: '#000',
-                                            textAnchor: 'middle'
-                                        })
-                                        .add();
-                            }
+        });
 
-                            const x = series.center[0] + chart.plotLeft,
-                                y = series.center[1] + chart.plotTop -
-                                    (customLabel.attr('height') / 2);
-
-                            customLabel.attr({
-                                x,
-                                y
-                            });
-                            // Set font size based on chart diameter
-                            customLabel.css({
-                                fontSize: `${series.center[2] / 12}px`
-                            });
+        Highcharts.chart('chart-genres', {
+            title: {
+                text: '',
+                floating: true
+            },
+            plotOptions: {
+                series: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    borderRadius: 8,
+                    dataLabels: [{
+                        enabled: true,
+                        distance: 20
+                    }, {
+                        enabled: true,
+                        distance: -15,
+                        format: '{point.percentage:.0f}%',
+                        style: {
+                            fontSize: '0.8em'
                         }
-                    }
-                },
-                accessibility: {
-                    point: {
-                        valueSuffix: '%'
-                    }
-                },
-                title: {
-                    text: 'Genre distributions'
-                },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.y}</b>'
-                },
-                legend: {
-                    enabled: false
-                },
-                plotOptions: {
-                    series: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        borderRadius: 8,
-                        dataLabels: [{
-                            enabled: true,
-                            distance: 20,
-                            format: '{point.name}'
-                        }, {
-                            enabled: true,
-                            distance: -15,
-                            format: '{point.percentage:.0f}%',
-                            style: {
-                                fontSize: '0.9em'
-                            }
-                        }],
-                        showInLegend: true
-                    }
-                },
-                series: [{
-                    name: 'Count',
-                    colorByPoint: true,
-                    innerSize: '75%',
-                    data: data
-                }]
-            });
+                    }],
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Count',
+                colorByPoint: true,
+                innerSize: '75%',
+                data: data
+            }],
+            exporting: {
+                enabled: false
+            }
+        });
     </script>
 </body>
 
