@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import sg.edu.nus.iss.readingcompanion.model.Quote;
 import sg.edu.nus.iss.readingcompanion.model.User;
 import sg.edu.nus.iss.readingcompanion.service.QuotesService;
 import sg.edu.nus.iss.readingcompanion.service.WordService;
@@ -25,5 +26,14 @@ public class QuoteController {
 
         return "redirect:/books/details/" + bookId;
     }
+
+    @PostMapping("/delete")
+    public String deleteQuote(@AuthenticationPrincipal User user, @RequestBody MultiValueMap<String, String> form) {
+        String bookId = form.getFirst("bookId");
+        String quoteText = form.getFirst("quoteText");
+        quotesService.deleteQuote(user.getUsername(), bookId, new Quote(quoteText));
+        return "redirect:/books/details/" + bookId + "?view=quotes";
+    }
+    
 
 }

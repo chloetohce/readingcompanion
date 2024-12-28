@@ -51,7 +51,6 @@ public class QuotesService {
             ResponseEntity<String> response = restTemplate.exchange(request, String.class);
             JsonReader reader = Json.createReader(new StringReader(response.getBody()));
             JsonArray quotesArr = reader.readArray();
-            logger.info(quotesArr.toString());
 
             List<Quote> quotes = new ArrayList<>();
             for (int i = 0; i < quotesArr.size(); i++) {
@@ -65,5 +64,20 @@ public class QuotesService {
             logger.info("USER: %s with BOOK: %s has no associated quotes.".formatted(username, bookId));
             return new ArrayList<>();
         }
+    }
+
+    public void deleteQuote(String username, String bookId, Quote quote) {
+        JsonObject requestJson = Json.createObjectBuilder()
+            .add("username", username)
+            .add("bookId", bookId)
+            .add("quote", Json.createReader(new StringReader(quote.serialize())).readObject())
+            .build();
+        String uri = UriComponentsBuilder.fromUriString(URL.API_QUOTES)
+                .pathSegment("delete")
+                .toUriString();
+        RequestEntity<String> request = RequestEntity.post(uri)
+            .body(requestJson.toString());
+        
+        restTemplate.exchange(request, String.class);
     }
 }

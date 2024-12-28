@@ -989,6 +989,18 @@ video {
   height: 5rem;
 }
 
+.\!h-5 {
+  height: 1.25rem !important;
+}
+
+.max-h-\[5\] {
+  max-height: 5;
+}
+
+.max-h-\[20px\] {
+  max-height: 20px;
+}
+
 .min-h-10 {
   min-height: 2.5rem;
 }
@@ -1878,6 +1890,10 @@ video {
   line-height: 1.5rem;
 }
 
+.leading-3 {
+  line-height: .75rem;
+}
+
 .tracking-tight {
   letter-spacing: -0.025em;
 }
@@ -2149,6 +2165,11 @@ video {
 .hover\:text-indigo-700:hover {
   --tw-text-opacity: 1;
   color: rgb(67 56 202 / var(--tw-text-opacity, 1));
+}
+
+.hover\:text-red-600:hover {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity, 1));
 }
 
 .focus\:border-indigo-700:focus {

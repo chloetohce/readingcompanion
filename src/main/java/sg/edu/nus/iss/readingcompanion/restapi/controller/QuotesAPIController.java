@@ -40,4 +40,10 @@ public class QuotesAPIController {
             return response;
         }
     }
+
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteBook(@RequestBody String data) {
+        quotesAPIService.deleteQuote(data);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -183,15 +183,18 @@
                 <!-- Tabs -->
                 <ul class="flex flex-wrap text-sm font-medium text-center text-slate-600 border-b-2 border-slate-100">
                     <li class="me-2">
-                        <a th:href="@{/books/details/{id}(id=${book.id},view='notes')}" class="inline-block p-2 px-4 rounded-t-lg hover:bg-slate-50 hover:text-indigo-600"
+                        <a th:href="@{/books/details/{id}(id=${book.id},view='notes')}"
+                            class="inline-block p-2 px-4 rounded-t-lg hover:bg-slate-50 hover:text-indigo-600"
                             th:classappend="${param.view} == null OR ${#strings.toString(param.view)} == 'notes'? 'text-indigo-700 bg-slate-100' : ''">Notes</a>
                     </li>
                     <li class="me-2">
-                        <a th:href="@{/books/details/{id}(id=${book.id},view='quotes')}" class="inline-block p-2 px-4 rounded-t-lg hover:bg-slate-50 hover:text-indigo-600"
+                        <a th:href="@{/books/details/{id}(id=${book.id},view='quotes')}"
+                            class="inline-block p-2 px-4 rounded-t-lg hover:bg-slate-50 hover:text-indigo-600"
                             th:classappend="${#strings.toString(param.view)} == 'quotes'? 'text-indigo-700 bg-slate-100' : ''">Quotes</a>
                     </li>
                     <li class="me-2">
-                        <a th:href="@{/books/details/{id}(id=${book.id},view='words')}" class="inline-block p-2 px-4 rounded-t-lg hover:bg-slate-50 hover:text-indigo-600"
+                        <a th:href="@{/books/details/{id}(id=${book.id},view='words')}"
+                            class="inline-block p-2 px-4 rounded-t-lg hover:bg-slate-50 hover:text-indigo-600"
                             th:classappend="${#strings.toString(param.view)} == 'words'? 'text-indigo-700 bg-slate-100' : ''">Words</a>
                     </li>
                 </ul>
@@ -213,13 +216,30 @@
                     <!-- Quotes -->
                     <div th:if="${#strings.toString(param.view)} == 'quotes'"
                         class="flex flex-row items-start justify-end w-full gap-2">
-                        <div class="w-full">
-                            <blockquote th:each="quote : ${quotes}" th:text="${quote.quote}" class="p-2 mb-4 border-s-4 rounded-e-lg border-slate-300 bg-slate-50 text-gray-900 h-fit whitespace-pre-line"></blockquote>
+                        <div class="w-full flex flex-col" >
+                            <div class="w-full flex flex-row" th:each="quote : ${quotes}">
+                            <div class="w-full flex flex-row mb-4 bg-slate-50">
+                                <blockquote th:text="${quote.quote}"
+                                    class="w-full p-2 border-s-4 rounded-e-lg border-slate-300 text-gray-900 h-fit whitespace-pre-line">
+                                </blockquote>
+                                <form method="post" action="/quotes/delete" class="bg-transparent h-5">
+                                    <input type="hidden" name="bookId" th:value="${book.id}">
+                                    <input type="hidden" name="quoteText" th:value="${quote.quote}">
+                                    <button type="submit" class="text-slate-400 hover:text-red-600">
+                                        <svg class="w-5 h-5" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path clip-rule="evenodd" fill-rule="evenodd"
+                                                d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16" fill="currentColor"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                            </div>
                         </div>
                         <button onclick="openModel('quotesModal')" class="text-wrap text-indigo-700">
-                            <svg class="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M6 12H12M12 12H18M12 12V18M12 12V6">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6 12H12M12 12H18M12 12V18M12 12V6">
                                 </path>
                             </svg>
                         </button>
@@ -229,24 +249,25 @@
                     <div th:if="${#strings.toString(param.view)} == 'words'"
                         class="flex flex-row items-start justify-end w-full gap-2">
                         <div class="flex flex-col">
-                        <div class="word-box mt-2 flex flex-col w-full hover:bg-slate-100 rounded-lg" th:each="word : ${words}">
-                            <div class="allMeanings-box flex flex-row">
-                                <p th:text="${word.word}" class="p-1"></p>
-                                <div class="flex flex-col w-full">
-                                    <div class="flex flex-col" th:each="meaning : ${word.definitions.entrySet()}" >
-                                        <h5 class="text-sm italic px-2 mt-1" th:text="${meaning.key}"></h5>
-                                        <ul class="pl-6 text-base leading-5">
-                                            <li th:each="def : ${meaning.value}" th:text="${def}" class="mb-2"></li>
-                                        </ul>
+                            <div class="word-box mt-2 flex flex-col w-full hover:bg-slate-100 rounded-lg"
+                                th:each="word : ${words}">
+                                <div class="allMeanings-box flex flex-row">
+                                    <p th:text="${word.word}" class="p-1"></p>
+                                    <div class="flex flex-col w-full">
+                                        <div class="flex flex-col" th:each="meaning : ${word.definitions.entrySet()}">
+                                            <h5 class="text-sm italic px-2 mt-1" th:text="${meaning.key}"></h5>
+                                            <ul class="pl-6 text-base leading-5">
+                                                <li th:each="def : ${meaning.value}" th:text="${def}" class="mb-2"></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        </div>
                         <button onclick="openModel('wordsModal')" class="text-wrap text-indigo-700">
-                            <svg class="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M6 12H12M12 12H18M12 12V18M12 12V6">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6 12H12M12 12H18M12 12V18M12 12V6">
                                 </path>
                             </svg>
                         </button>
@@ -324,7 +345,8 @@
                             <div class="px-4 pb-4 text-left sm:px-6 sm:pb-4">
                                 <input type="hidden" name="bookId" th:value="${book.id}">
                                 <input type="text" name="newWord" id="newWord" spellcheck="true"
-                                    class="block p-2.5 w-full text-sm text-slate-900 rounded-lg border bg-white border-slate-300 focus:outline-indigo-700"></inp>
+                                    class="block p-2.5 w-full text-sm text-slate-900 rounded-lg border bg-white border-slate-300 focus:outline-indigo-700">
+                                </inp>
                             </div>
                             <div class="py-3 flex flex-row px-6 gap-4 justify-end">
                                 <button type="button" onclick="closeModal('wordsModal')"
