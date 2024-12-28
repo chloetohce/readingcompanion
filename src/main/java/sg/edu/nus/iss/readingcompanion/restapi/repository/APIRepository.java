@@ -56,6 +56,10 @@ public class APIRepository {
         return ops.get(redisKey, hashKey);
     }
 
+    public void delete(String redisKey, String hashKey) {
+        ops.delete(redisKey, hashKey);
+    }
+
     public long size(String redisKey, String username) {
         ScanOptions options = ScanOptions.scanOptions()
             .match(username + ":*")

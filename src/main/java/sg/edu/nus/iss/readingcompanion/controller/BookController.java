@@ -125,6 +125,13 @@ public class BookController {
 
         return "book-form";
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteBook(@AuthenticationPrincipal User user, @PathVariable String id) {
+        bookService.deleteBook(user.getUsername(), id);
+        return "redirect:/books/all";
+    }
+    
     
     
 }

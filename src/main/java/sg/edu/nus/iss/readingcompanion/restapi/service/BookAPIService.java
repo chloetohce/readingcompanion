@@ -48,6 +48,15 @@ public class BookAPIService {
         return repo.get(RedisUtil.KEY_BOOKS, hashkey); // TODO: Add error handling for if book does not exist.
     }
 
+    public void deleteBook(String data) {
+        JsonReader reader = Json.createReader(new StringReader(data));
+        JsonObject dataJson = reader.readObject();
+        String username = dataJson.getString("username");
+        String id = dataJson.getString("id");
+        String hashkey = username + ":" + id;
+        repo.delete(RedisUtil.KEY_BOOKS, hashkey);
+    }
+
     public String getSizeOfBookshelf(String username) {
         long size = repo.size(RedisUtil.KEY_BOOKS, username);
         JsonObject obj = Json.createObjectBuilder()

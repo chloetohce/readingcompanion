@@ -3,8 +3,10 @@ package sg.edu.nus.iss.readingcompanion.restapi.controller;
 import java.net.URI;
 import java.util.logging.Logger;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +36,12 @@ public class BookAPIController {
         URI uri = bookAPIService.addBookToUser(data);
         
         return ResponseEntity.created(uri).build();
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteBook(@RequestBody String data) {
+        bookAPIService.deleteBook(data);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/details") //TODO: Error handling if book does not exist

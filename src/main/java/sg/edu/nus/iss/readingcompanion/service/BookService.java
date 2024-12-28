@@ -138,6 +138,19 @@ public class BookService {
         return Book.deserialize(response.getBody());
     }
 
+    public void deleteBook(String username, String bookId) {
+        String uri = UriComponentsBuilder.fromUriString(URL.API_BOOKS)
+            .pathSegment("delete")
+            .toUriString();
+        JsonObject requestJson = Json.createObjectBuilder()
+            .add("username", username)
+            .add("id", bookId)
+            .build();
+        RequestEntity<String> request = RequestEntity.post(uri)
+            .body(requestJson.toString());
+        restTemplate.exchange(request, String.class);
+    }
+
     public long getBookshelfSize(String username) {
         String uri = UriComponentsBuilder.fromUriString(URL.API_BOOKS)
             .pathSegment("size")
