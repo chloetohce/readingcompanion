@@ -15,7 +15,7 @@ public class Quote {
 
     public String serialize() {
         return Json.createObjectBuilder()
-            .add("quote", quote)
+            .add("quote", quote.trim())
             .build()
             .toString();
     }
@@ -31,8 +31,14 @@ public class Quote {
     }
 
     public void setQuote(String quote) {
-        this.quote = quote;
+        this.quote = quote.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Quote [quote=" + quote + "]";
+    }
+    
     
     
 }

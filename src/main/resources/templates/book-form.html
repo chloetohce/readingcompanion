@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/styles.css">
-
+    <script defer>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full'); // Toggle visibility
+        }
+    </script>
 </head>
 
 <body>
@@ -152,8 +157,8 @@
                     <input type="text" id="title" th:field="*{title}"
                         th:classappend="${#fields.hasErrors('title')} ? '!border-red-500 !bg-red-50 !focus:outline-red-600' : 'noError'"
                         class="w-full xl:w-4/5 px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
-                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('title')}"
-                        th:errors="*{title}"></p>
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium"
+                        th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
                 </div>
             </div>
 
@@ -165,8 +170,8 @@
                     <input type="text" id="authorsStr" th:field="*{authorsStr}"
                         th:classappend="${#fields.hasErrors('authorsStr')} ? '!border-red-500 !bg-red-50 !focus:outline-red-00' : 'noError'"
                         class="w-full xl:w-4/5 px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
-                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('authorsStr')}"
-                        th:errors="*{authorsStr}"></p>
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium"
+                        th:if="${#fields.hasErrors('authorsStr')}" th:errors="*{authorsStr}"></p>
                 </div>
             </div>
 
@@ -178,8 +183,8 @@
                     <input type="text" id="genresStr" th:field="*{genresStr}"
                         th:classappend="${#fields.hasErrors('genresStr')} ? '!border-red-500 !bg-red-50 !focus:outline-red-00' : 'noError'"
                         class="w-full xl:w-4/5 px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
-                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('genresStr')}"
-                        th:errors="*{genresStr}"></p>
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium"
+                        th:if="${#fields.hasErrors('genresStr')}" th:errors="*{genresStr}"></p>
                 </div>
             </div>
 
@@ -195,8 +200,8 @@
                         <option value="Reading">Reading</option>
                         <option value="Read">Read</option>
                     </select>
-                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('status')}"
-                        th:errors="*{status}"></p>
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium"
+                        th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></p>
                 </div>
             </div>
 
@@ -208,8 +213,8 @@
                     <input type="date" id="startStr" th:field="*{startStr}"
                         th:classappend="${#fields.hasErrors('startStr')} ? '!border-red-500 !bg-red-50 !focus:outline-red-00' : 'noError'"
                         class="w-40 px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
-                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('startStr')}"
-                        th:errors="*{startStr}"></p>
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium"
+                        th:if="${#fields.hasErrors('startStr')}" th:errors="*{startStr}"></p>
                 </div>
             </div>
 
@@ -221,8 +226,8 @@
                     <input type="date" id="endStr" th:field="*{endStr}"
                         th:classappend="${#fields.hasErrors('endStr')} ? '!border-red-500 !bg-red-50 !focus:outline-red-00' : 'noError'"
                         class="w-40 px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
-                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('endStr')}"
-                        th:errors="*{endStr}"></p>
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium"
+                        th:if="${#fields.hasErrors('endStr')}" th:errors="*{endStr}"></p>
                 </div>
             </div>
 
@@ -234,8 +239,8 @@
                     <input type="hidden" id="imageLink" th:field="*{imageLink}"
                         th:classappend="${#fields.hasErrors('imageLink')} ? '!border-red-500 !bg-red-50 !focus:outline-red-600' : 'noError'"
                         class="w-full xl:w-3/5 px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
-                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('imageLink')}"
-                        th:errors="*{imageLink}"></p>
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium"
+                        th:if="${#fields.hasErrors('imageLink')}" th:errors="*{imageLink}"></p>
                 </div>
             </div>
 
@@ -253,25 +258,26 @@
         </form>
     </div>
 
-        <script>
-            window.onload = function () {
-                const statusEle = document.getElementById("status");
-                const datesDiv = document.querySelectorAll(".datesDiv");
+    <!-- Automatically shows dates selection if status is not "To Read" -->
+    <script>
+        window.onload = function () {
+            const statusEle = document.getElementById("status");
+            const datesDiv = document.querySelectorAll(".datesDiv");
 
-                function toggleVisibility(div) {
-                    datesDiv.forEach(div => {
-                        if (statusEle.value !== "To Read") {
-                            div.classList.remove("hidden");
-                        } else {
-                            div.classList.add("hidden");
-                        }
-                    });
-                }
-
-                toggleVisibility();
-                statusEle.addEventListener("change", toggleVisibility);
+            function toggleVisibility(div) {
+                datesDiv.forEach(div => {
+                    if (statusEle.value !== "To Read") {
+                        div.classList.remove("hidden");
+                    } else {
+                        div.classList.add("hidden");
+                    }
+                });
             }
-        </script>
+
+            toggleVisibility();
+            statusEle.addEventListener("change", toggleVisibility);
+        }
+    </script>
 </body>
 
 </html>

@@ -1,97 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script defer>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full'); // Toggle visibility
+        }
+
+    </script>
 </head>
+
 <body>
-    <table>
-        <tr>
-            <td>
-                <img th:src="${book.imageLink}" width="200">
-            </td>
-            <td>
-                <p th:text="${book.title}"></p>
-                <p th:text="${book.authors}"></p>
-                <p th:text="${book.genres}"></p>
-                <p th:text="${book.status}"></p>
-                <p th:text="${book.start}"></p> 
-                <p th:text="${book.end}"></p>
-            </td>
-            <td>
-                <a th:href="@{/books/edit/{id}(id=${book.id})}">Edit</a>
-            </td>
-        </tr>
-    </table>
-    
-    <div id="form-popup" style="display: none; position: fixed; width: 75%;">
-        <form th:action="@{/notes/edit}" method="post" th:object="${notes}">
-            <input type="hidden" th:field="*{bookId}">
-            <textarea name="noteText" spellcheck="true" wrap="soft" th:field="*{text}"></textarea>
-            <br>
-            <button type="button" onclick="closeEditForm()">Cancel</button>
-            <button type="submit">Save</button>
-        </form>
-    </div>
+    <button type="button" onclick="toggleSidebar()"
+        class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-slate-50 rounded-lg bg-indigo-700 sm:hidden hover:bg-indigo-600">
+        <svg class="w-6 h-6" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M4 6H20M4 12H20M4 18H20" fill="currentColor"></path>
+        </svg>
+    </button>
 
-    <div>
-        <h2>Notes</h2>
-        <button onclick="openEditForm()">Edit</button>
-        <p style="white-space: pre;" th:text="${notes.text}"></p>
-    </div>
+    <aside id="sidebar"
+        class="fixed top-0 left-0 w-56 h-screen transition-transform -translate-x-full sm:translate-x-0">
+        <!-- close button -->
+        <button type="button" onclick="toggleSidebar()"
+            class="inline-flex items-center text-sm text-slate-400 bg-transparent sm:hidden hover:text-slate-300 absolute top-4 right-4">
+            <svg class="w-8 h-8" stroke="currentColor" viewBox="0 0 24 24">
+                <path clip-rule="evenodd" fill-rule="evenodd" d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16"
+                    fill="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+        </button>
 
-    <div>
-        <h2>Words</h2>
-        <form action="/word/add" method="post">
-            <label for="newWord">Add word:</label>
-            <input type="text" name="newWord" id="newWord">
-            <input type="hidden" name="bookId" th:value="${book.id}">
-            <button type="submit">Add</button>
-        </form>
-        <table style="border: 1px solid black;">
-            <tbody>
-                <th:block th:each="word : ${words}" style="border: 1px solid black;">
-                    <tr th:each="meaning, stat : ${word.definitions.entrySet()}" style="border: 1px solid black;">
-                        <td th:text="${word.word}" th:if="${stat.index == 0}" th:rowspan="${word.definitions.size()}" style="border: 1px solid black;"></td>
-                        <td th:text="${meaning.key}" style="border: 1px solid black;"></td>
-                        <td style="border: 1px solid black;">
-                            <ol>
-                                <li th:each="def : ${meaning.value}" th:text="${def}"></li>
-                            </ol>
-                        </td>
-                    </tr>
-                </th:block>
-            </tbody>
-        </table>
-    </div>
+        <div class="h-full px-3 py-12 overflow-y-auto bg-slate-50 shadow-md flex flex-col">
+            <ul class="space-y-2 font-medium">
+                <li>
+                    <a href="/books/all" class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
+                        <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
+                            viewBox="0 0 20 21" fill="currentColor">
+                            <path stroke-width="1.5" stroke-linecap="round"
+                                d="M0 2H3.58579C4.49129 2 5.35971 2.35971 6 3C6.64029 3.64029 7 4.50871 7 5.41421V11H9V5.41421C9 4.50871 9.35971 3.64029 10 3C10.6403 2.35971 11.5087 2 12.4142 2H16V13H11L9 15H7L5 13H0V2Z">
+                            </path>
+                        </svg>
+                        <span class="ms-1">My Bookshelf</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/books/add" class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
+                        <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
+                            viewBox="4 2 20 20">
+                            <path d="M6 12H12M12 12H18M12 12V18M12 12V6" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round"></path>
+                        </svg>
+                        <span class="ms-1">Create Book</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/books/advanced-search"
+                        class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
+                        <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
+                            viewBox="3 1 20 24" fill="transparent">
+                            <path
+                                d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                        </svg>
+                        <span class="flex-1 ms-1 whitespace-nowrap">Advanced Search</span>
+                    </a>
+                </li>
 
-    <div>
-        <h2>Quotes</h2>
-        <form action="/quotes/add" method="post">
-            <label for="newQuote">Add word:</label>
-            <input type="text" name="newQuote" id="newQuote">
-            <input type="hidden" name="bookId" th:value="${book.id}">
-            <button type="submit">Add</button>
-        </form>
-        <table>
-            <tbody>
-                <tr th:each="quote : ${quotes}">
-                    <td th:text="${quote.quote}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                <li>
+                    <a href="/charts" class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
+                        <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
+                            viewBox="0 0 20 20" fill="transparent">
+                            <path
+                                d="M7 0.0618896V9H15.9381C15.446 12.9463 12.0796 16 8 16C3.58172 16 0 12.4183 0 8C0 3.92038 3.05369 0.553988 7 0.0618896Z"
+                                fill="currentColor" />
+                            <path d="M9 0.0618897V7H15.9381C15.4869 3.38128 12.6187 0.513137 9 0.0618897Z"
+                                fill="currentColor" />
+                        </svg>
+                        <span class="ms-1">Charts</span>
+                    </a>
+                </li>
+            </ul>
 
+            <div class="flex-grow"></div>
+
+            <ul class="pt-4 mt-4 font-medium border-t border-slate-200">
+                <li>
+                    <a href="/logout" class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
+                        <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
+                            viewBox="0 0 24 24" fill="transparent" stroke="currentColor">
+                            <path d="M21 12L13 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9"
+                                stroke-width="2" stroke-linecap="round" />
+                            <path
+                                d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19"
+                                stroke-width="2" stroke-linecap="round" />
+
+                        </svg>
+                        <span class="ms-1">Logout</span>
+                    </a>
+                </li>
+                <!-- TODO: Add REST API -->
+                <li>
+                    <a href="/" class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
+                        <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
+                            viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20,6H4A2,2,0,0,0,2,8v8a2,2,0,0,0,2,2H20a2,2,0,0,0,2-2V8A2,2,0,0,0,20,6ZM9.29,14.8,9,13.73H7.16L6.87,14.8H5.17L7,9.07H9.09L11,14.8Zm6.34-3.14a1.7,1.7,0,0,1-.36.64,1.82,1.82,0,0,1-.67.44,2.75,2.75,0,0,1-1,.17h-.44V14.8H11.6V9.09h2a2.43,2.43,0,0,1,1.62.47,1.67,1.67,0,0,1,.55,1.35A2.36,2.36,0,0,1,15.63,11.66Zm2.58,3.14H16.66V9.09h1.55ZM8.45,11.53l.24.93H7.48l.24-.93c0-.13.08-.28.12-.47s.09-.38.13-.57a4.63,4.63,0,0,0,.1-.48c0,.13.07.29.11.5l.15.58Zm5.59-1a.57.57,0,0,1,.16.43.75.75,0,0,1-.11.42.59.59,0,0,1-.27.22.9.9,0,0,1-.37.07h-.31V10.34h.4A.63.63,0,0,1,14,10.51Z"
+                                fill-rule="evenodd" />
+
+                        </svg>
+                        <span class="ms-1">API Documentation</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div class="py-2 sm:ml-64 xl:ml-96 xl:mr-40 m-2 relative">
+        <!-- Elements at z-0 -->
+        <div class="flex flex-col gap-2 w-full absolute z-0 h-full">
+            <div class="flex flex-row">
+                <!-- All book details -->
+                <div class="flex flex-row gap-2 w-full">
+                    <div class="mt-6 m-1 shrink-0">
+                        <img class="w-44 md:w-[200px] xl:w-64 object-cover rounded-lg transition-all"
+                            th:src="${book.imageLink}">
+                    </div>
+
+                    <div class="ml-3 mt-4 flex flex-col xl:ml-16">
+                        <div class="mt-2 mb-4">
+                            <h2 class="text-xl font-bold text-left text-slate-900 md:text-3xl xl:text-4xl"
+                                th:text="${book.title}"></h2>
+                        </div>
+                        <div class="mt-2 grid grid-cols-2 gap-2">
+                            <p class="text-sm text-slate-900 font-medium md:text-base">Author(s)</p>
+                            <p class="text-sm text-slate-700 md:text-base" th:text="${book.authors}"></p>
+                        </div>
+                        <div class="mt-2 grid grid-cols-2 gap-2">
+                            <p class="text-sm text-slate-900 font-medium md:text-base">Genre(s)</p>
+                            <p class="text-sm text-slate-700 md:text-base" th:text="${book.genres}"></p>
+                        </div>
+                        <div class="mt-2 grid grid-cols-2 gap-2">
+                            <p class="text-sm text-slate-900 font-medium md:text-base">Status</p>
+                            <p class="text-xs md:text-sm inline-flex items-center bg-green-100 text-green-900 px-2.5 rounded-full font-medium w-fit"
+                                th:classappend="${book.status} == 'To Read' ? '!bg-red-100 !text-red-900' : (${book.status} == 'Read' ? '!bg-slate-200 !bg-text-900' : 'noChange')">
+                                <span class="w-2 h-2 me-1 bg-green-600 rounded-full"
+                                    th:classappend="${book.status} == 'To Read' ? '!bg-red-600' : (${book.status} == 'Read' ? '!bg-slate-600' : 'noChange')"></span>
+                                <span class="leading-none" th:text="${book.status}"></span>
+                            </p>
+                        </div>
+                        <div class="mt-2 grid grid-cols-2 gap-2">
+                            <p class="text-sm text-slate-900 font-medium md:text-base">Start</p>
+                            <p class="text-sm text-slate-700 md:text-base" th:text="${book.start}"></p>
+                        </div>
+                        <div class="mt-2 grid grid-cols-2 gap-2">
+                            <p class="text-sm text-slate-900 font-medium md:text-base">End</p>
+                            <p class="text-sm text-slate-700 md:text-base" th:text="${book.end}"></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Divider -->
+                <div class="flex-grow">
+                </div>
+
+                <!-- More options button -->
+                <button type="button" onclick="toggleDropdownMenu('dp-menu-edit')"
+                    class="dp-btn w-fit h-fit mt-6 mr-6 bg-slate-50 text-slate-700 border border-slate-200 rounded-lg p-1 hover:bg-slate-100">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                        <circle cx="12" cy="6" r="1.5" />
+                        <circle cx="12" cy="12" r="1.5" />
+                        <circle cx="12" cy="18" r="1.5" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Tab content -->
+            <div class="pr-6 pl-1 mt-6 h-full">
+                <!-- Tabs -->
+                <ul class="flex flex-wrap text-sm font-medium text-center text-slate-600 border-b-2 border-slate-100">
+                    <li class="me-2">
+                        <a th:href="@{/books/details/{id}(id=${book.id},view='notes')}" class="inline-block p-2 px-4 rounded-t-lg hover:bg-slate-50 hover:text-indigo-600"
+                            th:classappend="${param.view} == null OR ${#strings.toString(param.view)} == 'notes'? 'text-indigo-700 bg-slate-100' : ''">Notes</a>
+                    </li>
+                    <li class="me-2">
+                        <a th:href="@{/books/details/{id}(id=${book.id},view='quotes')}" class="inline-block p-2 px-4 rounded-t-lg hover:bg-slate-50 hover:text-indigo-600"
+                            th:classappend="${#strings.toString(param.view)} == 'quotes'? 'text-indigo-700 bg-slate-100' : ''">Quotes</a>
+                    </li>
+                    <li class="me-2">
+                        <a th:href="@{/books/details/{id}(id=${book.id},view='words')}" class="inline-block p-2 px-4 rounded-t-lg hover:bg-slate-50 hover:text-indigo-600"
+                            th:classappend="${#strings.toString(param.view)} == 'words'? 'text-indigo-700 bg-slate-100' : ''">Words</a>
+                    </li>
+                </ul>
+
+                <div class="my-5">
+                    <!-- Notes -->
+                    <div th:if="${param.view} == null OR ${#strings.toString(param.view)} == 'notes'"
+                        class="flex flex-row items-start justify-end w-full gap-2 p-4 bg-slate-50 rounded-lg h-fit min-h-52">
+                        <p class="w-full whitespace-pre" th:text="${notes.text}"></p>
+                        <a th:href="@{/notes/edit(bookId=${book.id})}" class="text-wrap text-indigo-700">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M20.8477 1.87868C19.6761 0.707109 17.7766 0.707105 16.605 1.87868L2.44744 16.0363C2.02864 16.4551 1.74317 16.9885 1.62702 17.5692L1.03995 20.5046C0.760062 21.904 1.9939 23.1379 3.39334 22.858L6.32868 22.2709C6.90945 22.1548 7.44285 21.8693 7.86165 21.4505L22.0192 7.29289C23.1908 6.12132 23.1908 4.22183 22.0192 3.05025L20.8477 1.87868ZM18.0192 3.29289C18.4098 2.90237 19.0429 2.90237 19.4335 3.29289L20.605 4.46447C20.9956 4.85499 20.9956 5.48815 20.605 5.87868L17.9334 8.55027L15.3477 5.96448L18.0192 3.29289ZM13.9334 7.3787L3.86165 17.4505C3.72205 17.5901 3.6269 17.7679 3.58818 17.9615L3.00111 20.8968L5.93645 20.3097C6.13004 20.271 6.30784 20.1759 6.44744 20.0363L16.5192 9.96448L13.9334 7.3787Z">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- Quotes -->
+                    <div th:if="${#strings.toString(param.view)} == 'quotes'"
+                        class="flex flex-row items-start justify-end w-full gap-2">
+                        <div class="w-full">
+                            <blockquote th:each="quote : ${quotes}" th:text="${quote.quote}" class="p-2 mb-4 border-s-4 rounded-e-lg border-slate-300 bg-slate-50 text-gray-900 h-fit whitespace-pre-line"></blockquote>
+                        </div>
+                        <button onclick="openModel('quotesModal')" class="text-wrap text-indigo-700">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M6 12H12M12 12H18M12 12V18M12 12V6">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Words -->
+                    <div th:if="${#strings.toString(param.view)} == 'words'"
+                        class="flex flex-row items-start justify-end w-full gap-2">
+                        <div class="flex flex-col">
+                        <div class="word-box mt-2 flex flex-col w-full hover:bg-slate-100 rounded-lg" th:each="word : ${words}">
+                            <div class="allMeanings-box flex flex-row">
+                                <p th:text="${word.word}" class="p-1"></p>
+                                <div class="flex flex-col w-full">
+                                    <div class="flex flex-col" th:each="meaning : ${word.definitions.entrySet()}" >
+                                        <h5 class="text-sm italic px-2 mt-1" th:text="${meaning.key}"></h5>
+                                        <ul class="pl-6 text-base leading-5">
+                                            <li th:each="def : ${meaning.value}" th:text="${def}" class="mb-2"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <button onclick="openModel('wordsModal')" class="text-wrap text-indigo-700">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M6 12H12M12 12H18M12 12V18M12 12V6">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- End -->
+                <div class="p-2"></div>
+
+            </div>
+        </div>
+
+        <!-- dropdown menu -->
+        <div class="mt-6 mr-6">
+            <div th:id="dp-menu-edit"
+                class="dp-menu hidden absolute right-6 top-16 z-10 rounded-lg shadow origin-top-right transform w-28 py-2 border bg-white border-slate-50">
+
+                <a th:href="@{/books/edit/{id}(id=${book.id})}"
+                    class="dp-btn block px-3 py-1 text-gray-700 hover:bg-slate-100">Edit</a>
+                <a th:href="@{/books/edit/{id}(id=${book.id})}"
+                    class="dp-btn block px-3 py-1 text-red-700 hover:bg-red-100">Delete</a>
+            </div>
+        </div>
+
+        <!-- Quote modal -->
+        <div class="relative z-10 hidden" id="quotesModal">
+            <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
+            <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div class="flex min-h-full justify-center text-center items-center p-0">
+                    <div
+                        class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all my-8 w-[75%] max-w-4xl">
+                        <div class="bg-white px-4 py-4 text-left sm:px-6 sm:pb-4">
+                            <div class="text-left">
+                                <h3 class="text-base font-semibold text-gray-900" id="modal-title">Add Quote</h3>
+                                <p class="mt-2 text-sm text-gray-700">Enter the quote you would like to add below.</p>
+                            </div>
+                        </div>
+                        <form method="post" action="/quotes/add">
+                            <div class="px-4 pb-4 text-left sm:px-6 sm:pb-4">
+                                <input type="hidden" name="bookId" th:value="${book.id}">
+                                <textarea name="newQuote" id="newQuote"
+                                    class="block p-2.5 h-20 w-full text-sm text-slate-900 rounded-lg border bg-white border-slate-300 focus:outline-indigo-700"></textarea>
+                            </div>
+                            <div class="py-3 flex flex-row px-6 gap-4 justify-end">
+                                <button type="button" onclick="closeModal('quotesModal')"
+                                    class="inline-flex w-24 justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                    Cancel
+                                </button>
+                                <button type="submit"
+                                    class="inline-flex w-24 justify-center rounded-md bg-indigo-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-600">
+                                    Add
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Words modal -->
+        <div class="relative z-10 hidden" id="wordsModal">
+            <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
+            <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div class="flex min-h-full justify-center text-center items-center p-0">
+                    <div
+                        class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all my-8 w-[75%] max-w-2xl">
+                        <div class="bg-white px-4 py-4 text-left sm:px-6 sm:pb-4">
+                            <div class="text-left">
+                                <h3 class="text-base font-semibold text-gray-900" id="modal-title">Add New Word</h3>
+                                <p class="mt-2 text-sm text-gray-700">Enter a new word to add to your word list.</p>
+                            </div>
+                        </div>
+                        <form method="post" action="/word/add">
+                            <div class="px-4 pb-4 text-left sm:px-6 sm:pb-4">
+                                <input type="hidden" name="bookId" th:value="${book.id}">
+                                <input type="text" name="newWord" id="newWord" spellcheck="true"
+                                    class="block p-2.5 w-full text-sm text-slate-900 rounded-lg border bg-white border-slate-300 focus:outline-indigo-700"></inp>
+                            </div>
+                            <div class="py-3 flex flex-row px-6 gap-4 justify-end">
+                                <button type="button" onclick="closeModal('wordsModal')"
+                                    class="inline-flex w-24 justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                    Cancel
+                                </button>
+                                <button type="submit"
+                                    class="inline-flex w-24 justify-center rounded-md bg-indigo-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-600">
+                                    Add
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
 
     <script>
-        function openEditForm() {
-            document.getElementById("form-popup").style.display = "block";
+        function openModel(id) {
+            document.getElementById(id).classList.remove('hidden');
         }
 
-        function closeEditForm() {
-            document.getElementById("form-popup").style.display = "none";
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
         }
+        function toggleDropdownMenu(dpMenuId) {
+            const menu = document.getElementById(dpMenuId)
+            menu.classList.toggle("hidden");
+        }
+
+        document.documentElement.addEventListener("click", function (event) {
+            if (!event.target.closest('.dp-btn') && !event.target.closest('.dp-menu')) {
+                document.querySelectorAll('.dp-menu').forEach(menu => menu.classList.add('hidden'))
+            }
+        })
     </script>
 </body>
+
 </html>

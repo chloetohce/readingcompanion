@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import sg.edu.nus.iss.readingcompanion.model.Book;
+import sg.edu.nus.iss.readingcompanion.model.Quote;
 import sg.edu.nus.iss.readingcompanion.model.User;
 import sg.edu.nus.iss.readingcompanion.model.Word;
 import sg.edu.nus.iss.readingcompanion.service.BookService;
@@ -91,6 +92,9 @@ public class BookController {
         model.addAttribute("book", book); // TODO: Default value for start and end dates
         model.addAttribute("notes", notesService.getNotes(user.getUsername(), book.getId()));
         model.addAttribute("words", wordService.getWordsForBook(user.getUsername(), id));
+        List<Quote> list = quotesService.getQuotesForBook(user.getUsername(), id);
+        System.out.println(list);
+        list.forEach(q -> System.out.println(q));
         model.addAttribute("quotes", quotesService.getQuotesForBook(user.getUsername(), id));
         return "book-details";
 
