@@ -6,11 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <!-- <style>
-        .hidden {
-            display: none;
-        }
-    </style> -->
+
 </head>
 
 <body>
@@ -122,12 +118,14 @@
 
 
     <div class="p-4 sm:ml-64 m-2">
+        <!-- Header for adding new book -->
         <section class="m-3 pl-2" th:if="${pageAdd == true}">
             <h2 class="text-3xl font-bold mb-2 text-indigo-700">Create Book Entry</h2>
             <p class="text-base pb-5 text-slate-900">
                 Create your own book entry by filling in the relevant details below.
             </p>
         </section>
+        <!-- Header for editing book information -->
         <section class="m-3 pl-2" th:unless="${pageAdd == true}">
             <h2 class="text-3xl font-bold mb-2 text-indigo-700">Edit Book Information</h2>
             <p class="text-base pb-5 text-slate-900">
@@ -150,11 +148,12 @@
                 <div class="flex items-center h-10 mb-1 w-1/5 lg:w-[141px]">
                     <label for="title">Title</label>
                 </div>
-                <div class="w-4/5 flex-grow flex flex-col">
+                <div class="w-4/5 flex flex-col xl:flex-row xl:items-center">
                     <input type="text" id="title" th:field="*{title}"
-                        th:classappend="${#fields.hasErrors('title')} ? 'border-red-500 bg-red-50 focus:outline-red-600' : 'noError'"
-                        class="w-full px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
-                    <p class="mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+                        th:classappend="${#fields.hasErrors('title')} ? '!border-red-500 !bg-red-50 !focus:outline-red-600' : 'noError'"
+                        class="w-full xl:w-4/5 px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('title')}"
+                        th:errors="*{title}"></p>
                 </div>
             </div>
 
@@ -162,11 +161,12 @@
                 <div class="flex items-center h-10 mb-1 w-1/5 lg:w-[141px]">
                     <label for="authorsStr">Author(s)</label>
                 </div>
-                <div class="w-4/5 flex-grow">
+                <div class="w-4/5 flex flex-col xl:flex-row xl:items-center">
                     <input type="text" id="authorsStr" th:field="*{authorsStr}"
-                        th:classappend="${#fields.hasErrors('authorsStr')} ? 'border-red-500 bg-red-50 focus:outline-red-00' : 'noError'"
-                        class="w-full px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
-                    <p class="mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('authorsStr')}" th:errors="*{authorsStr}"></p>
+                        th:classappend="${#fields.hasErrors('authorsStr')} ? '!border-red-500 !bg-red-50 !focus:outline-red-00' : 'noError'"
+                        class="w-full xl:w-4/5 px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('authorsStr')}"
+                        th:errors="*{authorsStr}"></p>
                 </div>
             </div>
 
@@ -174,11 +174,55 @@
                 <div class="flex items-center h-10 mb-1 w-1/5 lg:w-[141px]">
                     <label for="genresStr">Genre(s)</label>
                 </div>
-                <div class="w-4/5 flex-grow">
+                <div class="w-4/5 flex flex-col xl:flex-row xl:items-center">
                     <input type="text" id="genresStr" th:field="*{genresStr}"
-                        th:classappend="${#fields.hasErrors('genresStr')} ? 'border-red-500 bg-red-50 focus:outline-red-00' : 'noError'"
-                        class="w-full px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
-                    <p class="mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('genresStr')}" th:errors="*{genresStr}"></p>
+                        th:classappend="${#fields.hasErrors('genresStr')} ? '!border-red-500 !bg-red-50 !focus:outline-red-00' : 'noError'"
+                        class="w-full xl:w-4/5 px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('genresStr')}"
+                        th:errors="*{genresStr}"></p>
+                </div>
+            </div>
+
+            <div class="text-slate-900 flex flex-row items-start m-3">
+                <div class="flex items-center h-10 mb-1 w-1/5 lg:w-[141px]">
+                    <label for="status">Status</label>
+                </div>
+                <div class="w-4/5 flex flex-col xl:flex-row xl:items-center">
+                    <select id="status" th:field="*{status}"
+                        th:classappend="${#fields.hasErrors('status')} ? '!border-red-500 !bg-red-50 !focus:outline-red-00' : 'noError'"
+                        class="w-40 items-center rounded-lg bg-slate-50 h-10 pl-3 pr-8 text-slate-900 border border-slate-300 focus:outline-indigo-700">
+                        <option value="To Read">To read</option>
+                        <option value="Reading">Reading</option>
+                        <option value="Read">Read</option>
+                    </select>
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('status')}"
+                        th:errors="*{status}"></p>
+                </div>
+            </div>
+
+            <div class="datesDiv text-slate-900 flex flex-row items-start m-3">
+                <div class="flex items-center h-10 mb-1 w-1/5 lg:w-[141px]">
+                    <label for="startStr">Start Date</label>
+                </div>
+                <div class="w-4/5 xl:w-3/5 flex flex-col xl:flex-row xl:items-center">
+                    <input type="date" id="startStr" th:field="*{startStr}"
+                        th:classappend="${#fields.hasErrors('startStr')} ? '!border-red-500 !bg-red-50 !focus:outline-red-00' : 'noError'"
+                        class="w-40 px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('startStr')}"
+                        th:errors="*{startStr}"></p>
+                </div>
+            </div>
+
+            <div class="datesDiv text-slate-900 flex flex-row items-start m-3">
+                <div class="flex items-center h-10 mb-1 w-1/5 lg:w-[141px]">
+                    <label for="endStr">End Date</label>
+                </div>
+                <div class="w-4/5 xl:w-3/5 flex flex-col xl:flex-row xl:items-center">
+                    <input type="date" id="endStr" th:field="*{endStr}"
+                        th:classappend="${#fields.hasErrors('endStr')} ? '!border-red-500 !bg-red-50 !focus:outline-red-00' : 'noError'"
+                        class="w-40 px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('endStr')}"
+                        th:errors="*{endStr}"></p>
                 </div>
             </div>
 
@@ -186,99 +230,45 @@
                 <div class="flex items-center h-10 mb-1 w-1/5 lg:w-[141px]">
                     <label for="imageLink">Image link</label>
                 </div>
-                <div class="w-4/5 flex-grow">
+                <div class="w-4/5 xl:w-3/5 flex flex-col xl:flex-row xl:items-center">
                     <input type="hidden" id="imageLink" th:field="*{imageLink}"
-                        th:classappend="${#fields.hasErrors('imageLink')} ? 'border-red-500 bg-red-50 focus:outline-red-600' : 'noError'"
-                        class="w-full px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
-                    <p class="mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('imageLink')}" th:errors="*{imageLink}"></p>
-                </div>
-            </div>
-            
-            <div class="text-slate-900 flex flex-row items-start m-3">
-                <div class="flex items-center h-10 mb-1 w-1/5 lg:w-[141px]">
-                    <label for="status">Status</label>
-                </div>
-                <div class="w-4/5 flex-grow">
-                    <select id="status" th:field="*{status}"
-                        th:classappend="${#fields.hasErrors('status')} ? 'border-red-500 bg-red-50 focus:outline-red-00' : 'noError'"
-                        class="w-40 items-center rounded-lg bg-slate-50 h-10 pl-3 pr-8 text-slate-900 border border-slate-300 focus:outline-indigo-700">
-                        <option value="To Read">To read</option>
-                        <option value="Reading">Reading</option>
-                        <option value="Read">Read</option>
-                    </select>
-                    <p class="mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></p>
-                </div>
-            </div>
-
-            <div class="text-slate-900 flex flex-row items-start m-3">
-                <div class="flex items-center h-10 mb-1 w-1/5 lg:w-[141px]">
-                    <label for="genresStr">Genre(s)</label>
-                </div>
-                <div class="w-4/5 flex-grow">
-                    <input type="text" id="genresStr" th:field="*{genresStr}"
-                        th:classappend="${#fields.hasErrors('genresStr')} ? 'border-red-500 bg-red-50 focus:outline-red-00' : 'noError'"
-                        class="w-full px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
-                    <p class="mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('genresStr')}" th:errors="*{genresStr}"></p>
+                        th:classappend="${#fields.hasErrors('imageLink')} ? '!border-red-500 !bg-red-50 !focus:outline-red-600' : 'noError'"
+                        class="w-full xl:w-3/5 px-3 h-10 text-base border border-slate-300 bg-slate-50 rounded-lg focus:outline-indigo-700">
+                    <p class="xl:ml-4 xl:flex-grow mt-1 pl-1 text-sm text-red-600 font-medium" th:if="${#fields.hasErrors('imageLink')}"
+                        th:errors="*{imageLink}"></p>
                 </div>
             </div>
 
             <!-- buttons -->
             <div class="text-slate-900 flex flex-row justify-end gap-5 m-3">
-                <button type="reset"
+                <!-- <button type="reset"
                     class="text-slate-900 bg-slate-300 hover:bg-slate-200 font-medium rounded-lg px-5 py-1 text-center">
                     Reset
-                </button>
+                </button> -->
                 <button type="submit"
-                    class=" text-white bg-indigo-700 hover:bg-indigo-600 font-medium rounded-lg px-5 py-1 text-center">
-                    Search
+                    class=" text-white bg-indigo-700 h-10 hover:bg-indigo-600 font-medium rounded-lg px-5 py-1 text-center">
+                    Submit
                 </button>
             </div>
         </form>
-
-
-            <label for="status">Status: </label>
-            <select name="status" id="status">
-                <option value="to-read">To read</option>
-                <option value="reading">Reading</option>
-                <option value="read">Read</option>
-            </select>
-            <!-- <p th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></p> -->
-
-            <br>
-
-            <!-- Does this editing work if the book that is pumped in has values, but does not have a start or end date? -->
-            <div class="datesDiv">
-                <label for="startStr">Start: </label>
-                <input type="date" name="startStr" id="startStr">
-                <!-- <p th:if="${#fields.hasErrors('startStr')}" th:errors="*{startStr}"></p> -->
-
-                <br>
-
-                <label for="endStr">End: </label>
-                <input type="date" name="endStr" id="endStr" >
-                <!-- <p th:if="${#fields.hasErrors('endStr')}" th:errors="*{endStr}"></p> -->
-            </div>
-
-            <br>
-
-            <button type="submit">Submit</button>
-        </form>
+    </div>
 
         <script>
             window.onload = function () {
                 const statusEle = document.getElementById("status");
-                const datesDiv = document.querySelector(".datesDiv");
+                const datesDiv = document.querySelectorAll(".datesDiv");
 
-                function toggleVisibility() {
-                    if (statusEle.value !== "to-read") {
-                        datesDiv.classList.remove("hidden");
-                    } else {
-                        datesDiv.classList.add("hidden");
-                    }
+                function toggleVisibility(div) {
+                    datesDiv.forEach(div => {
+                        if (statusEle.value !== "To Read") {
+                            div.classList.remove("hidden");
+                        } else {
+                            div.classList.add("hidden");
+                        }
+                    });
                 }
 
                 toggleVisibility();
-
                 statusEle.addEventListener("change", toggleVisibility);
             }
         </script>
