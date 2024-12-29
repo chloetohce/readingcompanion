@@ -26,17 +26,20 @@ public class ImageUrlValidator implements ConstraintValidator<ImageUrl, String> 
         if (urlValidator.isValid(value, context)) {
             return false;
         }
-
-        RestTemplate restTemplate = new RestTemplate();
-        RequestEntity<Void> requestEntity = RequestEntity.get(value)
-            .build();
-        ResponseEntity<String> response = restTemplate.exchange(requestEntity, String.class);
-        MediaType contentType = response.getHeaders().getContentType();
-        MediaType imageType = MediaType.valueOf("image/*");
-        if (contentType.isCompatibleWith(imageType)) {
-            return true;
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            RequestEntity<Void> requestEntity = RequestEntity.get(value)
+                .build();
+            ResponseEntity<String> response = restTemplate.exchange(requestEntity, String.class);
+            MediaType contentType = response.getHeaders().getContentType();
+            MediaType imageType = MediaType.valueOf("image/*");
+            if (contentType.isCompatibleWith(imageType)) {
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
         }
-        return false;
     }
     
 }
