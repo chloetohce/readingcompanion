@@ -246,7 +246,7 @@
                             </div>
                             </div>
                         </div>
-                        <button onclick="openModel('quotesModal')" class="text-wrap text-indigo-700">
+                        <button onclick="openModel('quotesModal')" class="text-wrap text-indigo-700 rounded-lg hover:bg-slate-50">
                             <svg class="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M6 12H12M12 12H18M12 12V18M12 12V6">
@@ -286,7 +286,7 @@
                             </div>
                             </div>
                         </div>
-                        <button onclick="openModel('wordsModal')" class="text-wrap text-indigo-700">
+                        <button onclick="openModel('wordsModal')" class="text-wrap text-indigo-700 rounded-lg hover:bg-slate-50">
                             <svg class="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M6 12H12M12 12H18M12 12V18M12 12V6">
@@ -386,6 +386,27 @@
             </div>
         </div>
 
+        <!-- Invalid word alert -->
+        <div role="alert" id="words-alert" th:if="${isInvalidWord}" class="relative z-10 rounded border-s-4 border-red-500 bg-red-50 px-2 top-10 ml-auto w-fit flex flex-row items-start text-red-800">
+            <div class="flex flex-col py-2">
+                <div class="flex flex-row">
+                    <svg fill="currentColor" viewBox="0 0 24 24" class="size-5 mx-2">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z">
+                        </path>
+                    </svg>
+                    <p class="font-medium text-sm block">Something went wrong</p>
+                </div>
+                <p class="mx-2 mt-1 text-sm text-red-700" th:text="${errorMessage}"></p>
+            </div>
+            <button class="size-3 m-0.5 hover:text-red-600" onclick="closeAlert('words-alert')">
+                <svg class="w-5 h-5" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path clip-rule="evenodd" fill-rule="evenodd"
+                        d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16" fill="currentColor"
+                        stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+        </div>
 
     </div>
 
@@ -400,6 +421,9 @@
         function toggleDropdownMenu(dpMenuId) {
             const menu = document.getElementById(dpMenuId)
             menu.classList.toggle("hidden");
+        }
+        function closeAlert(id) {
+            document.getElementById(id).classList.add("hidden");
         }
 
         document.documentElement.addEventListener("click", function (event) {
