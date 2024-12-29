@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
     <title>Document</title>
 </head>
+
 <body>
     <!-- Sidebar button -->
     <button type="button" onclick="toggleSidebar()"
@@ -14,7 +16,7 @@
             <path clip-rule="evenodd" fill-rule="evenodd" d="M4 6H20M4 12H20M4 18H20" fill="currentColor"></path>
         </svg>
     </button>
-    
+
     <!-- Sidebar -->
     <aside id="sidebar"
         class="fixed top-0 left-0 w-56 h-screen transition-transform -translate-x-full sm:translate-x-0">
@@ -108,12 +110,14 @@
                         <span class="ms-1">Logout</span>
                     </a>
                 </li>
-                
+
                 <li>
                     <a href="/credits" class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
                         <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
                             viewBox="0 0 22 19" fill="currentColor">
-                            <path stroke-width="2" stroke-linecap="round" d="M1.24264 8.24264L8 15L14.7574 8.24264C15.553 7.44699 16 6.36786 16 5.24264V5.05234C16 2.8143 14.1857 1 11.9477 1C10.7166 1 9.55233 1.55959 8.78331 2.52086L8 3.5L7.21669 2.52086C6.44767 1.55959 5.28338 1 4.05234 1C1.8143 1 0 2.8143 0 5.05234V5.24264C0 6.36786 0.44699 7.44699 1.24264 8.24264Z" />                        </svg>
+                            <path stroke-width="2" stroke-linecap="round"
+                                d="M1.24264 8.24264L8 15L14.7574 8.24264C15.553 7.44699 16 6.36786 16 5.24264V5.05234C16 2.8143 14.1857 1 11.9477 1C10.7166 1 9.55233 1.55959 8.78331 2.52086L8 3.5L7.21669 2.52086C6.44767 1.55959 5.28338 1 4.05234 1C1.8143 1 0 2.8143 0 5.05234V5.24264C0 6.36786 0.44699 7.44699 1.24264 8.24264Z" />
+                        </svg>
                         <span class="ms-1">Credits</span>
                     </a>
                 </li>
@@ -122,8 +126,54 @@
     </aside>
 
     <div class="p-4 sm:ml-64 m-2">
+        <section class="my-3" >
+            <h2 class="text-3xl font-bold mb-2 text-indigo-700">Credits</h2>
+            <p class="text-base pb-5 text-slate-900">
+                These are the resources and APIs used to build this project.
+            </p>
+        </section>
 
+        <div class="mt-6 px-4 sm:px-0">
+            <h3 class="text-base/7 font-semibold text-gray-900">External APIs Used</h3>
+        </div>
+        <div class="mt-6 border-t border-gray-100">
+            <dl class="divide-y divide-gray-100">
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4  hover:bg-slate-100">
+                    <a href="https://placeholders.dev/" target="_blank">
+                        <dt class="text-sm/6 font-medium text-gray-900">Google Books API</dt>
+                    </a>
+                    <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">Used to search for books and get book metadata. Also used to obtain most book covers.</dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4  hover:bg-slate-100">
+                    <a href="https://developers.google.com/books/" target="_blank">
+                        <dt class="text-sm/6 font-medium text-gray-900">placeholders.dev</dt>
+                    </a>
+                    <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">Used to generate any missing book covers. </dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4  hover:bg-slate-100">
+                    <a href="https://dictionaryapi.dev/" target="_blank">
+                        <dt class="text-sm/6 font-medium text-gray-900">dictionaryapi</dt>
+                    </a>
+                    <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">For obtaining definitions of words. </dd>
+                </div>
+            </dl>
+        </div>
+
+        <div class="px-4 mt-6 sm:px-0">
+            <h3 class="text-base/7 font-semibold text-gray-900">Resources Used</h3>
+        </div>
+        <div class="mt-6 border-t border-gray-100">
+            <dl class="divide-y divide-gray-100">
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4  hover:bg-slate-100">
+                    <a href="https://www.svgrepo.com" target="_blank">
+                        <dt class="text-sm/6 font-medium text-gray-900">SVG Repo</dt>
+                    </a>
+                    <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">Vectors and icons sourced from SVG repo.</dd>
+                </div>
+            </dl>
+        </div>
 
     </div>
 </body>
+
 </html>
