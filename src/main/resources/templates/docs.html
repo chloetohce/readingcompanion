@@ -137,11 +137,11 @@
             <h3 id="section-books" class="text-base/7 font-semibold text-gray-900">Books</h3>
         </div>
         <div class="mt-6 border-t border-gray-100">
-            <dl class="divide-y divide-gray-100 grid grid-cols-4 gap-3">
+            <dl class="divide-y divide-gray-100 grid grid-cols-4 gap-5">
                 <dt class="text-sm/6 font-medium text-gray-900">Getting saved books</dt>
                 <dd class="mt-1 text-sm/6 text-gray-700 col-span-3">
                     <p>
-                        You can obtain all books saved by sending an HTTP <span class="code">GET</span>
+                        You can obtain all books saved and their relevant data by sending an HTTP <span class="code">GET</span>
                         request to the following end point: <br>
                         <br>
                         <span class="code" th:text="|${current}/api/books/all?username=user|"></span>
@@ -149,12 +149,22 @@
                         <br>
                         where <span class="code">username</span> is the only required parameter that specifies the
                         username of the user to search.
+                        <br>
+                        <br>
+                        Example:
                     </p>
+                    <form method="get" action="/api/books/all" class="mt-2 items-end flex-row flex">
+                        <div class="flex flex-col">
+                            <label class="my-1 text-xs text-slate-500" for="b-all-username">Username</label>
+                            <input class="px-2 w-28 border-slate-300 border bg-slate-50 rounded-lg focus:outline-indigo-700" id="b-all-username" type="text" name="username" required>
+                        </div>
+                        <button class="mx-2 bg-green-300 rounded-lg px-2 text-sm hover:bg-green-200 text-green-800" type="submit">GET</button>
+                    </form>
                 </dd>
                 <dt class="text-sm/6 font-medium text-gray-900">Getting book details</dt>
                 <dd class="mt-1 text-sm/6 text-gray-700 col-span-3">
                     <p>
-                        You can obtain all books saved by sending an HTTP <span class="code">GET</span>
+                        You can obtain data regarding only a single book by sending an HTTP <span class="code">GET</span>
                         request to the following end point: <br>
                         <br>
                         <span class="code"
@@ -164,7 +174,19 @@
                         There are two required parameters, <span class="code">username</span> and <span
                             class="code">code</span>,
                         which specify the username of the user and book to query.
+                        <br>
+                        <br>
+                        Example:
                     </p>
+                    <form method="get" action="/api/books/details" class="mt-2 items-end flex-row flex">
+                        <div class="flex flex-col">
+                            <label class="my-1 text-xs text-slate-500" for="b-all-username">Username</label>
+                            <input class="px-2 w-28 border-slate-300 border bg-slate-50 rounded-lg focus:outline-indigo-700" id="b-details-username" type="text" name="username" required>
+                            <label class="my-1 text-xs text-slate-500" for="b-all-username">Book ID</label>
+                            <input class="px-2 w-28 border-slate-300 border bg-slate-50 rounded-lg focus:outline-indigo-700" id="b-details-bookId" type="text" name="bookId" required>
+                        </div>
+                        <button class="mx-2 bg-green-300 rounded-lg px-2 text-sm hover:bg-green-200 text-green-800" type="submit">GET</button>
+                    </form>
                 </dd>
 
                 <dt class="text-sm/6 font-medium text-gray-900">Deleting saved book</dt>
@@ -214,14 +236,16 @@
 }</blockquote>
                         <br>
                         <br>
-                        <span class="code">title</span>: specifies the book title. <br>
-                        <span class="code">id</span>: specifies the book id (typically the ISBN number). <br>
-                        <span class="code">authors</span>: an array of authors of the book.<br>
-                        <span class="code">genres</span>: consists of an array of genres that describe the book.<br>
-                        <span class="code">imageLink</span>: a URL to the image to use as the book cover.<br>
-                        <span class="code">start</span>: specifies the start date of reading the book. Leave as "-" if no date is to be specified.<br>
-                        <span class="code">end</span>: specifies the end date of reading the book. Leave as "-" if no date is to be specified.<br>
-                        <span class="code">status</span>: describes the user's current status with the book. Takes the values "To Read", "Reading", and "Read".<br>
+                        <ul>
+                            <li><span class="code">title</span>: specifies the book title.</li>
+                            <li><span class="code">id</span>: specifies the book id (typically the ISBN number).</li>
+                            <li><span class="code">authors</span>: an array of authors of the book.</li>
+                            <li><span class="code">genres</span>: consists of an array of genres that describe the book.</li>
+                            <li><span class="code">imageLink</span>: a URL to the image to use as the book cover.</li>
+                            <li><span class="code">start</span>: specifies the start date of reading the book. Leave as "-" if no date is to be specified.</li>
+                            <li><span class="code">end</span>: specifies the end date of reading the book. Leave as "-" if no date is to be specified.</li>
+                            <li><span class="code">status</span>: describes the user's current status with the book. Takes the values "To Read", "Reading", and "Read".</li>
+                        </ul>
                     </p>
                 </dd>
             </dl>
