@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.stream.JsonParsingException;
 import sg.edu.nus.iss.readingcompanion.restapi.service.BookAPIService;
@@ -27,7 +28,7 @@ public class BookAPIController {
     @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getUserBookshelf(@RequestParam String username) {
         JsonArray bookshelf = bookAPIService.getAllBooksByUser(username);
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(bookshelf.toString());
+        return ResponseEntity.ok().body(bookshelf.toString());
     }
 
     @PostMapping(path = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -68,7 +69,5 @@ public class BookAPIController {
         ResponseEntity<String> response = ResponseEntity.ok(msg);
         return response;
     }
-    
-    
     
 }

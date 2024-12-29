@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Journal | Book</title>
     <link rel="stylesheet" href="/css/styles.css">
     <script defer>
         function toggleSidebar() {
@@ -213,7 +213,7 @@
                     <!-- Notes -->
                     <div th:if="${param.view} == null OR ${#strings.toString(param.view)} == 'notes'"
                         class="flex flex-row items-start justify-end w-full gap-2 p-4 bg-slate-50 rounded-lg h-fit min-h-52">
-                        <p class="w-full whitespace-pre" th:text="${notes.text}"></p>
+                        <p class="w-full whitespace-normal break-words" th:text="${notes.text}"></p>
                         <a th:href="@{/notes/edit(bookId=${book.id})}" class="text-wrap text-indigo-700">
                             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                                 <path fill-rule="evenodd" clip-rule="evenodd"

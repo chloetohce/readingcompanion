@@ -83,7 +83,6 @@ public class BookService {
             .toUriString();
         RequestEntity<Void> request = RequestEntity.get(url)
             .build();
-
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
         JsonReader reader = Json.createReader(new StringReader(response.getBody()));
         JsonArray bookshelfArr = reader.readArray();
