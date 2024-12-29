@@ -21,7 +21,6 @@ public class BookValParser {
     private static final Logger logger = Logger.getLogger(BookValParser.class.getName());
 
     public static List<String> jsonArrToList(JsonArray arr) {
-        System.out.println(arr);
         if (arr == null) { 
             logger.log(Level.WARNING, "Array is null.");
             List<String> result = new ArrayList<>();

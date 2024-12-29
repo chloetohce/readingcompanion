@@ -29,11 +29,11 @@ public class QuotesAPIService {
     }
 
     public void saveQuote(String username, String bookId, String quote) {
-
+        JsonReader readerQuote = Json.createReader(new StringReader(quote));
         JsonReader readerRepoData = Json.createReader(new StringReader(getQuotesForBook(username, bookId)));
         JsonArray existingQuotes = readerRepoData.readArray();
         JsonArray newQuotes = Json.createArrayBuilder(existingQuotes)
-            .add(quote)
+            .add(readerQuote.readObject().getJsonObject("quote"))
             .build();
         
         // replace existing data with new data

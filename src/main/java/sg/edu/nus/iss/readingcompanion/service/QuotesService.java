@@ -33,6 +33,8 @@ public class QuotesService {
             .build();
         String uri = UriComponentsBuilder.fromUriString(URL.API_QUOTES)
                 .pathSegment("add")
+                .queryParam("username", username)
+                .queryParam("bookId", bookId)
                 .toUriString();
         RequestEntity<String> request = RequestEntity.post(uri)
             .contentType(MediaType.APPLICATION_JSON)

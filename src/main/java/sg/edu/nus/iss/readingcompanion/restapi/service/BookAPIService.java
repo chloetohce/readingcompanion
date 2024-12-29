@@ -39,7 +39,7 @@ public class BookAPIService {
 
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
             .path("/api/books/details")
-            .queryParam("username", dataJson.getString("username"))
+            .queryParam("username", username)
             .queryParam("id", book.getString("id"))
             .build(true)
             .toUri();
@@ -55,6 +55,9 @@ public class BookAPIService {
     public void deleteBook(String username, String bookId) {
         String hashkey = username + ":" + bookId;
         repo.delete(RedisUtil.KEY_BOOKS, hashkey);
+        repo.delete(RedisUtil.KEY_NOTES, hashkey);
+        repo.delete(RedisUtil.KEY_QUOTES, hashkey);
+        repo.delete(RedisUtil.KEY_WORDS, hashkey);
     }
 
     public String getSizeOfBookshelf(String username) {
