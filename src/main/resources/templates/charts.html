@@ -14,6 +14,7 @@
 
 <body>
 
+    <!-- Sidebar button -->
     <button type="button" onclick="toggleSidebar()"
         class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-slate-50 rounded-lg bg-indigo-700 sm:hidden hover:bg-indigo-600">
         <svg class="w-6 h-6" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -21,8 +22,9 @@
         </svg>
     </button>
 
+    <!-- Sidebar -->
     <aside id="sidebar"
-        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0">
+        class="fixed top-0 left-0 w-56 h-screen transition-transform -translate-x-full sm:translate-x-0">
         <!-- close button -->
         <button type="button" onclick="toggleSidebar()"
             class="inline-flex items-center text-sm text-slate-400 bg-transparent sm:hidden hover:text-slate-300 absolute top-4 right-4">
