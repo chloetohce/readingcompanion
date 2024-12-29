@@ -1,7 +1,6 @@
 package sg.edu.nus.iss.readingcompanion.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,15 +40,15 @@ public class LoginController {
     
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute User user, BindingResult binding) {
+        if (binding.hasErrors()) {
+            return "register";
+        }
+        
         try {
             userService.registerUser(user);
         } catch (Exception e) {
             FieldError err = new FieldError("user", "username", e.getMessage());
             binding.addError(err);
-            e.printStackTrace();
-        }
-
-        if (binding.hasErrors()) {
             return "register";
         }
 
