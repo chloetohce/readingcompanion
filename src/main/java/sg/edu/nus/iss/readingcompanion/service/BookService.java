@@ -134,7 +134,7 @@ public class BookService {
         String uri = UriComponentsBuilder.fromUriString(URL.API_BOOKS)
             .pathSegment("details")
             .queryParam("username", username)
-            .queryParam("id", bookId)
+            .queryParam("bookId", bookId)
             .toUriString();
         RequestEntity<Void> request = RequestEntity.get(uri).build();
 

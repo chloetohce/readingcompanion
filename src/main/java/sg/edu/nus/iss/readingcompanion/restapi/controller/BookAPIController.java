@@ -45,9 +45,9 @@ public class BookAPIController {
     }
 
     @GetMapping(path = "/details", produces = MediaType.APPLICATION_JSON_VALUE) //TODO: Error handling if book does not exist
-    public ResponseEntity<String> getBookDetails(@RequestParam String username, @RequestParam String id) {
+    public ResponseEntity<String> getBookDetails(@RequestParam String username, @RequestParam String bookId) {
         ResponseEntity<String> response = ResponseEntity.ok()
-            .body(bookAPIService.getBookDetails(username, id));
+            .body(bookAPIService.getBookDetails(username, bookId));
         return response;
     }
 

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
     <title>Document</title>
 </head>
+
 <body>
     <!-- Sidebar button -->
     <button type="button" onclick="toggleSidebar()"
@@ -14,7 +16,7 @@
             <path clip-rule="evenodd" fill-rule="evenodd" d="M4 6H20M4 12H20M4 18H20" fill="currentColor"></path>
         </svg>
     </button>
-    
+
     <!-- Sidebar -->
     <aside id="sidebar"
         class="fixed top-0 left-0 w-56 h-screen transition-transform -translate-x-full sm:translate-x-0">
@@ -85,7 +87,7 @@
                                 fill-rule="evenodd" />
 
                         </svg>
-                        <span class="ms-1">API Documentation</span>
+                        <span class="ms-1">API</span>
                     </a>
                 </li>
             </ul>
@@ -108,12 +110,14 @@
                         <span class="ms-1">Logout</span>
                     </a>
                 </li>
-                
+
                 <li>
                     <a href="/credits" class="flex items-center p-2 text-indigo-900 hover:bg-slate-100 rounded-md">
                         <svg class="w-7 h-7 text-indigo-600 transition duration-75 group-hover:text-indigo-800"
                             viewBox="0 0 22 19" fill="currentColor">
-                            <path stroke-width="2" stroke-linecap="round" d="M1.24264 8.24264L8 15L14.7574 8.24264C15.553 7.44699 16 6.36786 16 5.24264V5.05234C16 2.8143 14.1857 1 11.9477 1C10.7166 1 9.55233 1.55959 8.78331 2.52086L8 3.5L7.21669 2.52086C6.44767 1.55959 5.28338 1 4.05234 1C1.8143 1 0 2.8143 0 5.05234V5.24264C0 6.36786 0.44699 7.44699 1.24264 8.24264Z" />                        </svg>
+                            <path stroke-width="2" stroke-linecap="round"
+                                d="M1.24264 8.24264L8 15L14.7574 8.24264C15.553 7.44699 16 6.36786 16 5.24264V5.05234C16 2.8143 14.1857 1 11.9477 1C10.7166 1 9.55233 1.55959 8.78331 2.52086L8 3.5L7.21669 2.52086C6.44767 1.55959 5.28338 1 4.05234 1C1.8143 1 0 2.8143 0 5.05234V5.24264C0 6.36786 0.44699 7.44699 1.24264 8.24264Z" />
+                        </svg>
                         <span class="ms-1">Credits</span>
                     </a>
                 </li>
@@ -122,7 +126,105 @@
     </aside>
 
     <div class="p-4 sm:ml-64 m-2">
+        <section class="my-3">
+            <h2 class="text-3xl font-bold mb-2 text-indigo-700">API</h2>
+            <p class="text-base pb-5 text-slate-900">
+                Here's how to access data from our REST endpoint.
+            </p>
+        </section>
 
+        <div class="mt-6 px-4 sm:px-0">
+            <h3 id="section-books" class="text-base/7 font-semibold text-gray-900">Books</h3>
+        </div>
+        <div class="mt-6 border-t border-gray-100">
+            <dl class="divide-y divide-gray-100 grid grid-cols-4 gap-3">
+                <dt class="text-sm/6 font-medium text-gray-900">Getting saved books</dt>
+                <dd class="mt-1 text-sm/6 text-gray-700 col-span-3">
+                    <p>
+                        You can obtain all books saved by sending an HTTP <span class="code">GET</span>
+                        request to the following end point: <br>
+                        <br>
+                        <span class="code" th:text="|${current}/api/books/all?username=user|"></span>
+                        <br>
+                        <br>
+                        where <span class="code">username</span> is the only required parameter that specifies the
+                        username of the user to search.
+                    </p>
+                </dd>
+                <dt class="text-sm/6 font-medium text-gray-900">Getting book details</dt>
+                <dd class="mt-1 text-sm/6 text-gray-700 col-span-3">
+                    <p>
+                        You can obtain all books saved by sending an HTTP <span class="code">GET</span>
+                        request to the following end point: <br>
+                        <br>
+                        <span class="code"
+                            th:text="|${current}/api/books/details?username=user&bookId=123456789|"></span>
+                        <br>
+                        <br>
+                        There are two required parameters, <span class="code">username</span> and <span
+                            class="code">code</span>,
+                        which specify the username of the user and book to query.
+                    </p>
+                </dd>
+
+                <dt class="text-sm/6 font-medium text-gray-900">Deleting saved book</dt>
+                <dd class="mt-1 text-sm/6 text-gray-700 col-span-3">
+                    <p>
+                        To delete a saved book, you'll need to send a <span class="code">DELETE</span>
+                        request to the following end point: <br>
+                        <br>
+                        <span class="code"
+                            th:text="|${current}/api/books/delete?username=user&bookId=123456789|"></span>
+                        <br>
+                        <br>
+                        There are two required parameters, <span class="code">username</span> and <span
+                            class="code">code</span>,
+                        which specify the username of the user and book to query.
+                    </p>
+                </dd>
+
+                <dt class="text-sm/6 font-medium text-gray-900">Saving a book</dt>
+                <dd class="mt-1 text-sm/6 text-gray-700 col-span-3">
+                    <p>
+                        You can also send a <span class="code">POST</span>
+                        request to: <br>
+                        <br>
+                        <span class="code"
+                            th:text="|${current}/api/books/add?username=user|"></span>
+                        <br>
+                        <br>
+                        to add a book to the user's database. This requires the posting of a body with the following JSON format:
+                        <br>
+                        <br>
+                        <blockquote class="code whitespace-pre">{
+    "title": "Title",
+    "id": "ID",
+    "authors": [
+        "author name"
+    ],
+    "genres" : [
+        "genre"
+    ],
+    "imageLink": "link",
+    "start": "2024-12-30",
+    "end": "-",
+    "status": "Reading"
+}</blockquote>
+                        <br>
+                        <br>
+                        <span class="code">title</span>: specifies the book title. <br>
+                        <span class="code">id</span>: specifies the book id (typically the ISBN number). <br>
+                        <span class="code">authors</span>: an array of authors of the book.<br>
+                        <span class="code">genres</span>: consists of an array of genres that describe the book.<br>
+                        <span class="code">imageLink</span>: a URL to the image to use as the book cover.<br>
+                        <span class="code">start</span>: specifies the start date of reading the book. Leave as "-" if no date is to be specified.<br>
+                        <span class="code">end</span>: specifies the end date of reading the book. Leave as "-" if no date is to be specified.<br>
+                        <span class="code">status</span>: describes the user's current status with the book. Takes the values "To Read", "Reading", and "Read".<br>
+                    </p>
+                </dd>
+            </dl>
+        </div>
     </div>
 </body>
+
 </html>

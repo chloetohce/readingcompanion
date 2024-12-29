@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .code {
+      @apply bg-gray-200 font-mono p-0.5 rounded-sm;
+    }
+  }
