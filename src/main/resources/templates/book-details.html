@@ -258,10 +258,10 @@
                     <!-- Words -->
                     <div th:if="${#strings.toString(param.view)} == 'words'"
                         class="flex flex-row items-start justify-end w-full gap-2">
-                        <div class="flex flex-col">
+                        <div class="flex flex-col w-full">
                             <div class="flex flex-col w-full" th:each="word : ${words}">
                             <div class="word-box mt-2 flex flex-row w-full hover:bg-slate-100 rounded-lg">
-                                <div class="allMeanings-box flex flex-row">
+                                <div class="allMeanings-box flex flex-row w-full">
                                     <p th:text="${word.word}" class="p-1"></p>
                                     <div class="flex flex-col w-full">
                                         <div class="flex flex-col" th:each="meaning : ${word.definitions.entrySet()}">

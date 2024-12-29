@@ -1,5 +1,8 @@
 package sg.edu.nus.iss.readingcompanion.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import sg.edu.nus.iss.readingcompanion.model.Book;
@@ -40,8 +44,20 @@ public class BookController {
     private QuotesService quotesService;
     
     @GetMapping(path = {"", "/all"})
-    public String bookshelf(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("books", bookService.getBooksByUser(user.getUsername()));
+    public String bookshelf(@AuthenticationPrincipal User user, @RequestParam(required = false) String filter, Model model) {
+        List<Book> books = bookService.getBooksByUser(user.getUsername());
+        List<Book> filtered = new ArrayList<>();
+        if (filter != null) {
+            for (Book b: books) {
+                if (b.getStatus().equals(filter)) {
+                    filtered.add(b);
+                }
+            }
+        } else {
+            filtered = books;
+        }
+        
+        model.addAttribute("books", filtered);
         return "landing";
     }
     

@@ -27,8 +27,11 @@ public class WordsAPIService {
         JsonReader reader = Json.createReader(new StringReader(request));
         JsonObject jObj = reader.readObject();
         JsonObject wordJson = jObj.getJsonObject("word");
-
-        JsonArray existingWords = Json.createReader(new StringReader(getWordsForBook(username, bookId))).readArray();
+        String wordsStr = getWordsForBook(username, bookId);
+        if (wordsStr == null) {
+            wordsStr = Json.createArrayBuilder().build().toString();
+        }
+        JsonArray existingWords = Json.createReader(new StringReader(wordsStr)).readArray();
         JsonArray newWords = Json.createArrayBuilder(existingWords)
             .add(wordJson)
             .build();
