@@ -3,7 +3,6 @@ package sg.edu.nus.iss.readingcompanion.service;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -23,7 +22,6 @@ import sg.edu.nus.iss.readingcompanion.utilities.URL;
 @Service
 public class QuotesService {
     private RestTemplate restTemplate = new RestTemplate();
-    private static final Logger logger = Logger.getLogger(QuotesService.class.getName());
 
     public boolean saveQuote(String username, String bookId, String formInput) {
         JsonObject requestJson = Json.createObjectBuilder()
@@ -65,7 +63,6 @@ public class QuotesService {
             return quotes;
         
         } catch (HttpClientErrorException e) {
-            logger.info("USER: %s with BOOK: %s has no associated quotes.".formatted(username, bookId));
             return new ArrayList<>();
         }
     }

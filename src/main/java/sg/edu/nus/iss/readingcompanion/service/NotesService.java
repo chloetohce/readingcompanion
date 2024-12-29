@@ -1,8 +1,5 @@
 package sg.edu.nus.iss.readingcompanion.service;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +16,6 @@ import sg.edu.nus.iss.readingcompanion.utilities.URL;
 @Service
 public class NotesService {
     private final RestTemplate restTemplate = new RestTemplate();
-    private static final Logger logger = Logger.getLogger(NotesService.class.getName());
 
     public Notes getNotes(String username, String bookId) {
         String url = UriComponentsBuilder.fromUriString(URL.API_NOTES)
@@ -33,7 +29,6 @@ public class NotesService {
             ResponseEntity<String> response = restTemplate.exchange(request, String.class);
             return Notes.deserialize(response.getBody());
         } catch (HttpClientErrorException e) {
-            logger.info("USER: %s with BOOK: %s has no associated notes. Creating new note.".formatted(username, bookId));
             return new Notes(bookId, "");
         }
     }
@@ -51,10 +46,8 @@ public class NotesService {
         RequestEntity<String> request = RequestEntity.post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(notesJson.toString());
-        ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+        restTemplate.exchange(request, String.class);
 
-        logger.log(Level.INFO, "Book saved to bookshelf. Location: {0}",
-                response.getHeaders().get("Location").getFirst());
         return true;
 
     }

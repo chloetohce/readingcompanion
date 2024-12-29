@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -24,7 +23,6 @@ import sg.edu.nus.iss.readingcompanion.utilities.URL;
 
 @Service
 public class WordService {
-    private static final Logger logger = Logger.getLogger(WordService.class.getName());
     private RestTemplate restTemplate = new RestTemplate();
 
     public List<Word> queryWord(String word) throws Exception {
@@ -89,7 +87,6 @@ public class WordService {
             }
             return true;
         } catch (Exception e) {
-            logger.info(e.getMessage());
             return false;
         }
     }
@@ -114,7 +111,6 @@ public class WordService {
     
             return words;
         } catch (HttpClientErrorException e) {
-            logger.info("USER: %s with BOOK: %s has no associated words.".formatted(username, bookId));
             return new ArrayList<>();
         }
     }

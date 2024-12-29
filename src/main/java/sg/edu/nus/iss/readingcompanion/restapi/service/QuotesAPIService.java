@@ -22,9 +22,6 @@ public class QuotesAPIService {
     public String getQuotesForBook(String username, String bookId) {
         String hashkey = username + ":" + bookId;
         String result = apiRepository.get(RedisUtil.KEY_QUOTES, hashkey);
-        if (result == null) {
-            return Json.createArrayBuilder().build().toString();
-        }
         return result;
     }
 

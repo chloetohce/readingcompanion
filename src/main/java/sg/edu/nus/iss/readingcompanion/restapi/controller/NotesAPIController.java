@@ -3,6 +3,7 @@ package sg.edu.nus.iss.readingcompanion.restapi.controller;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParseException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import sg.edu.nus.iss.readingcompanion.restapi.service.NotesAPIService;
-
-
 
 @RestController
 @RequestMapping("/api/notes")
@@ -42,9 +41,13 @@ public class NotesAPIController {
     
     @PostMapping("/add")
     public ResponseEntity<String> addNotesToBook(@RequestParam String username, @RequestParam String bookId, @RequestBody String entity) {
-        URI uri = notesAPIService.addNotesToBook(username, bookId, entity);
-        ResponseEntity<String> response = ResponseEntity.created(uri).build();
-        return response;
+        try {
+            URI uri = notesAPIService.addNotesToBook(username, bookId, entity);
+            ResponseEntity<String> response = ResponseEntity.created(uri).build();
+            return response;
+        } catch (JsonParseException | NullPointerException | ClassCastException e) {
+            return ResponseEntity.badRequest().body("Error reading input data.");
+        }
     }
     
 }

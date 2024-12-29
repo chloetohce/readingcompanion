@@ -18,14 +18,9 @@ public class WordsAPIService {
     @Autowired
     private APIRepository apiRepository;
 
-    public JsonArray getWordsForBook(String username, String bookId) {
+    public String getWordsForBook(String username, String bookId) {
         String hashkey = username + ":" + bookId;
-        String result = apiRepository.get(RedisUtil.KEY_WORDS, hashkey);
-        if (result == null) {
-            return Json.createArrayBuilder().build();
-        }
-        JsonReader reader = Json.createReader(new StringReader(result));
-        return reader.readArray();
+        return apiRepository.get(RedisUtil.KEY_WORDS, hashkey);
     }
 
     public void saveWord(String username, String bookId, String request) {
@@ -33,7 +28,7 @@ public class WordsAPIService {
         JsonObject jObj = reader.readObject();
         JsonObject wordJson = jObj.getJsonObject("word");
 
-        JsonArray existingWords = getWordsForBook(username, bookId);
+        JsonArray existingWords = Json.createReader(new StringReader(getWordsForBook(username, bookId))).readArray();
         JsonArray newWords = Json.createArrayBuilder(existingWords)
             .add(wordJson)
             .build();
@@ -49,7 +44,7 @@ public class WordsAPIService {
         String word = dataJson.getString("word");
         String hashkey = username + ":" + bookId;
 
-        JsonArray existingWords = getWordsForBook(username, bookId);
+        JsonArray existingWords = Json.createReader(new StringReader(getWordsForBook(username, bookId))).readArray();
         JsonArrayBuilder newWords = Json.createArrayBuilder();
 
         for (int i = 0; i < existingWords.size(); i++) {

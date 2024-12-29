@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import sg.edu.nus.iss.readingcompanion.model.Notes;
 import sg.edu.nus.iss.readingcompanion.restapi.repository.APIRepository;
 import sg.edu.nus.iss.readingcompanion.utilities.RedisUtil;
 
@@ -21,6 +22,8 @@ public class NotesAPIService {
     }
 
     public URI addNotesToBook(String username, String bookId, String data) {
+        //Check for errors in data
+        Notes.deserialize(data);
         String hashKey = username + ":" + bookId;
 
         repo.put(RedisUtil.KEY_NOTES, hashKey, data);

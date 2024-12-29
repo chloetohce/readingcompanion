@@ -33,7 +33,6 @@ public class BookAPIService {
         JsonObject book = dataJson.getJsonObject("book");
 
         String hashKey = username + ":" + book.getString("id");
-        // TODO: Error handling for if the book ID already exists in the bookshelf. Only important if the book is manually add. Idea is to have a custom prefix for manual books
 
         repo.put(RedisUtil.KEY_BOOKS, hashKey, book.toString());
 
@@ -49,7 +48,7 @@ public class BookAPIService {
 
     public String getBookDetails(String username, String id) {
         String hashkey = username + ":" + id;
-        return repo.get(RedisUtil.KEY_BOOKS, hashkey); // TODO: Add error handling for if book does not exist.
+        return repo.get(RedisUtil.KEY_BOOKS, hashkey);
     }
 
     public void deleteBook(String username, String bookId) {
@@ -68,4 +67,5 @@ public class BookAPIService {
             .build();
         return obj.toString();
     }
+
 }
