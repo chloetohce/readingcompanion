@@ -1,19 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    <script src="https://code.highcharts.com/modules/no-data-to-display.js"></script>
+    <title>Document</title>
 </head>
-
 <body>
-
     <!-- Sidebar button -->
     <button type="button" onclick="toggleSidebar()"
         class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-slate-50 rounded-lg bg-indigo-700 sm:hidden hover:bg-indigo-600">
@@ -21,7 +14,7 @@
             <path clip-rule="evenodd" fill-rule="evenodd" d="M4 6H20M4 12H20M4 18H20" fill="currentColor"></path>
         </svg>
     </button>
-
+    
     <!-- Sidebar -->
     <aside id="sidebar"
         class="fixed top-0 left-0 w-56 h-screen transition-transform -translate-x-full sm:translate-x-0">
@@ -129,136 +122,8 @@
     </aside>
 
     <div class="p-4 sm:ml-64 m-2">
-        <!-- Books read and reading-->
-        <div class="flex flex-col p-2">
-            <h2 class="text-2xl font-bold italic mb-3 mt-5">Books read</h2>
-            <div class="flex flex-row shadow border max-w-2xl border-slate-100 rounded-lg p-2 w-full mx-auto">
-                <div class="px-4 flex flex-col flex-1 border-r border-slate-200">
-                    <h4 class="font-medium text-slate-500">This year</h4>
-                    <p class="text-5xl font-extrabold text-indigo-700" th:text="${yearReadSize}"></p>
-                </div>
-                <div class="px-4 flex flex-col flex-1 border-r border-slate-200">
-                    <h4 class="font-medium text-slate-500">Reading</h4>
-                    <p class="text-5xl font-extrabold text-slate-900" th:text="${readingSize}"></p>
-                </div>
-                <div class="px-4 flex flex-col flex-1 border-slate-200">
-                    <h4 class="font-medium text-slate-500">Total</h4>
-                    <p class="text-5xl font-extrabold text-indigo-700" th:text="${readSize}"></p>
-                </div>
-            </div>
-        </div>
 
-        <!-- Bookshelf stats -->
-        <div class="flex flex-col p-2">
-            <h2 class="text-2xl font-bold italic mb-3 mt-5">Your bookshelf</h2>
-            <div id="chart-bookshelf" class="border border-slate-100 shadow rounded-lg w-full max-w-4xl mx-auto"></div>
-        </div>
 
-        <!-- Genres stats -->
-        <div class="flex flex-col p-2">
-            <h2 class="text-2xl font-bold italic mb-3 mt-5">Your favourite genres</h2>
-            <div id="chart-genres" class="border border-slate-100 shadow rounded-lg w-full max-w-4xl mx-auto"></div>
-        </div>
     </div>
-
-    <script th:inline="javascript">
-        Highcharts.setOptions({
-            colors: [
-                '#4338CA', '#0EB1D2', '#FF9B42', '#B24C63', '#2975CE', '#BFD7B5',
-                '#56E39F', '#BF0603', '#EFE9F4', '#FFC6D9'
-            ],
-            lang: {
-                noData: ''
-            }
-        });
-        const total = /*[[${allSize}]]*/ 0;
-        var genresData = /*[[${genresCount}]]*/{};
-        var data = [];
-        for (var g in genresData) {
-            if (genresData.hasOwnProperty(g)) {
-                data.push({ name: g, y: genresData[g] });
-            }
-        }
-        Highcharts.chart('chart-bookshelf', {
-            title: {
-                text: '',
-                floating: true
-            },
-            plotOptions: {
-                series: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    borderRadius: 8,
-                    dataLabels: [{
-                        enabled: true,
-                        distance: 20
-                    }, {
-                        enabled: true,
-                        distance: -15,
-                        format: '{point.percentage:.0f}%',
-                        style: {
-                            fontSize: '0.8em'
-                        }
-                    }],
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Count',
-                colorByPoint: true,
-                innerSize: '75%',
-                data: [{
-                    name: 'Read',
-                    y: /*[[${readSize}]]*/0
-                }, {
-                    name: 'Reading',
-                    y: /*[[${readingSize}]]*/0
-                }, {
-                    name: 'To Read',
-                    y: /*[[${toReadSize}]]*/0
-                }]
-            }],
-            exporting: {
-                enabled: false
-            }
-
-        });
-
-        Highcharts.chart('chart-genres', {
-            title: {
-                text: '',
-                floating: true
-            },
-            plotOptions: {
-                series: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    borderRadius: 8,
-                    dataLabels: [{
-                        enabled: true,
-                        distance: 20
-                    }, {
-                        enabled: true,
-                        distance: -15,
-                        format: '{point.percentage:.0f}%',
-                        style: {
-                            fontSize: '0.8em'
-                        }
-                    }],
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Count',
-                colorByPoint: true,
-                innerSize: '75%',
-                data: data
-            }],
-            exporting: {
-                enabled: false
-            }
-        });
-    </script>
 </body>
-
 </html>
