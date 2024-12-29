@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.hibernate.validator.constraints.URL;
+
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
@@ -15,6 +17,7 @@ import jakarta.json.JsonReader;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import sg.edu.nus.iss.readingcompanion.utilities.BookValParser;
+import sg.edu.nus.iss.readingcompanion.validation.ImageUrl;
 import sg.edu.nus.iss.readingcompanion.validation.ValidDate;
 
 public class Book {
@@ -32,6 +35,7 @@ public class Book {
     private String genresStr;
     private List<String> genres;
 
+    @ImageUrl()
     private String imageLink;
 
     @ValidDate(message = "Start date cannot be in the future. ")
