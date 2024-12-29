@@ -24,7 +24,7 @@ public class WordController {
         String bookId = form.getFirst("bookId");
         wordService.saveWord(user.getUsername(), bookId, form.getFirst("newWord"));
 
-        return "redirect:/books/details/" + bookId;
+        return "redirect:/books/details/" + bookId + "?view=words";
     }
 
     @PostMapping("/delete")

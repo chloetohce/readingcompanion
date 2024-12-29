@@ -24,7 +24,7 @@ public class QuoteController {
         String bookId = form.getFirst("bookId");
         quotesService.saveQuote(user.getUsername(), bookId, form.getFirst("newQuote"));
 
-        return "redirect:/books/details/" + bookId;
+        return "redirect:/books/details/" + bookId + "?view=quotes";
     }
 
     @PostMapping("/delete")
