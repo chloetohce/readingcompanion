@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.readingcompanion.restapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,16 +20,15 @@ public class QuotesAPIController {
     @Autowired
     private QuotesAPIService quotesAPIService;
     
-    @PostMapping("/add")
-    public ResponseEntity<String> addWord(@RequestBody String request) {
-        quotesAPIService.saveQuote(request);
+    @PostMapping(path = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> addWord(@RequestParam String username, @RequestParam String bookId, @RequestBody String request) {
+        quotesAPIService.saveQuote(username, bookId, request);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("")
+    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getWordsForBook(@RequestParam String username, @RequestParam String bookId) {
         String quotes = quotesAPIService.getQuotesForBook(username, bookId);
-        System.out.println(quotes);
         if (quotes != null && !quotes.equals("")) {
             return ResponseEntity.ok().body(quotes);
         } else {
@@ -41,9 +41,9 @@ public class QuotesAPIController {
         }
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<String> deleteBook(@RequestBody String data) {
-        quotesAPIService.deleteQuote(data);
+    @PostMapping(path = "/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> deleteBook(@RequestParam String username, @RequestParam String bookId, @RequestBody String data) {
+        quotesAPIService.deleteQuote(username, bookId, data);
         return ResponseEntity.ok().build();
     }
 }

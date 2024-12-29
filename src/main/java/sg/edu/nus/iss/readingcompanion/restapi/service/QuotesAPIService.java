@@ -1,7 +1,6 @@
 package sg.edu.nus.iss.readingcompanion.restapi.service;
 
 import java.io.StringReader;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,17 +28,12 @@ public class QuotesAPIService {
         return result;
     }
 
-    public void saveQuote(String request) {
-        JsonReader reader = Json.createReader(new StringReader(request));
-        JsonObject jObj = reader.readObject();
-        String username = jObj.getString("username");
-        String bookId = jObj.getString("bookId");
-        JsonObject quoteJson = jObj.getJsonObject("quote");
+    public void saveQuote(String username, String bookId, String quote) {
 
         JsonReader readerRepoData = Json.createReader(new StringReader(getQuotesForBook(username, bookId)));
         JsonArray existingQuotes = readerRepoData.readArray();
         JsonArray newQuotes = Json.createArrayBuilder(existingQuotes)
-            .add(quoteJson)
+            .add(quote)
             .build();
         
         // replace existing data with new data
@@ -47,12 +41,9 @@ public class QuotesAPIService {
         apiRepository.put(RedisUtil.KEY_QUOTES, hashkey, newQuotes.toString());
     }
 
-    public void deleteQuote(String data) {
+    public void deleteQuote(String username, String bookId, String data) {
         JsonReader reader = Json.createReader(new StringReader(data));
         JsonObject dataJson = reader.readObject();
-        String username = dataJson.getString("username");
-        String bookId = dataJson.getString("bookId");
-        JsonObject quoteJson = dataJson.getJsonObject("quote");
         String hashkey = username + ":" + bookId;
         
         JsonReader readerRepoData = Json.createReader(new StringReader(getQuotesForBook(username, bookId)));
@@ -60,7 +51,7 @@ public class QuotesAPIService {
         JsonArrayBuilder newQuotes = Json.createArrayBuilder();
         
         for (JsonValue q : existingQuotes) {
-            if (!q.equals(quoteJson)) {
+            if (!q.equals(dataJson)) {
                 newQuotes.add(q);
             }
         }

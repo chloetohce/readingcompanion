@@ -3,6 +3,7 @@ package sg.edu.nus.iss.readingcompanion.service;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -42,16 +43,14 @@ public class NotesService {
             .add("bookId", notes.getBookId())
             .add("text", notes.getText())
             .build();
-        JsonObject jObj = Json.createObjectBuilder()
-                .add("username", username)
-                .add("bookId", bookId)
-                .add("notes", notesJson)
-                .build();
         String uri = UriComponentsBuilder.fromUriString(URL.API_NOTES)
                 .pathSegment("add")
+                .queryParam("username", username)
+                .queryParam("bookId", bookId)
                 .toUriString();
         RequestEntity<String> request = RequestEntity.post(uri)
-                .body(jObj.toString());
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(notesJson.toString());
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
 
         logger.log(Level.INFO, "Book saved to bookshelf. Location: {0}",

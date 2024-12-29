@@ -4,10 +4,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import sg.edu.nus.iss.readingcompanion.restapi.service.WordsAPIService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,17 +24,17 @@ public class WordsAPIController {
     @Autowired
     private WordsAPIService wordsAPIService;
     
-    @PostMapping("/add")
-    public ResponseEntity<String> addWord(@RequestBody String request) {
-        wordsAPIService.saveWord(request);
+    @PostMapping(path = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> addWord(@RequestParam String username, @RequestParam String bookId, @RequestBody String request) {
+        wordsAPIService.saveWord(username, bookId, request);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("")
+    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getWordsForBook(@RequestParam String username, @RequestParam String bookId) {
-        String words = wordsAPIService.getWordsForBook(username, bookId);
-        if (words != null) {
-            return ResponseEntity.ok().body(words);
+        JsonArray words = wordsAPIService.getWordsForBook(username, bookId);
+        if (words != null && !words.isEmpty()) {
+            return ResponseEntity.ok().body(words.toString());
         } else {
             JsonObject jobj = Json.createObjectBuilder()
                 .add("message", "No words found for book.")
@@ -43,9 +45,9 @@ public class WordsAPIController {
         }
     }
     
-    @PostMapping("/delete")
-    public ResponseEntity<String> deleteWord(@RequestBody String data) {
-        wordsAPIService.deleteWord(data);
+    @PostMapping(path = "/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> deleteWord(@RequestParam String username, @RequestParam String bookId, @RequestBody String data) {
+        wordsAPIService.deleteWord(username, bookId, data);
         return ResponseEntity.ok().build();
     }
     

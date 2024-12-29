@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ public class QuotesService {
                 .pathSegment("add")
                 .toUriString();
         RequestEntity<String> request = RequestEntity.post(uri)
+            .contentType(MediaType.APPLICATION_JSON)
             .body(requestJson.toString());
         
         restTemplate.exchange(request, String.class);
@@ -67,17 +69,15 @@ public class QuotesService {
     }
 
     public void deleteQuote(String username, String bookId, Quote quote) {
-        JsonObject requestJson = Json.createObjectBuilder()
-            .add("username", username)
-            .add("bookId", bookId)
-            .add("quote", Json.createReader(new StringReader(quote.serialize())).readObject())
-            .build();
         String uri = UriComponentsBuilder.fromUriString(URL.API_QUOTES)
                 .pathSegment("delete")
+                .queryParam("username", username)
+                .queryParam("bookId", bookId)
                 .toUriString();
         RequestEntity<String> request = RequestEntity.post(uri)
-            .body(requestJson.toString());
-        
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(quote.serialize());
+
         restTemplate.exchange(request, String.class);
     }
 }

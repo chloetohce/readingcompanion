@@ -20,15 +20,19 @@ public class BookAPIService {
     private APIRepository repo;
 
     public JsonArray getAllBooksByUser(String username) {
-        return repo.getAllOfUser(RedisUtil.KEY_BOOKS, username);
+        JsonArray arrData = repo.getAllOfUser(RedisUtil.KEY_BOOKS, username);
+        if (arrData == null || arrData.isEmpty()) {
+            return Json.createArrayBuilder().build();
+        }
+        return arrData;
     }
 
-    public URI addBookToUser(String data) {
+    public URI addBookToUser(String username, String data) {
         JsonReader reader = Json.createReader(new StringReader(data));
         JsonObject dataJson = reader.readObject();
         JsonObject book = dataJson.getJsonObject("book");
 
-        String hashKey = dataJson.getString("username") + ":" + book.getString("id");
+        String hashKey = username + ":" + book.getString("id");
         // TODO: Error handling for if the book ID already exists in the bookshelf. Only important if the book is manually add. Idea is to have a custom prefix for manual books
 
         repo.put(RedisUtil.KEY_BOOKS, hashKey, book.toString());
@@ -48,12 +52,8 @@ public class BookAPIService {
         return repo.get(RedisUtil.KEY_BOOKS, hashkey); // TODO: Add error handling for if book does not exist.
     }
 
-    public void deleteBook(String data) {
-        JsonReader reader = Json.createReader(new StringReader(data));
-        JsonObject dataJson = reader.readObject();
-        String username = dataJson.getString("username");
-        String id = dataJson.getString("id");
-        String hashkey = username + ":" + id;
+    public void deleteBook(String username, String bookId) {
+        String hashkey = username + ":" + bookId;
         repo.delete(RedisUtil.KEY_BOOKS, hashkey);
     }
 

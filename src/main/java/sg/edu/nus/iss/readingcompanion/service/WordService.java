@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -72,15 +73,17 @@ public class WordService {
             List<Word> words = queryWord(word);
             String uri = UriComponentsBuilder.fromUriString(URL.API_WORD)
                 .pathSegment("add")
+                .queryParam("username", username)
+                .queryParam("bookId", bookId)
                 .toUriString();
 
             for (Word w : words) {
                 JsonObject requestBody = Json.createObjectBuilder()
-                    .add("username", username)
-                    .add("bookId", bookId)
                     .add("word", Json.createReader(new StringReader(w.serialize())).readObject())
                     .build();
-                RequestEntity<String> request = RequestEntity.post(uri).body(requestBody.toString());
+                RequestEntity<String> request = RequestEntity.post(uri)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(requestBody.toString());
                 restTemplate.exchange(request, String.class);
 
             }
@@ -118,14 +121,16 @@ public class WordService {
 
     public void deleteWord(String username, String bookId, String word) {
         JsonObject requestJson = Json.createObjectBuilder()
-            .add("username", username)
-            .add("bookId", bookId)
             .add("word", word)
             .build();
+        System.out.println(requestJson);
         String uri = UriComponentsBuilder.fromUriString(URL.API_WORD)
                 .pathSegment("delete")
+                .queryParam("username", username)
+                .queryParam("bookId", bookId)
                 .toUriString();
         RequestEntity<String> request = RequestEntity.post(uri)
+            .contentType(MediaType.APPLICATION_JSON)
             .body(requestJson.toString());
         restTemplate.exchange(request, String.class);
     }

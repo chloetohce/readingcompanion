@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -111,14 +112,15 @@ public class BookService {
         }
 
         JsonObject data = Json.createObjectBuilder()
-            .add("username", username)
             .add("book", Json.createReader(new StringReader(book.serialize())).readObject())
             .build();
 
         String url = UriComponentsBuilder.fromUriString(URL.API_BOOKS)
             .pathSegment("add")
+            .queryParam("username", username)
             .toUriString();
         RequestEntity<String> request = RequestEntity.post(url)
+            .contentType(MediaType.APPLICATION_JSON)
             .body(data.toString());
 
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
@@ -143,13 +145,10 @@ public class BookService {
     public void deleteBook(String username, String bookId) {
         String uri = UriComponentsBuilder.fromUriString(URL.API_BOOKS)
             .pathSegment("delete")
+            .queryParam("username", username)
+            .queryParam("bookId", bookId)
             .toUriString();
-        JsonObject requestJson = Json.createObjectBuilder()
-            .add("username", username)
-            .add("id", bookId)
-            .build();
-        RequestEntity<String> request = RequestEntity.post(uri)
-            .body(requestJson.toString());
+        RequestEntity<Void> request = RequestEntity.delete(uri).build();
         restTemplate.exchange(request, String.class);
     }
 

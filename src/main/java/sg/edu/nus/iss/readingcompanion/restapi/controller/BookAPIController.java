@@ -3,8 +3,8 @@ package sg.edu.nus.iss.readingcompanion.restapi.controller;
 import java.net.URI;
 import java.util.logging.Logger;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,34 +24,34 @@ public class BookAPIController {
 
     @Autowired
     private BookAPIService bookAPIService;
-    
-    @GetMapping("/all")
+
+    @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getUserBookshelf(@RequestParam String username) {
         JsonArray bookshelf = bookAPIService.getAllBooksByUser(username);
-        return ResponseEntity.ok(bookshelf.toString());
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(bookshelf.toString());
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<String> saveBook(@RequestBody String data) {
-        URI uri = bookAPIService.addBookToUser(data);
+    @PostMapping(path = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> saveBook(@RequestParam String username, @RequestBody String data) {
+        URI uri = bookAPIService.addBookToUser(username, data);
         
         return ResponseEntity.created(uri).build();
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<String> deleteBook(@RequestBody String data) {
-        bookAPIService.deleteBook(data);
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<String> deleteBook(@RequestParam String username, @RequestParam String bookId) {
+        bookAPIService.deleteBook(username, bookId);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/details") //TODO: Error handling if book does not exist
+    @GetMapping(path = "/details", produces = MediaType.APPLICATION_JSON_VALUE) //TODO: Error handling if book does not exist
     public ResponseEntity<String> getBookDetails(@RequestParam String username, @RequestParam String id) {
         ResponseEntity<String> response = ResponseEntity.ok()
             .body(bookAPIService.getBookDetails(username, id));
         return response;
     }
 
-    @GetMapping("/size")
+    @GetMapping(path = "/size", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getUserBookshelfSize(@RequestParam String username) {
         String msg = bookAPIService.getSizeOfBookshelf(username);
         ResponseEntity<String> response = ResponseEntity.ok(msg);

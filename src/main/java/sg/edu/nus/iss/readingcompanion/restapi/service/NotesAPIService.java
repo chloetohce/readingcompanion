@@ -1,15 +1,11 @@
 package sg.edu.nus.iss.readingcompanion.restapi.service;
 
-import java.io.StringReader;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
 import sg.edu.nus.iss.readingcompanion.restapi.repository.APIRepository;
 import sg.edu.nus.iss.readingcompanion.utilities.RedisUtil;
 
@@ -24,19 +20,15 @@ public class NotesAPIService {
         return notesData;
     }
 
-    public URI addNotesToBook(String data) {
-        System.out.println(data);
-        JsonReader reader = Json.createReader(new StringReader(data));
-        JsonObject dataJson = reader.readObject();
-        String hashKey = dataJson.getString("username") + ":" + dataJson.getString("bookId");
-        JsonObject note = dataJson.getJsonObject("notes");
+    public URI addNotesToBook(String username, String bookId, String data) {
+        String hashKey = username + ":" + bookId;
 
-        repo.put(RedisUtil.KEY_NOTES, hashKey, note.toString());
+        repo.put(RedisUtil.KEY_NOTES, hashKey, data);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
             .path("/api/notes")
-            .queryParam("username", dataJson.getString("username"))
-            .queryParam("bookId", dataJson.getString("bookId"))
+            .queryParam("username", username)
+            .queryParam("bookId", bookId)
             .build(true)
             .toUri();
         
