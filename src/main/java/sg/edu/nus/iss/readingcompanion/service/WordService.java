@@ -123,7 +123,6 @@ public class WordService {
         JsonObject requestJson = Json.createObjectBuilder()
             .add("word", word)
             .build();
-        System.out.println(requestJson);
         String uri = UriComponentsBuilder.fromUriString(URL.API_WORD)
                 .pathSegment("delete")
                 .queryParam("username", username)

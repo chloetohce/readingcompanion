@@ -49,7 +49,6 @@ public class User implements UserDetails{
 
     @Override
     public String toString() {
-        System.out.println("User toString() used.");
         return "%s,%s".formatted(username, password);
     }
 

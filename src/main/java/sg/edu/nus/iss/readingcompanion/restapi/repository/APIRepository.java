@@ -2,7 +2,6 @@ package sg.edu.nus.iss.readingcompanion.restapi.repository;
 
 import java.io.StringReader;
 import java.util.Map.Entry;
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,7 +25,6 @@ public class APIRepository {
     private RedisTemplate<String, String> template;
 
     private HashOperations<String, String, String> ops;
-    private static final Logger logger = Logger.getLogger(APIRepository.class.getName());
 
     @PostConstruct
     @SuppressWarnings("unused")

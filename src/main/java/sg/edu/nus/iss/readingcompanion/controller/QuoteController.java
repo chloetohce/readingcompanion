@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import sg.edu.nus.iss.readingcompanion.model.Quote;
 import sg.edu.nus.iss.readingcompanion.model.User;
 import sg.edu.nus.iss.readingcompanion.service.QuotesService;
-import sg.edu.nus.iss.readingcompanion.service.WordService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 

@@ -121,10 +121,10 @@ public class Book {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Optional<Boolean> startBool = start.map(d -> LocalDate.parse(sdf.format(d)))
             .filter(d -> d.getYear() <= LocalDate.now().getYear())
-            .map(d -> true);
+            .map(_ -> true);
         Optional<Boolean> endBool = end.map(d -> LocalDate.parse(sdf.format(d)))
             .filter(d -> d.getYear() <= LocalDate.now().getYear())
-            .map(d -> true);
+            .map(_ -> true);
         return startBool.orElse(false) || endBool.orElse(false);
     }
 

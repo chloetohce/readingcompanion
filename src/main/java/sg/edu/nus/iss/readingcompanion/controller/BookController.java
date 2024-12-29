@@ -1,8 +1,5 @@
 package sg.edu.nus.iss.readingcompanion.controller;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -18,15 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import sg.edu.nus.iss.readingcompanion.model.Book;
-import sg.edu.nus.iss.readingcompanion.model.Quote;
 import sg.edu.nus.iss.readingcompanion.model.User;
-import sg.edu.nus.iss.readingcompanion.model.Word;
 import sg.edu.nus.iss.readingcompanion.service.BookService;
 import sg.edu.nus.iss.readingcompanion.service.NotesService;
 import sg.edu.nus.iss.readingcompanion.service.QuotesService;
 import sg.edu.nus.iss.readingcompanion.service.WordService;
 import sg.edu.nus.iss.readingcompanion.utilities.Helper;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -55,13 +49,6 @@ public class BookController {
     public String addToBookshelf(@ModelAttribute Book book, @AuthenticationPrincipal User user) {
         bookService.addBookToUserShelf(user.getUsername(), book);
         return "redirect:/books/all";
-    }
-
-    @GetMapping("/search") // TODO: REMOVE
-    public String search(Model model) {
-        model.addAttribute("q", "q");
-        model.addAttribute("searchResult", bookService.getBooksByUser("test"));
-        return "search-result";
     }
     
     @PostMapping("/search")
